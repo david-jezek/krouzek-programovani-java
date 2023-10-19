@@ -1,11 +1,11 @@
 package cz.vsb.fei.kp.mtj;
 
 public class Warrior {
-	private String name;
-	private int AP;
-	private int HP;
-	private int DEF;
-	private int maxHP;
+	protected String name;
+	protected int AP;
+	protected int HP;
+	protected int DEF;
+	protected int maxHP;
 	
 	public Warrior(String name, int maxHP, int AP, int DEF) {
 		this.name = name;
@@ -15,16 +15,25 @@ public class Warrior {
 		HP = maxHP;
 	}
 	
-	public void hitBy(Warrior attacker) {
-		int DMG;
-		if(attacker.getAP() > DEF) {
-			DMG = attacker.getAP() - DEF;
-		} else {
-			DMG = 0;
+	
+	
+	public void attack(Warrior defender) {
+		if(HP > 0) {
+			defender.hitBy(this);
 		}
+	}
+
+	protected void hitBy(Warrior attacker) {
+		int DMG = attacker.getAP() - DEF;
+		
+		if(DMG <= 0) {
+			System.out.println(String.format("%s tried to hit %s but failed because he could not get through his armour!", attacker.getName(), name));
+			return;
+		}
+		
 		HP -= DMG;
-		String MSG = String.format("%s has attacked %s for %d damage. He now has %d health.", attacker.getName(), name, DMG, HP);
-		System.out.println(MSG);
+		
+		System.out.println(String.format("%s has attacked %s for %d damage. He now has %d health.", attacker.getName(), name, DMG, HP));
 	}
 	
 	public int getMaxHP() {
@@ -52,18 +61,6 @@ public class Warrior {
 
 	public int getHP() {
 		return HP;
-	}
-	
-	public void doATKBuff() {
-		String MSG = String.format("%s drinks a potion of strength! Attack increased by 100!", name);
-		System.out.println(MSG);
-		AP += 100; 
-	}
-	
-	public void doDEFBuff() {
-		String MSG = String.format("%s has increased his defence stat by %d, now totalling %d.", name, DEF/10 + 40, DEF + DEF/10 + 40);
-		System.out.println(MSG);
-		DEF += DEF/10 + 40;
 	}
 
 	public void doHeal() {
