@@ -2,7 +2,7 @@ package cz.vsb.fei.kp.wildworld;
 
 import java.util.Random;
 
-public class Warrior extends Sprite {
+public class Warrior2 extends Sprite {
 	private static Random random = new Random();
 
 	private String name;
@@ -10,17 +10,17 @@ public class Warrior extends Sprite {
 	private int defencePower;
 	private int attackPower;
 	
-	public Warrior() {
+	public Warrior2() {
 		this("Uknown");
 	}
 
-	public Warrior(String name) {
+	public Warrior2(String name) {
 		this(name, random.nextInt(500), 
 				random.nextInt(200),
 				random.nextInt(300));
 	}
 	
-	public Warrior(String name, int health, int defencePower, int attackPower) {
+	public Warrior2(String name, int health, int defencePower, int attackPower) {
 		super((String)null);
 		this.name = name;
 		this.health = health;
@@ -44,8 +44,14 @@ public class Warrior extends Sprite {
 	public int getAttackPower() {
 		return attackPower;
 	}
+	
+	public void attack(Warrior2 defender) {
+		if(health > 0) {
+			defender.attackedBy(this);
+		}
+	}
 
-	public void attackedBy(Warrior attacker) {
+	protected void attackedBy(Warrior2 attacker) {
 		String message = String.format(
 				"Warrionr %s attacked by %s with power %d."
 				, getName(), attacker.getName(), attackPower);

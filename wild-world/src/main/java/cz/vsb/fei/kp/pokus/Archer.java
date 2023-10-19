@@ -1,61 +1,46 @@
 package cz.vsb.fei.kp.pokus;
 
-import java.util.Random;
+public class Archer extends Warrior {
 
-public class Archer {
-	private static Random random = new Random();
+	private int arrowsCount;
 
-	private String name;
-	private int health;
-	private int defencePower;
-	private int attackPower;
-	
 	public Archer() {
-		this("Uknown");
+		this("Uknown arrow master");
 	}
 
 	public Archer(String name) {
-		this(name, random.nextInt(500), 
-				random.nextInt(200),
-				random.nextInt(300));
+		this(name, random.nextInt(500), random.nextInt(200), random.nextInt(300), random.nextInt(3));
 	}
+
+	public Archer(String name, int health, int defencePower, int attackPower, int arrowsCount) {
+		super(name, health, defencePower, attackPower);
+		this.arrowsCount = arrowsCount;
+	}
+
 	
-	public Archer(String name, int health, int defencePower, int attackPower) {
-		this.name = name;
-		this.health = health;
-		this.defencePower = defencePower;
-		this.attackPower = attackPower;
+	public int getArrowsCount() {
+		return arrowsCount;
 	}
 
-
-	public String getName() {
-		return name;
+	@Override
+	public void attack(Warrior defender) {
+		if (getHealth() > 0) {
+			if(arrowsCount > 0) {
+			arrowsCount--;
+			defender.attackedBy(this);
+			} else {
+				System.out.println(String.format("%s rount out of arrows.", getName()));
+			}
+		} 
 	}
 
-	public int getHealth() {
-		return health;
-	}
-
-	public int getDefencePower() {
-		return defencePower;
-	}
-
-	public int getAttackPower() {
-		return attackPower;
-	}
-
-	public void attackedBy(Archer attacker) {
-		String message = String.format(
-				"Warrior %s attacked by %s with power %d."
-				, getName(), attacker.getName(), attackPower);
+	@Override
+	public void attackedBy(Warrior attacker) {
+		String message = String.format("Warrior %s attacked by %s with power %d.", getName(), attacker.getName(),
+				getAttackPower());
 		System.out.println(message);
-		
-		if(attacker.getAttackPower() - getDefencePower() > 0) {
-			health = health - (attacker.getAttackPower() - getDefencePower());
+		if (attacker.getAttackPower() - getDefencePower() > 0) {
+			setHealth(getHealth() - (attacker.getAttackPower() - getDefencePower()));
 		}
-	}
-	
-	public void printStatus() {
-		System.out.println(String.format("%s has health %d", name, health));
 	}
 }

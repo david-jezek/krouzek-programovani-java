@@ -2,8 +2,8 @@ package cz.vsb.fei.kp.pokus;
 
 import java.util.Random;
 
-public class Warrior {
-	private static Random random = new Random();
+public abstract class Warrior {
+	protected static Random random = new Random();
 
 	private String name;
 	private int health;
@@ -36,6 +36,10 @@ public class Warrior {
 		return health;
 	}
 
+	protected void setHealth(int health) {
+		this.health = health;
+	}
+
 	public int getDefencePower() {
 		return defencePower;
 	}
@@ -44,16 +48,14 @@ public class Warrior {
 		return attackPower;
 	}
 
-	public void attackedBy(Warrior attacker) {
-		String message = String.format(
-				"Warrior %s attacked by %s with power %d."
-				, getName(), attacker.getName(), attackPower);
-		System.out.println(message);
-		
-		if(attacker.getAttackPower() - getDefencePower() > 0) {
-			health = health - (attacker.getAttackPower() - getDefencePower());
-		}
+	public void attack(Warrior defender) {
+		defender.attackedBy(this);
 	}
+
+	public void attackedBy(Warrior attacker) {
+		System.out.println("Vedle");
+	}
+
 	
 	public void printStatus() {
 		System.out.println(String.format("%s has health %d", name, health));
