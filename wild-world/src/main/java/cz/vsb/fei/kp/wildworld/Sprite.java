@@ -3,6 +3,7 @@ package cz.vsb.fei.kp.wildworld;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.net.URL;
@@ -15,6 +16,7 @@ public class Sprite {
 	private Image image;
 	private Rectangle2D.Double rectangle2d = new Rectangle2D.Double();
 	private double direction;
+	private double rotationSpeed;
 	private double speed;
 
 	public Sprite(Image image) {
@@ -40,6 +42,8 @@ public class Sprite {
 	}
 
 	public void draw(Graphics2D g2) {
+		AffineTransform old = g2.getTransform();
+		g2.setTransform(AffineTransform.getRotateInstance(getDirectionInRadians(), rectangle2d.getCenterX(), rectangle2d.getCenterY()));
 		if (image != null) {
 			g2.drawImage(image, (int) rectangle2d.getX(), (int) rectangle2d.getY(), null);
 		} else {
@@ -48,9 +52,11 @@ public class Sprite {
 			g2.drawLine(getIntPosX(), getIntPosY(), getIntPosX() + getIntWidth(), getIntPosY() + getIntHeight());
 			g2.drawLine(getIntPosX() + getIntHeight(), getIntPosY(), getIntPosX(), getIntPosY() + getIntHeight());
 		}
+		g2.setTransform(old);
 	}
 
 	public void simulate() {
+		rotate();
 		move();
 	}
 	
@@ -65,6 +71,10 @@ public class Sprite {
 	public double getDirection() {
 		return direction;
 	}
+	
+	public double getDirectionInRadians() {
+		return direction /180 * Math.PI;
+	}
 
 	public void setDirection(double direction) {
 		while (direction > 360) {
@@ -75,10 +85,14 @@ public class Sprite {
 		}
 		this.direction = direction;
 	}
+
+	public void rotate() {
+		direction += rotationSpeed;
+	}
 	
 	public void move() {
-		rectangle2d.x += Math.cos(direction /180 * Math.PI)*speed;
-		rectangle2d.y += Math.sin(direction /180 * Math.PI)*speed;
+		rectangle2d.x += Math.cos(getDirectionInRadians())*speed;
+		rectangle2d.y += Math.sin(getDirectionInRadians())*speed;
 	}
 
 	public int getIntPosX() {
