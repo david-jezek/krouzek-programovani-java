@@ -9,20 +9,20 @@ public class Main {
 	public static void main(String[] args) {
 		ArrayList<Warrior> warriors = new ArrayList<Warrior>();
 		
-		warriors.add(randWarrior("Princ Krasoň")); 
-		warriors.add(randWarrior("Alex Jones"));
+		warriors.add(randSwordsman("Princ Krasoň")); 
+		warriors.add(randArcher("Alex Jones"));
 		warriors.add(randWarrior("FIZIStyle"));
 		warriors.add(randWarrior("Tary"));
-		warriors.add(randWarrior("Amogus"));
-		warriors.add(randWarrior("Melon Usk"));
+		warriors.add(randSwordsman("Amogus"));
+		warriors.add(randArcher("Melon Usk"));
 		warriors.add(randWarrior("Tomio Okamura"));
-		warriors.add(randWarrior("Petr Pavel"));
+		warriors.add(randArcher("Petr Pavel"));
 		warriors.add(randWarrior("Bill Gates"));
-		warriors.add(new Warrior("Linus Trollvalds", 9999, 300, 0));
+		warriors.add(new Swordsman("Linus Trollvalds", 9999, 300, 0));
 		warriors.add(randWarrior("Kung Fu Panda"));
-		warriors.add(randWarrior("Pepa Troska"));
+		warriors.add(randSwordsman("Pepa Troska"));
 		
-		for(;warriors.size() > 2;) {
+		while(warriors.size() > 2) {
 			warriors.remove(r.nextInt(warriors.size()));
 		}
 		
@@ -39,8 +39,8 @@ public class Main {
 				w1.doATKBuff();
 			} else if(chance1 < 25 && w1.getHP() < w1.getMaxHP()/2) {
 				w1.doHeal();
-			} /*else if(chance1 < 35) {
-				w1.doDEFBuff();
+			} /*else if(chance1 < 35 && w1.getClass() == Swordsman.class) {
+				((Swordsman) w1).doDEFBuff();
 			}*/ else {
 				w2.hitBy(w1);
 				if(w2.isDead()) {
@@ -49,13 +49,13 @@ public class Main {
 				}
 			}
 			
-			if(w2.getAP() < w2.getDEF()) {
+			if(w2.getAP() < w1.getDEF()) {
 				w2.doATKBuff();
 			} else if(chance2 < 25 && w2.getHP() < w2.getMaxHP()/2) {
 				w2.doHeal();
-			} else if(chance2 < 35) {
-				w2.doDEFBuff();
-			} else {
+			}/* else if(chance2 < 35 && w2.getClass() == Swordsman.class) {
+				((Swordsman) w2).doDEFBuff();
+			}*/ else {
 				w1.hitBy(w2);
 				if(w1.isDead()) {
 					System.out.println(String.format("The tough %s has been killed in battle by %s with %d HP left.", w1.getName(), w2.getName(), w2.getHP()));
@@ -66,7 +66,23 @@ public class Main {
 	}
 	
 	private static Warrior randWarrior(String name) {
-		Warrior warrior = new Warrior(name, 1000, r.nextInt(200), r.nextInt(150));
+		boolean yesno = r.nextBoolean();
+		if(yesno) {
+			Swordsman warrior = new Swordsman(name, 1000, r.nextInt(200), r.nextInt(150));
+			return warrior;
+		} else {
+			Archer warrior = new Archer(name, 1000, r.nextInt(200), r.nextInt(150), r.nextInt(50));
+			return warrior;
+		}
+	}
+	
+	private static Archer randArcher(String name) {
+		Archer warrior = new Archer(name, 1000, r.nextInt(200), r.nextInt(150), r.nextInt(50));
+		return warrior;
+	}
+	
+	private static Swordsman randSwordsman(String name) {
+		Swordsman warrior = new Swordsman(name, 1000, r.nextInt(200), r.nextInt(150));
 		return warrior;
 	}
 }

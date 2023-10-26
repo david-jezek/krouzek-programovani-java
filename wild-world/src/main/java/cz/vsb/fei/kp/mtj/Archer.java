@@ -25,14 +25,16 @@ public class Archer extends Warrior{
 		this.arrows = arrows;
 	}
 
-	public void attack(Archer defender) {
+	public void attack(Warrior defender) {
 		if(HP > 0 && arrows > 0) {
 			defender.hitBy(this);
 			arrows--;
+		} else if(HP > 0 && arrows <= 0) {
+			System.out.println(String.format("%s cannot attack %s because he ran out of arrows!", this.name, defender.getName()));
 		}
 	}
 
-	private void hitBy(Archer attacker) {
+	protected void hitBy(Warrior attacker) {
 		int DMG = attacker.getAP() - DEF;
 		
 		if(DMG <= 0) {

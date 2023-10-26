@@ -68,4 +68,11 @@ public class Warrior {
 		String MSG = String.format("%s patches himself up for %d HP. He now has %d health", name, AP/10, HP);
 		System.out.println(MSG);
 	}
+	
+	public void doATKBuff() {
+		String MSG = String.format("%s drinks a potion of strength! Attack increased by 100!", name);
+		System.out.println(MSG);
+		AP += 100; 
+	}
+	
 }

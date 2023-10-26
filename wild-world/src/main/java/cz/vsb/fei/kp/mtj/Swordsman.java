@@ -36,12 +36,6 @@ public class Swordsman extends Warrior{
 		System.out.println(String.format("%s has attacked %s for %d damage. He now has %d health.", attacker.getName(), name, DMG, HP));
 	}
 	
-	public void doATKBuff() {
-		String MSG = String.format("%s drinks a potion of strength! Attack increased by 100!", name);
-		System.out.println(MSG);
-		AP += 100; 
-	}
-	
 	public void doDEFBuff() {
 		String MSG = String.format("%s has increased his defence stat by %d, now totalling %d.", name, DEF/10 + 40, DEF + DEF/10 + 40);
 		System.out.println(MSG);
