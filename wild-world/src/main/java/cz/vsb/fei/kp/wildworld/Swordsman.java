@@ -1,6 +1,8 @@
-package cz.vsb.fei.kp.mtj;
+package cz.vsb.fei.kp.wildworld;
 
 import java.util.Random;
+
+import cz.vsb.fei.kp.mtj.Warrior2;
 
 public class Swordsman extends Warrior{
 	/*private String name;

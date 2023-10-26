@@ -1,62 +1,89 @@
 package cz.vsb.fei.kp.wildworld;
 
+import java.awt.Graphics2D;
 import java.util.Random;
 
 public class Warrior extends Sprite {
 	private static Random random = new Random();
 
-	private String name;
-	private int health;
-	private int defencePower;
-	private int attackPower;
+	protected String name;
+	protected int AP;
+	protected int HP;
+	protected int DEF;
+	protected int maxHP;
 	
-	public Warrior() {
-		this("Uknown");
-	}
-
-	public Warrior(String name) {
-		this(name, random.nextInt(500), 
-				random.nextInt(200),
-				random.nextInt(300));
-	}
-	
-	public Warrior(String name, int health, int defencePower, int attackPower) {
-		super((String)null);
+	public Warrior(String name, int maxHP, int AP, int DEF) {
+		super((String) null);
 		this.name = name;
-		this.health = health;
-		this.defencePower = defencePower;
-		this.attackPower = attackPower;
+		this.AP = AP;
+		this.maxHP = maxHP;
+		this.DEF = DEF;
+		HP = maxHP;
+	}
+	
+	
+	
+	public void attack(Warrior defender) {
+		if(HP > 0) {
+			defender.hitBy(this);
+		}
 	}
 
-
+	protected void hitBy(Warrior attacker) {
+		int DMG = attacker.getAP() - DEF;
+		
+		if(DMG <= 0) {
+			System.out.println(String.format("%s tried to hit %s but failed because he could not get through his armour!", attacker.getName(), name));
+			return;
+		}
+		
+		HP -= DMG;
+		
+		System.out.println(String.format("%s has attacked %s for %d damage. He now has %d health.", attacker.getName(), name, DMG, HP));
+	}
+	
+	public int getMaxHP() {
+		return maxHP;
+	}
+	
+	public boolean isDead() {
+		if(HP <= 0) {
+			return true;
+		}
+		return false;
+	}
+	
 	public String getName() {
 		return name;
 	}
-
-	public int getHealth() {
-		return health;
+	
+	public int getDEF() {
+		return DEF;
 	}
 
-	public int getDefencePower() {
-		return defencePower;
+	public int getAP() {
+		return AP;
 	}
 
-	public int getAttackPower() {
-		return attackPower;
+	public int getHP() {
+		return HP;
 	}
 
-	public void attackedBy(Warrior attacker) {
-		String message = String.format(
-				"Warrionr %s attacked by %s with power %d."
-				, getName(), attacker.getName(), attackPower);
-		System.out.println(message);
-		
-		if(attacker.getAttackPower() - getDefencePower() > 0) {
-			health = health - (attacker.getAttackPower() - getDefencePower());
-		}
+	public void doHeal() {
+		HP += AP/4;
+		String MSG = String.format("%s patches himself up for %d HP. He now has %d health", name, AP/10, HP);
+		System.out.println(MSG);
 	}
 	
-	public void printStatus() {
-		System.out.println(String.format("%s has health %d", name, health));
+	public void doATKBuff() {
+		String MSG = String.format("%s drinks a potion of strength! Attack increased by 100!", name);
+		System.out.println(MSG);
+		AP += 100; 
+	}
+
+	@Override
+	public void draw(Graphics2D g2) {
+		super.draw(g2);
+		g2.drawString(getName(), getIntPosX(), getIntPosY());
 	}
 }

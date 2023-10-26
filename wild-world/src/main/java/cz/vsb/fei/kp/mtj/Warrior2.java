@@ -1,13 +1,13 @@
 package cz.vsb.fei.kp.mtj;
 
-public class Warrior {
+public class Warrior2 {
 	protected String name;
 	protected int AP;
 	protected int HP;
 	protected int DEF;
 	protected int maxHP;
 	
-	public Warrior(String name, int maxHP, int AP, int DEF) {
+	public Warrior2(String name, int maxHP, int AP, int DEF) {
 		this.name = name;
 		this.AP = AP;
 		this.maxHP = maxHP;
@@ -17,13 +17,13 @@ public class Warrior {
 	
 	
 	
-	public void attack(Warrior defender) {
+	public void attack(Warrior2 defender) {
 		if(HP > 0) {
 			defender.hitBy(this);
 		}
 	}
 
-	protected void hitBy(Warrior attacker) {
+	protected void hitBy(Warrior2 attacker) {
 		int DMG = attacker.getAP() - DEF;
 		
 		if(DMG <= 0) {

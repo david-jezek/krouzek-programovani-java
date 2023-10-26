@@ -1,4 +1,6 @@
-package cz.vsb.fei.kp.mtj;
+package cz.vsb.fei.kp.wildworld;
+
+import cz.vsb.fei.kp.mtj.Warrior2;
 
 public class Archer extends Warrior{
 	/*private String name;

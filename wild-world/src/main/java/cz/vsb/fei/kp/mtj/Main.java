@@ -3,11 +3,14 @@ package cz.vsb.fei.kp.mtj;
 import java.util.ArrayList;
 import java.util.Random;
 
+import cz.vsb.fei.kp.wildworld.Archer;
+import cz.vsb.fei.kp.wildworld.Swordsman;
+
 public class Main {
 	static Random r = new Random();
 	
 	public static void main(String[] args) {
-		ArrayList<Warrior> warriors = new ArrayList<Warrior>();
+		ArrayList<Warrior2> warriors = new ArrayList<Warrior2>();
 		
 		warriors.add(randSwordsman("Princ Krasoň")); 
 		warriors.add(randArcher("Alex Jones"));
@@ -28,8 +31,8 @@ public class Main {
 		
 		String MSG = String.format("%s [HP: %d ATK: %d DEF %d] VS. %s [HP: %d ATK: %d DEF %d], FIGHT TO THE DEATH!", warriors.get(0).getName(), warriors.get(0).getHP(), warriors.get(0).getAP(), warriors.get(0).getDEF(), warriors.get(1).getName(), warriors.get(1).getHP(), warriors.get(1).getAP(), warriors.get(1).getDEF());
 		System.out.println(MSG);
-		Warrior w1 = warriors.get(0);
-		Warrior w2 = warriors.get(1);
+		Warrior2 w1 = warriors.get(0);
+		Warrior2 w2 = warriors.get(1);
 		
 		for (;true;) {
 			int chance1 = r.nextInt(100);
@@ -65,7 +68,7 @@ public class Main {
 		}
 	}
 	
-	private static Warrior randWarrior(String name) {
+	private static Warrior2 randWarrior(String name) {
 		boolean yesno = r.nextBoolean();
 		if(yesno) {
 			Swordsman warrior = new Swordsman(name, 1000, r.nextInt(200), r.nextInt(150));
