@@ -5,15 +5,16 @@ import java.util.Random;
 public class Warrior extends Entity {
 	
 	public Warrior(String name) {
-		this(name, random.nextInt(1000), random.nextInt(750), random.nextInt(500));
+		this("/giphy.gif", name, random.nextInt(1000), random.nextInt(750), random.nextInt(500));
 	}
 	
-	public Warrior(String name, int health, int strenght, int deffence) {
-		super(name, health, strenght, deffence);
+	public Warrior(String image, String name, int health, int strenght, int deffence) {
+		super("/giphy.gif", name, health, strenght, deffence);
 	}
 	
 	@Override
 	public void attack(Entity warrior) {
+		setPosition(warrior.getIntPosX()+50, warrior.getIntPosY());
 		int power = this.strenght - warrior.deffence;
 		if (power<0) {
 			power=0;

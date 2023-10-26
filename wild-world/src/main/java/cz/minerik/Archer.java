@@ -11,12 +11,13 @@ public class Archer extends Entity {
 	}
 	
 	public Archer(String name, int health, int strenght, int deffence, int arrows) {
-		super(name, health, strenght, deffence);
+		super("/bow.png", name, health, strenght, deffence);
 		this.arrows=arrows;
 	}
 	
 	@Override
 	public void attack(Entity warrior) {
+		setPosition(warrior.getIntPosX()+50, warrior.getIntPosY());
 		if(arrows>0) {
 			int power = this.strenght - warrior.deffence;
 			if (power<0) {
