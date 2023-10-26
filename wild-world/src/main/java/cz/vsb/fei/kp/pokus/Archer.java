@@ -5,7 +5,7 @@ public class Archer extends Warrior {
 	private int arrowsCount;
 
 	public Archer() {
-		this("Uknown arrow master");
+		this("Uknown arrow master.");
 	}
 
 	public Archer(String name) {
