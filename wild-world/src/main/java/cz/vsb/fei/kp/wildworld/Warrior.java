@@ -20,6 +20,7 @@ public abstract class Warrior extends Sprite {
 
 	public Warrior(String type, String name, int health, int defencePower, int attackPower) {
 		super((String) null);
+		this.type = type;
 		this.name = name;
 		this.health = health;
 		this.defencePower = defencePower;
@@ -42,23 +43,34 @@ public abstract class Warrior extends Sprite {
 		return attackPower;
 	}
 
-	public abstract void attack(Warrior attacked);
-	protected void attackedBy(Warrior attacker) {
-		String message = String.format("%s is attacked by %s with power %d.", getName(), attacker.getName(),
-				attackPower);
-		System.out.println(message);
+	public String getType() {
+		return type;
+	}
 
-		if (attacker.getAttackPower() - getDefencePower() > 0) {
-			health = health - (attacker.getAttackPower() - getDefencePower());
+	public abstract void attack(Warrior attacked);
+
+	protected void attackedBy(Warrior attacker) {
+//		String message = String.format("%s is attacked by %s with power %d.", getName(), attacker.getName(),
+//				attackPower);
+//		System.out.println(message);
+		if (random.nextDouble(200) < (defencePower / ((random.nextInt(4)) + 1))) {
+			String failmessage = String.format("%s %s blocks %s %s's attack with their shield", getType(), getName(),
+					getType(), getName(), getAttackPower());
+			System.out.println(failmessage);
+		} else {
+			if (attacker.getAttackPower() > 0) {
+				health = health - (attacker.getAttackPower());
+				printStatus();
+			}
 		}
 	}
 
 	public void printStatus() {
 		if (health < 0) {
-			System.out.println(String.format("%s has perished", name));
+			System.out.println(String.format("%s has perished", getName()));
 		} else {
 
-			System.out.println(String.format(" %s has health %d", name, health));
+			System.out.println(String.format(" %s has health %d", getName(), health));
 		}
 	}
 }
