@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Dimension2D;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -16,7 +17,7 @@ public class WorldPanel extends JComponent {
 	private static final long serialVersionUID = -2491505880020958612L;
 
 	private static Random random = new Random();
-	private List<Sprite> sprites = new ArrayList<>();
+	private List<Sprite> sprites = Collections.synchronizedList(new ArrayList<>());
 
 	private boolean animatePanel = false;
 

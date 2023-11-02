@@ -12,9 +12,14 @@ public class World extends JFrame {
 	private static final long serialVersionUID = 5236845706678314350L;
 
 	private WorldPanel drawingPanel;
-	private Dimension size = new Dimension(500, 300);
+	private Dimension size;
 
 	public World() {
+		this(new Dimension(500, 300));
+	}
+
+	public World(Dimension size) {
+		this.size = size;
 		getContentPane().setLayout(new BorderLayout());
 		getContentPane().add(getDrawingPanel(), BorderLayout.CENTER);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -38,7 +43,7 @@ public class World extends JFrame {
 	public void addSprite(Sprite sprite) {
 		getDrawingPanel().addSprite(sprite);
 	}
-	
+
 	public void randomizePositionsOfSprites() {
 		getDrawingPanel().randomizePositionsOfSprites();
 	}
