@@ -12,18 +12,4 @@ public class Warrior extends Entity {
 		super("/giphy.gif", name, health, strenght, deffence);
 	}
 	
-	@Override
-	public void attack(Entity warrior) {
-		setPosition(warrior.getIntPosX()+50, warrior.getIntPosY());
-		int power = this.strenght - warrior.deffence;
-		if (power<0) {
-			power=0;
-			
-		}
-		warrior.health = warrior.health - power;
-		System.out.println(String.format("%s do attack with power %d to the %s.", this.name, power, warrior.name));
-		if(this.isAlive()) {
-			warrior.killedBy=this.name;
-		}
-	}
 }

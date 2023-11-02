@@ -1,5 +1,6 @@
 package cz.minerik;
 
+import java.awt.geom.Point2D;
 import java.util.Random;
 
 public class Archer extends Entity {
@@ -17,19 +18,19 @@ public class Archer extends Entity {
 	
 	@Override
 	public void attack(Entity warrior) {
-		setPosition(warrior.getIntPosX()+50, warrior.getIntPosY());
+		moveCenterTo(new Point2D.Double(warrior.getIntPosX()+50, warrior.getIntPosY()), 5,10);
 		if(arrows>0) {
 			int power = this.strenght - warrior.deffence;
 			if (power<0) {
 				power=0;
 			}
-			else {
-				this.arrows=this.arrows-1;
-			}
 			warrior.health = warrior.health - power;
 			System.out.println(String.format("%s do attack with power %d to the %s.", this.name, power, warrior.name));
-			if(this.isAlive()) {
+			if(!(warrior.isAlive())) {
 				warrior.killedBy=this.name;
+				System.out.println(warrior.name+" killed by " + warrior.killedBy);
+				warrior.setPosition(0, 0);
+				moveCenterTo(new Point2D.Double(0, 0), 0,0);
 			}
 		}
 		else {

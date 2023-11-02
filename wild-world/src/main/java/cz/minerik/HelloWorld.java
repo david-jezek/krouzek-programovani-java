@@ -3,6 +3,7 @@ package cz.minerik;
 import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.geom.Point2D;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -14,8 +15,10 @@ public class HelloWorld {
 		World world = new World(new Dimension(1280,720));
         world.showWorld();
         
-        /*Sprite sprite = new Sprite("/giphy.gif");
+        /*Sprite sprite = new Warrior("/giphy.gif");
         sprite.setPosition(100, 100);
+        sprite.setSize(10,10);
+        sprite.moveCenterTo(new Point2D.Double(400, 400), 2, 2);	
         world.addSprite(sprite);*/
 		
 		ArrayList<Entity> warriors = new ArrayList<>();
@@ -34,22 +37,21 @@ public class HelloWorld {
 			warrior.setPosition(random.nextFloat(0, 1230), random.nextFloat(0, 670));
 			world.addSprite(warrior);
 		}
-		for(int i = 0; i<500; i++) {
+		while(warriors.size()>1) {
 			TimeUnit.MILLISECONDS.sleep(300);
 			int a = random.nextInt(warriors.size());
 			int b = random.nextInt(warriors.size());
 			Entity w1 = warriors.get(a);
 			Entity w2 = warriors.get(b);
 			if(w1.isAlive()) {
-				if(w2.isAlive()) {
-					w1.attack(w2);
+				if(w1!=w2) {
+					if(w2.isAlive()) {
+						w1.attack(w2);
+						if(!(w2.isAlive())) {
+							warriors.remove(w2);
+						}
+					}
 				}
-				else {
-					w2.setPosition(0, 0);
-				}
-			}
-			else {
-				w1.setPosition(0, 0);
 			}
 		}
 		for(Entity warrior : warriors) {
