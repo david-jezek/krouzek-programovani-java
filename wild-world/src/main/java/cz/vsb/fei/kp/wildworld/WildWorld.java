@@ -7,36 +7,34 @@ import java.util.Random;
  * Hello world!
  *
  */
-public class WildWorld 
-{
-    public static void main( String[] args )
-    {
-        World w = new World();
-        w.showWorld();
-        Sprite s = new Sprite("/giphy.gif");
-        s.setPosition(100, 100);
-        s.setSize(50,50);
-        s = new Sprite("/giphy.gif");
-        s.setSpeed(1);
-        s.setDirection(-45);
-        w.addSprite(s);
+public class WildWorld {
+	public static void main(String[] args) {
+		World w = new World();
+		w.showWorld();
+		Sprite s = new Sprite("/giphy.gif");
+		s.setPosition(100, 100);
+		s.setSize(50, 50);
+		s = new Sprite("/giphy.gif");
+		s.setSpeed(1);
+		s.setDirection(-45);
+		w.addSprite(s);
 
-        s = new Sprite("/giphy.gif");
-        s.setPosition(100, 200);
-        s.setSize(50,50);
-        w.addSprite(s);
-        
-        s = new Sprite("/giphy.gif");
-        s.setPosition(400, 200);
-        s.setSize(50,50);
-        w.addSprite(s);
+		s = new Sprite("/giphy.gif");
+		s.setPosition(100, 200);
+		s.setSize(50, 50);
+		w.addSprite(s);
 
-        s = new Sprite("ddd");
-        s.setPosition(200, 100);
-        s.setSize(20,20);
-        w.addSprite(s);
+		s = new Sprite("/giphy.gif");
+		s.setPosition(400, 200);
+		s.setSize(50, 50);
+		w.addSprite(s);
 
-        Random randomGenerator = new Random();
+		s = new Sprite("ddd");
+		s.setPosition(200, 100);
+		s.setSize(20, 20);
+		w.addSprite(s);
+
+		Random randomGenerator = new Random();
 		ArrayList<Warrior2> warriors = new ArrayList<>();
 		warriors.add(new Warrior2("Princ Krasoň", 1000, 300, 450));
 		warriors.add(new Warrior2("Alex"));
@@ -60,11 +58,15 @@ public class WildWorld
 				int index2 = randomGenerator.nextInt(warriors.size());
 				w2 = warriors.get(index2);
 			} while (w1.equals(w2));
-			w2.attack(w2);
+			w1.attack(w2);
+			w1.moveCenterTo(w2.getPositionOfCenet(), 
+					randomGenerator.nextInt(4) + 1.0, 
+					randomGenerator.nextInt(7) + 2.0);
+
 		}
 
 		for (Warrior2 warrior : warriors) {
 			warrior.printStatus();
 		}
-    }
+	}
 }
