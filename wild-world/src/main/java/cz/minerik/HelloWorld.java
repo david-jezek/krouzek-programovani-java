@@ -22,23 +22,23 @@ public class HelloWorld {
         world.addSprite(sprite);*/
 		
 		ArrayList<Entity> warriors = new ArrayList<>();
-		warriors.add(new Warrior("Bořek Stavitel"));
+		warriors.add(new Monster("Bořek Stavitel"));
 		warriors.add(new Warrior("Mat"));
-		warriors.add(new Warrior("Pat"));
+		warriors.add(new Healer("Pat"));
 		warriors.add(new Warrior("John Wick"));
-		warriors.add(new Warrior("Prasátko Pepa"));
+		warriors.add(new Monster("Prasátko Pepa"));
 		warriors.add(new Warrior("Mario"));
 		warriors.add(new Archer("Princ Krasoň"));
-		warriors.add(new Archer("Alex"));
+		warriors.add(new Healer("Alex"));
 		warriors.add(new Archer("Shrek"));
-		warriors.add(new Archer("Hello Kitty"));
+		warriors.add(new Healer("Hello Kitty"));
 		for(Entity warrior : warriors) {
 			warrior.setSize(50, 50);
 			warrior.setPosition(random.nextFloat(0, 1230), random.nextFloat(0, 670));
 			world.addSprite(warrior);
 		}
 		while(warriors.size()>1) {
-			TimeUnit.MILLISECONDS.sleep(300);
+			TimeUnit.MILLISECONDS.sleep(500);
 			int a = random.nextInt(warriors.size());
 			int b = random.nextInt(warriors.size());
 			Entity w1 = warriors.get(a);
@@ -51,7 +51,13 @@ public class HelloWorld {
 							warriors.remove(w2);
 						}
 					}
+					else {
+						warriors.remove(w2);
+					}
 				}
+			}
+			else {
+				warriors.remove(w1);
 			}
 		}
 		for(Entity warrior : warriors) {

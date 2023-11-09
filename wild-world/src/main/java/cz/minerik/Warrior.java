@@ -8,8 +8,8 @@ public class Warrior extends Entity {
 		this("/giphy.gif", name, random.nextInt(1000), random.nextInt(750), random.nextInt(500));
 	}
 	
-	public Warrior(String image, String name, int health, int strenght, int deffence) {
-		super("/giphy.gif", name, health, strenght, deffence);
+	public Warrior(String image, String name, int maxHealth, int strenght, int deffence) {
+		super("/giphy.gif", name, maxHealth, strenght, deffence);
 	}
 	
 }

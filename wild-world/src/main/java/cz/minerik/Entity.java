@@ -9,6 +9,7 @@ public abstract class Entity extends Sprite {
 	
 	protected String name;
 	protected int health;
+	protected int maxHealth;
 	protected int strenght;
 	protected int deffence;
 	protected String killedBy = "";
@@ -17,12 +18,14 @@ public abstract class Entity extends Sprite {
 		this(image, name, random.nextInt(1000), random.nextInt(750), random.nextInt(500));
 	}
 	
-	public Entity(String image, String name, int health, int strenght, int deffence) {
+	public Entity(String image, String name, int maxHealth, int strenght, int deffence) {
 		super(image);
 		this.name = name;
-		this.health = health;
+		this.maxHealth = maxHealth;
 		this.strenght = strenght;
 		this.deffence = deffence;
+		
+		this.health = maxHealth;
 	}
 	
 	public String getName() {
