@@ -46,7 +46,7 @@ public class WildWorld
 		warriors.add(new Warrior("Prasatko Pepa"));
 		warriors.add(new Warrior("Bořek stavitel"));
 		warriors.add(new Warrior("Mario"));
-		warriors.add(new Warrior("Pat"));
+		warriors.add(new Warrior("Paddt"));
 		warriors.add(new Warrior("Mat"));
 		for (Warrior warrior : warriors) {
 			w.addSprite(warrior);
