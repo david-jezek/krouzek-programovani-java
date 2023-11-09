@@ -1,6 +1,9 @@
 package cz.vsb.fei.kp.wildworld;
 
+import java.awt.Graphics2D;
 import java.util.Random;
+
+import javax.swing.Spring;
 
 public abstract class Warrior extends Sprite {
 	private static Random random = new Random();
@@ -9,17 +12,16 @@ public abstract class Warrior extends Sprite {
 	private int health;
 	private int defencePower;
 	private int attackPower;
-
 	public Warrior() {
-		this("Unknown", "Unknown");
+		this(null, "Unknown", "Unknown");
 	}
 
-	public Warrior(String type, String name) {
-		this(type, name, random.nextInt(500), random.nextInt(200), random.nextInt(300));
+	public Warrior(String obrazek,String type, String name) {
+		this(obrazek,type, name, random.nextInt(500), random.nextInt(200), random.nextInt(300));
 	}
 
-	public Warrior(String type, String name, int health, int defencePower, int attackPower) {
-		super((String) null);
+	public Warrior(String obrazek,String type, String name, int health, int defencePower, int attackPower) {
+		super(obrazek);
 		this.type = type;
 		this.name = name;
 		this.health = health;
@@ -67,10 +69,16 @@ public abstract class Warrior extends Sprite {
 
 	public void printStatus() {
 		if (health < 0) {
-			System.out.println(String.format("%s has perished", getName()));
+			System.out.println(String.format("%s %s has perished",getType(), getName()));
 		} else {
 
-			System.out.println(String.format(" %s has health %d", getName(), health));
+			System.out.println(String.format("%s %s has %d health left",getType(), getName(), health));
 		}
+	}
+	
+	@Override
+	public void draw(Graphics2D obrazky) {
+	super.draw(obrazky);
+	obrazky.drawString(getName(), getIntPosX(), getIntPosY());
 	}
 }

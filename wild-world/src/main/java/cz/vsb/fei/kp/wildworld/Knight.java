@@ -8,15 +8,15 @@ public class Knight extends Warrior {
 	private int shieldBlock;
 
 	public Knight() {
-		this("Unknown", "Unknown");
+		this("/R.png","Unknown", "Unknown");
 	}
 
-	public Knight(String type, String name) {
-		this(type, name, random.nextInt(500), random.nextInt(200), random.nextInt(300));
+	public Knight(String obrazek, String type, String name) {
+		this(obrazek,type, name, random.nextInt(500), random.nextInt(200), random.nextInt(300));
 	}
 
-	public Knight(String type, String name, int health, int defencePower, int attackPower) {
-		super(type, name, health, defencePower, attackPower);
+	public Knight(String obrazek,String type, String name, int health, int defencePower, int attackPower) {
+		super("/R.png", type, name, health, defencePower, attackPower);
 	}
 
 	public void printStatus() {
