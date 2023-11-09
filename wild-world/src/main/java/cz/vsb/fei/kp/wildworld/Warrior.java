@@ -11,7 +11,7 @@ public class Warrior extends Sprite {
 	private int attackPower;
 	
 	public Warrior() {
-		this("Uknown");
+		this("Unknown");
 	}
 
 	public Warrior(String name) {
@@ -47,7 +47,7 @@ public class Warrior extends Sprite {
 
 	public void attackedBy(Warrior attacker) {
 		String message = String.format(
-				"Warrionr %s attacked by %s with power %d."
+				"Warrior %s attacked by %s with power %d."
 				, getName(), attacker.getName(), attackPower);
 		System.out.println(message);
 		

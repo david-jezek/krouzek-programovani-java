@@ -38,7 +38,10 @@ public class WildWorld
 
         Random randomGenerator = new Random();
 		ArrayList<Warrior> warriors = new ArrayList<>();
-		warriors.add(new Warrior("Princ Krasoň", 1000, 300, 450));
+		Archer a = new Archer();
+		a.setSize(200, 200);
+		warriors.add(a);
+		
 		warriors.add(new Warrior("Alex"));
 		warriors.add(new Warrior("John Wick"));
 		warriors.add(new Warrior("Shrek"));
