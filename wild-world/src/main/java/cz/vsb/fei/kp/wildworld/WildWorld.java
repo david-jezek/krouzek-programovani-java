@@ -2,8 +2,7 @@ package cz.vsb.fei.kp.wildworld;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import cz.vsb.fei.kp.mtj.Warrior2;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Hello world!
@@ -52,7 +51,7 @@ public class WildWorld
 		warriors.add(randWarrior("Tomio Okamura"));
 		warriors.add(randArcher("Petr Pavel"));
 		warriors.add(randWarrior("Bill Gates"));
-		warriors.add(new Swordsman("Linus Trollvalds", 1000, 300, 0));
+		warriors.add(new Swordsman("/Linus-Torvalds.jpg", "Linus Torvalds", 1000, 300, 0));
 		warriors.add(randWarrior("Kung Fu Panda"));
 		warriors.add(randSwordsman("Pepa Troska"));
 		
@@ -71,7 +70,13 @@ public class WildWorld
 				w2 = warriors.get(index2);
 			} while (w1.equals(w2));
 
-			w2.attack(w1);
+			if(w2.getAP() < w1.getDEF() || w1.getAP() > w2.getDEF()) {
+				w1.attack(w2);
+				w2.attack(w1);
+			} else {
+				w2.doATKBuff();
+				w1.doATKBuff();
+			}
 			
 			if(w1.isDead()) {
 				warriors.remove(index1);
@@ -83,28 +88,33 @@ public class WildWorld
 				return;
 			}
 			
-			
+			try {
+				TimeUnit.MILLISECONDS.sleep(100);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
     }
     
     private static Warrior randWarrior(String name) {
 		boolean yesno = r.nextBoolean();
 		if(yesno) {
-			Swordsman warrior = new Swordsman(name, 1000, r.nextInt(200), r.nextInt(150));
+			Swordsman warrior = new Swordsman("/Knight.png", name, 1000, r.nextInt(200), r.nextInt(150));
 			return warrior;
 		} else {
-			Archer warrior = new Archer(name, 1000, r.nextInt(200), r.nextInt(150), r.nextInt(50));
+			Archer warrior = new Archer("/Archer.png", name, 1000, r.nextInt(200), r.nextInt(150), r.nextInt(50));
 			return warrior;
 		}
 	}
 	
 	private static Archer randArcher(String name) {
-		Archer warrior = new Archer(name, 1000, r.nextInt(200), r.nextInt(150), r.nextInt(50));
+		Archer warrior = new Archer("/Archer.png", name, 1000, r.nextInt(200), r.nextInt(150), r.nextInt(50));
 		return warrior;
 	}
 	
 	private static Swordsman randSwordsman(String name) {
-		Swordsman warrior = new Swordsman(name, 1000, r.nextInt(200), r.nextInt(150));
+		Swordsman warrior = new Swordsman("/Knight.png", name, 1000, r.nextInt(200), r.nextInt(150));
 		return warrior;
 	}
 }

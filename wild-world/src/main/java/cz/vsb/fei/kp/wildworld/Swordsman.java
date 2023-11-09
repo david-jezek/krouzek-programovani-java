@@ -2,7 +2,6 @@ package cz.vsb.fei.kp.wildworld;
 
 import java.util.Random;
 
-import cz.vsb.fei.kp.mtj.Warrior2;
 
 public class Swordsman extends Warrior{
 	/*private String name;
@@ -13,8 +12,8 @@ public class Swordsman extends Warrior{
 	
 	private Random r = new Random();
 	
-	public Swordsman(String name, int maxHP, int AP, int DEF) {
-		super(name,maxHP, AP, DEF);
+	public Swordsman(String obraz, String name, int maxHP, int AP, int DEF) {
+		super(obraz, name, maxHP, AP, DEF);
 	}
 	
 	/*public void attack(Warrior defender) {

@@ -1,19 +1,18 @@
 package cz.vsb.fei.kp.wildworld;
 
 import java.awt.Graphics2D;
-import java.util.Random;
 
 public class Warrior extends Sprite {
-	private static Random random = new Random();
 
 	protected String name;
 	protected int AP;
 	protected int HP;
 	protected int DEF;
 	protected int maxHP;
+	//protected String obraz;
 	
-	public Warrior(String name, int maxHP, int AP, int DEF) {
-		super((String) null);
+	public Warrior(String obraz, String name, int maxHP, int AP, int DEF) {
+		super(obraz);
 		this.name = name;
 		this.AP = AP;
 		this.maxHP = maxHP;
@@ -78,12 +77,13 @@ public class Warrior extends Sprite {
 	public void doATKBuff() {
 		String MSG = String.format("%s drinks a potion of strength! Attack increased by 100!", name);
 		System.out.println(MSG);
-		AP += 100; 
+		AP += 100;
 	}
 
 	@Override
 	public void draw(Graphics2D g2) {
 		super.draw(g2);
 		g2.drawString(getName(), getIntPosX(), getIntPosY());
+		g2.drawString(String.format("%d HP", HP), getIntPosX(), getIntPosY() + super.getIntHeight() + 10);
 	}
 }

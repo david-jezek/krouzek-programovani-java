@@ -1,7 +1,5 @@
 package cz.vsb.fei.kp.wildworld;
 
-import cz.vsb.fei.kp.mtj.Warrior2;
-
 public class Archer extends Warrior{
 	/*private String name;
 	private int AP;
@@ -10,8 +8,8 @@ public class Archer extends Warrior{
 	private int maxHP;*/
 	private int arrows;
 	
-	public Archer(String name, int maxHP, int AP, int DEF, int arrows) {
-		super(name, maxHP, AP, DEF);
+	public Archer(String obraz, String name, int maxHP, int AP, int DEF, int arrows) {
+		super(obraz, name, maxHP, AP, DEF);
 		this.arrows = arrows;
 	}
 	
