@@ -48,9 +48,13 @@ public abstract class Warrior extends Sprite {
 	public String getType() {
 		return type;
 	}
-
-	public abstract void attack(Warrior attacked);
-
+	
+	/*
+	 * public void Hrob(Warrior attacked) { if (attacked.getHealth()<1) {
+	 * this.waitForAllActionAreDone(); attacked.setImage("/hrob.png");
+	 * attacked.setSpeed(0); attacked.setRotationSpeed(0); // attacked.pursuit(null,
+	 * 0, 0, 0); } }
+	 */
 	protected void attackedBy(Warrior attacker) {
 //		String message = String.format("%s is attacked by %s with power %d.", getName(), attacker.getName(),
 //				attackPower);
@@ -79,6 +83,12 @@ public abstract class Warrior extends Sprite {
 	@Override
 	public void draw(Graphics2D obrazky) {
 	super.draw(obrazky);
+	String HP = String.format("%d", health);
 	obrazky.drawString(getName(), getIntPosX(), getIntPosY());
+	obrazky.drawString(HP, getIntPosX(), getIntPosY()+50);
+	obrazky.drawString("HP", getIntPosX()+32, getIntPosY()+50);
+	
 	}
+
+	protected abstract void attack(Warrior w2);
 }

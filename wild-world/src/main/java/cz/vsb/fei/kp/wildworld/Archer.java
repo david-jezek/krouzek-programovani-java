@@ -31,6 +31,8 @@ public class Archer extends Warrior {
 	}
 
 	public void attack(Warrior attacked) {
+		this.pursuit(attacked, 5, 20, 25);
+		attacked.attackedBy(this);
 		if (pocetsipu > 0) {
 			String message = String.format("%s %s shoots %s %s with an arrow with %d power", getType(), getName(),
 					attacked.getType(), attacked.getName(), getAttackPower());
@@ -40,6 +42,7 @@ public class Archer extends Warrior {
 			pocetsipu = pocetsipu - 1;
 			String archerstatus = String.format("%s %s now has %d arrows left.", getType(), getName(), pocetsipu);
 			System.out.println(archerstatus);
+//			Hrob(attacked);
 		} else {
 			String failmessage = String.format("%s %s doesn't have any arrows and fails to attack %s %s", getType(),
 					getName(), attacked.getType(), attacked.getName());

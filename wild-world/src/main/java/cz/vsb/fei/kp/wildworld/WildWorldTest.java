@@ -17,65 +17,40 @@ public class WildWorldTest
     {
         World w = new World(new Dimension(600,600));
         w.showWorld();
-        Sprite s = new Sprite("/giphy.gif");
-        s.setPosition(100, 100);
-        s.setSize(50,50);
-        s = new Sprite("/giphy.gif");
-        s.setSpeed(1);
-        w.addSprite(s);
-        Action a = s.rotateTo(-45, -0.5);
-//        a.waitForDone();
-
-        s = new Sprite("/giphy.gif");
-        s.setPosition(100, 200);
-        s.setSize(50,50);
-        w.addSprite(s);
-        
-        s = new Sprite("/giphy.gif");
-        s.setPosition(400, 200);
-        s.setSize(50,50);
-        w.addSprite(s);
+		/*
+		 * Sprite s = new Sprite("/giphy.gif"); s.setPosition(100, 100);
+		 * s.setSize(50,50); s = new Sprite("/giphy.gif"); s.setSpeed(1);
+		 * w.addSprite(s); Action a = s.rotateTo(-45, -0.5); // a.waitForDone();
+		 * 
+		 * s = new Sprite("/giphy.gif"); s.setPosition(100, 200); s.setSize(50,50);
+		 * w.addSprite(s);
+		 * 
+		 * s = new Sprite("/giphy.gif"); s.setPosition(400, 200); s.setSize(50,50);
+		 * w.addSprite(s);
+		 */
 
         Sprite rytir = new Sprite("/R.png");
         rytir.setPosition(200, 200);
         rytir.setSize(20, 20);
         rytir.setSpeed(20);
-        w.addSprite(rytir);
+  
         
         Sprite lucesnik = new Sprite("/lucesnik.png");
         lucesnik.setPosition(150, 150);
         lucesnik.setSize(20, 20);
         lucesnik.setSpeed(30);
-        w.addSprite(lucesnik);
-        s = new Sprite("ddd");
-        s.setPosition(200, 200);
-        s.setSize(20,20);
-        w.addSprite(s);
-        s = new Sprite("move");
-        s.setPositionOfCenet(220, 200);
-        s.setSize(10,10);
-        w.addSprite(s);
-        s.moveCenterTo(new Point2D.Double(0, 0), 2, 2);
-        Sprite target = s;
-        s = new Sprite("pursuit");
-        s.setPositionOfCenet(200, 220);
-        s.setDirection(90);
-        s.setSize(10,10);
-        s.pursuit(target, 3, 3, 10);
-        s.scale(2, 0.01);
-        w.addSprite(s);
-        s.waitForAllActionAreDone();
-        s = new Sprite("ddd");
-        s.setPositionOfCenet(200, 220);
-        s.setSize(10,10);
-        s.moveCenterTo(new Point2D.Double(0, 400), 2, 2);
-        w.addSprite(s);
-        s = new Sprite("ddd");
-        s.setPositionOfCenet(220, 220);
-        s.setSize(10,10);
-        s.moveCenterTo(new Point2D.Double(400, 400), 2, 2);
-        w.addSprite(s);
-
+		/*
+		 * s = new Sprite("ddd"); s.setPosition(200, 200); s.setSize(20,20);
+		 * w.addSprite(s); s = new Sprite("move"); s.setPositionOfCenet(220, 200);
+		 * s.setSize(10,10); w.addSprite(s); s.moveCenterTo(new Point2D.Double(0, 0), 2,
+		 * 2); Sprite target = s; s = new Sprite("pursuit"); s.setPositionOfCenet(200,
+		 * 220); s.setDirection(90); s.setSize(10,10); s.pursuit(target, 3, 3, 10);
+		 * s.scale(2, 0.01); w.addSprite(s); s.waitForAllActionAreDone(); s = new
+		 * Sprite("ddd"); s.setPositionOfCenet(200, 220); s.setSize(10,10);
+		 * s.moveCenterTo(new Point2D.Double(0, 400), 2, 2); w.addSprite(s); s = new
+		 * Sprite("ddd"); s.setPositionOfCenet(220, 220); s.setSize(10,10);
+		 * s.moveCenterTo(new Point2D.Double(400, 400), 2, 2); w.addSprite(s);
+		 */
     		Random randomGenerator = new Random();
     		ArrayList<Warrior> warriors = new ArrayList<>();
     		warriors.add(new Knight("/R.png","Knight", "Alex", 650, 800, 600));
@@ -107,6 +82,10 @@ public class WildWorldTest
     				w2 = warriors.get(index2);
     			} while (w1.equals(w2));
     			w1.attack(w2);
+    			if(w2.getHealth()<1) {
+    				w2.waitForAllActionAreDone();
+    				
+    			}
     		}
 
     	

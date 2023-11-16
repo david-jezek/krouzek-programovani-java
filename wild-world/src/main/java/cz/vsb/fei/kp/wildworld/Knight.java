@@ -28,10 +28,13 @@ public class Knight extends Warrior {
 	}
 
 	public void attack(Warrior attacked) {
+		this.pursuit(attacked, 2.5, 5, 25);
+		attacked.attackedBy(this);
 		String message = String.format("%s %s attacks %s %s with %d power", getType(), getName(), attacked.getType(),
 				attacked.getName(), getAttackPower());
 		System.out.println(message);
 //		printStatus();
 		attacked.attackedBy(this);
+//		Hrob(attacked);
 	}
 }
