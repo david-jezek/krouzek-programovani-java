@@ -39,6 +39,9 @@ public class WildWorldTest
         lucesnik.setPosition(150, 150);
         lucesnik.setSize(20, 20);
         lucesnik.setSpeed(30);
+        
+        Sprite hrob = new Sprite("/hrob.png");
+        hrob.setSize(20,20);
 		/*
 		 * s = new Sprite("ddd"); s.setPosition(200, 200); s.setSize(20,20);
 		 * w.addSprite(s); s = new Sprite("move"); s.setPositionOfCenet(220, 200);
@@ -83,7 +86,7 @@ public class WildWorldTest
     			} while (w1.equals(w2));
     			w1.attack(w2);
     			if(w2.getHealth()<1) {
-    				w2.waitForAllActionAreDone();
+    				w.replaceSprite(w2,new Grave(w2));
     				
     			}
     		}

@@ -8,14 +8,14 @@ public class Knight extends Warrior {
 	private int shieldBlock;
 
 	public Knight() {
-		this("/R.png","Unknown", "Unknown");
+		this("/R.png", "Unknown", "Unknown");
 	}
 
 	public Knight(String obrazek, String type, String name) {
-		this(obrazek,type, name, random.nextInt(500), random.nextInt(200), random.nextInt(300));
+		this(obrazek, type, name, random.nextInt(500), random.nextInt(200), random.nextInt(300));
 	}
 
-	public Knight(String obrazek,String type, String name, int health, int defencePower, int attackPower) {
+	public Knight(String obrazek, String type, String name, int health, int defencePower, int attackPower) {
 		super("/R.png", type, name, health, defencePower, attackPower);
 	}
 
@@ -29,12 +29,15 @@ public class Knight extends Warrior {
 
 	public void attack(Warrior attacked) {
 		this.pursuit(attacked, 2.5, 5, 25);
+		waitForAllActionAreDone();
 		attacked.attackedBy(this);
-		String message = String.format("%s %s attacks %s %s with %d power", getType(), getName(), attacked.getType(),
-				attacked.getName(), getAttackPower());
-		System.out.println(message);
+		if (random.nextDouble(200) < (getDefencePower() / ((random.nextInt(4)) + 1))) {
+			String failmessage = String.format("%s %s blocks %s %s's attack with their shield", attacked.getType(), attacked.getName(),
+					getType(), getName(), getAttackPower());
+			waitForAllActionAreDone();
+			System.out.println(failmessage);
 //		printStatus();
-		attacked.attackedBy(this);
 //		Hrob(attacked);
+		}
 	}
 }

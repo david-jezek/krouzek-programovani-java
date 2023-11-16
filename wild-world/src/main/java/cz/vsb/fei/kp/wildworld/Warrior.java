@@ -59,17 +59,14 @@ public abstract class Warrior extends Sprite {
 //		String message = String.format("%s is attacked by %s with power %d.", getName(), attacker.getName(),
 //				attackPower);
 //		System.out.println(message);
-		if (random.nextDouble(200) < (defencePower / ((random.nextInt(4)) + 1))) {
-			String failmessage = String.format("%s %s blocks %s %s's attack with their shield", getType(), getName(),
-					getType(), getName(), getAttackPower());
-			System.out.println(failmessage);
-		} else {
-			if (attacker.getAttackPower() > 0) {
-				health = health - (attacker.getAttackPower());
+			if (attacker.getAttackPower() > defencePower) {
+				health -= attacker.getAttackPower();
+				String message = String.format("%s %s attacks %s %s with %d power", attacker.getType(), attacker.getName(), getType(),
+						getName(), getAttackPower());
+				System.out.println(message);
 				printStatus();
 			}
 		}
-	}
 
 	public void printStatus() {
 		if (health < 0) {
@@ -81,12 +78,12 @@ public abstract class Warrior extends Sprite {
 	}
 	
 	@Override
-	public void draw(Graphics2D obrazky) {
-	super.draw(obrazky);
+	public void draw(Graphics2D g2) {
+	super.draw(g2);
 	String HP = String.format("%d", health);
-	obrazky.drawString(getName(), getIntPosX(), getIntPosY());
-	obrazky.drawString(HP, getIntPosX(), getIntPosY()+50);
-	obrazky.drawString("HP", getIntPosX()+32, getIntPosY()+50);
+	g2.drawString(getName(), getIntPosX(), getIntPosY());
+	g2.drawString(HP, getIntPosX(), getIntPosY()+50);
+	g2.drawString("HP", getIntPosX()+32, getIntPosY()+50);
 	
 	}
 

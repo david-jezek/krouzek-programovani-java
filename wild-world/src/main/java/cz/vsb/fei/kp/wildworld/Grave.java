@@ -1,15 +1,20 @@
 package cz.vsb.fei.kp.wildworld;
 
+import java.awt.Graphics2D;
+
 public class Grave extends Sprite {
 	private String text;
 	
-	public Grave(Warrior attacked) {
+	public Grave(Warrior w2) {
 		super("/hrob.png");
-		text = String.format("%s %s's grave",attacked.getType(), attacked.getName());
+		text = String.format("%s %s's grave",w2.getType(), w2.getName());
 	}
-	public void Zakopat(Warrior w2) {
-		w2.
-		w2.setSpeed(0);
-		w2.setRotationSpeed(0);
+
+	@Override
+	public void draw(Graphics2D g2) {
+		super.draw(g2);
+		g2.drawString(text, getIntPosX()-30, getIntPosY()+50);
 	}
+	
+	
 }
