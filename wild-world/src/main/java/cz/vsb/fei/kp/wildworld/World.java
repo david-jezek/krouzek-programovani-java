@@ -48,4 +48,13 @@ public class World extends JFrame {
 		getDrawingPanel().randomizePositionsOfSprites();
 	}
 
+	public void removeSprite(Sprite sprite) {
+		drawingPanel.removeSprite(sprite);
+	}
+
+	public void replaceSprite(Sprite oldSprite, Sprite newSprite) {
+		drawingPanel.replaceSprite(oldSprite, newSprite);
+	}
+
+	
 }
