@@ -1,5 +1,6 @@
 package cz.vsb.fei.kp.wildworld;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -80,9 +81,12 @@ public class WildWorld
 			}
 			
 			if(w1.isDead()) {
+				Grave grave = new Grave("/Grave.png", w1.getName());
+				w.replaceSprite(warriors.get(index1), grave);
 				warriors.remove(index1);
-				w.
 			} else if (w2.isDead()) {
+				Grave grave = new Grave("/Grave.png", w1.getName());
+				w.replaceSprite(warriors.get(index2), grave);
 				warriors.remove(index2);
 			}
 			
