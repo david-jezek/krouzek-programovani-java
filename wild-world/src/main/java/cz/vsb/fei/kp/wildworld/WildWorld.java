@@ -17,7 +17,7 @@ public class WildWorld
     {
         World w = new World();
         w.showWorld();
-        Sprite s = new Sprite("/giphy.gif");
+        /*Sprite s = new Sprite("/giphy.gif");
         s.setPosition(100, 100);
         s.setSize(50,50);
         s = new Sprite("/giphy.gif");
@@ -39,7 +39,8 @@ public class WildWorld
         s.setPosition(200, 100);
         s.setSize(20,20);
         w.addSprite(s);
-
+		*/
+		
         Random randomGenerator = new Random();
 		ArrayList<Warrior> warriors = new ArrayList<>();
 		warriors.add(randSwordsman("Princ Krasoň")); 
@@ -80,11 +81,13 @@ public class WildWorld
 			
 			if(w1.isDead()) {
 				warriors.remove(index1);
+				w.
 			} else if (w2.isDead()) {
 				warriors.remove(index2);
 			}
 			
 			if(warriors.size() < 2) {
+				System.out.println(String.format("%s has won.", warriors.get(0).getName()));
 				return;
 			}
 			

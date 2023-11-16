@@ -27,6 +27,8 @@ public class Archer extends Warrior{
 
 	public void attack(Warrior defender) {
 		if(HP > 0 && arrows > 0) {
+			this.pursuit(defender, 10, 30, 200);
+			this.waitForAllActionAreDone();
 			defender.hitBy(this);
 			arrows--;
 		} else if(HP > 0 && arrows <= 0) {

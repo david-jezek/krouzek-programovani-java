@@ -24,8 +24,11 @@ public class Warrior extends Sprite {
 	
 	public void attack(Warrior defender) {
 		if(HP > 0) {
+			this.pursuit(defender, 10, 30, 20);
+			this.waitForAllActionAreDone();
 			defender.hitBy(this);
 		}
+		
 	}
 
 	protected void hitBy(Warrior attacker) {
