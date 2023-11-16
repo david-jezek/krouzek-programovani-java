@@ -29,8 +29,10 @@ public class WorldPanel extends JComponent {
 	public void paint(Graphics g) {
 		super.paint(g);
 		Graphics2D g2 = (Graphics2D) g;
-		for (Sprite sprite : sprites) {
-			sprite.draw(g2);
+		synchronized (sprites) {
+			for (Sprite sprite : sprites) {
+				sprite.draw(g2);
+			}
 		}
 	}
 
@@ -38,7 +40,9 @@ public class WorldPanel extends JComponent {
 		animatePanel = true;
 		Thread thread = new Thread(() -> {
 			while (animatePanel && !Thread.currentThread().isInterrupted()) {
-				sprites.forEach(Sprite::simulate);
+				synchronized (sprites) {
+					sprites.forEach(Sprite::simulate);
+				}
 				repaint();
 				try {
 					Thread.sleep(1000 / 60);
@@ -53,10 +57,11 @@ public class WorldPanel extends JComponent {
 
 	public void randomizePositionsOfSprites() {
 		Dimension size = getSize();
-		for (Sprite sprite : sprites) {
-			sprite.setPosition(random.nextInt(size.width - sprite.getIntWidth()),
-					random.nextInt(size.height - sprite.getIntHeight()));
+		synchronized (sprites) {
+			for (Sprite sprite : sprites) {
+				sprite.setPosition(random.nextInt(size.width - sprite.getIntWidth()),
+						random.nextInt(size.height - sprite.getIntHeight()));
+			}
 		}
-
 	}
 }
