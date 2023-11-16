@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+import cz.vsb.fei.kp.wildworld.World;
+
 public class Archer extends Entity {
 
 	private int arrows;
@@ -18,8 +20,8 @@ public class Archer extends Entity {
 	}
 	
 	@Override
-	public void attack(Entity warrior) {
-		moveCenterTo(new Point2D.Double(warrior.getIntPosX()+50, warrior.getIntPosY()), 5,1000);
+	public void attack(Entity warrior, World world) {
+		moveCenterTo(new Point2D.Double(warrior.getPositionOfCenet().x, warrior.getPositionOfCenet().y), 5,1000);
 		System.out.println(String.format("%s do attack to the %s.", this.name, warrior.name));
 		waitForAllActionAreDone();
 		if(arrows>0) {
@@ -30,7 +32,7 @@ public class Archer extends Entity {
 			arrows--;
 			warrior.health = warrior.health - power;
 			System.out.println(String.format("%s do attack with power %d to the %s.", this.name, power, warrior.name));
-			warrior.DeathCheck(this);
+			warrior.DeathCheck(this, world);
 		}
 		else {
 			System.out.println(String.format("%s has no arrows!", this.name));

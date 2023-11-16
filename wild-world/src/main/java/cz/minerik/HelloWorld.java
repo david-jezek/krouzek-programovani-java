@@ -7,6 +7,8 @@ import java.awt.geom.Point2D;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import cz.vsb.fei.kp.wildworld.World;
+
 public class HelloWorld {
 
 	public static void main(String[] args) throws InterruptedException {
@@ -34,7 +36,7 @@ public class HelloWorld {
 		warriors.add(new Healer("Hello Kitty"));
 		for(Entity warrior : warriors) {
 			warrior.setSize(50, 50);
-			warrior.setPosition(random.nextFloat(0, 1230), random.nextFloat(0, 670));
+			warrior.setPosition(random.nextFloat(100, 500), random.nextFloat(100, 500));
 			world.addSprite(warrior);
 		}
 		while(warriors.size()>1) {
@@ -44,7 +46,7 @@ public class HelloWorld {
 			Entity w1 = warriors.get(a);
 			Entity w2 = warriors.get(b);
 			if(w1!=w2) {
-				w1.attack(w2);
+				w1.attack(w2, world);
 				//w1.waitForAllActionAreDone();
 				if(!(w2.isAlive())) {
 					warriors.remove(w2);

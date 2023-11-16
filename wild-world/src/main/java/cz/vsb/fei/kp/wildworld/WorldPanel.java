@@ -12,8 +12,6 @@ import java.util.Random;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import cz.minerik.Sprite;
-
 public class WorldPanel extends JComponent {
 
 	private static final long serialVersionUID = -2491505880020958612L;

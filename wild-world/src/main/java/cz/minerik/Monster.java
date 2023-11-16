@@ -3,6 +3,8 @@ package cz.minerik;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+import cz.vsb.fei.kp.wildworld.World;
+
 public class Monster extends Entity {
 	
 	private int anger;
@@ -16,8 +18,8 @@ public class Monster extends Entity {
 	}
 	
 	@Override
-	public void attack(Entity warrior) {
-		moveCenterTo(new Point2D.Double(warrior.getIntPosX()+50, warrior.getIntPosY()), 5,1000);
+	public void attack(Entity warrior, World world) {
+		moveCenterTo(new Point2D.Double(warrior.getPositionOfCenet().x, warrior.getPositionOfCenet().y), 5,1000);
 		System.out.println(String.format("%s do attack to the %s.", this.name, warrior.name));
 		waitForAllActionAreDone();
 		anger=(maxHealth-health)/100;
@@ -27,7 +29,7 @@ public class Monster extends Entity {
 		}
 		warrior.health = warrior.health - power;
 		System.out.println(String.format("%s do attack with power %d to the %s.", this.name, power, warrior.name));
-		warrior.DeathCheck(this);
+		warrior.DeathCheck(this, world);
 	}
 	
 }

@@ -7,8 +7,6 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import cz.minerik.Sprite;
-
 public class World extends JFrame {
 
 	private static final long serialVersionUID = 5236845706678314350L;

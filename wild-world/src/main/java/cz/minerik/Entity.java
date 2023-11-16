@@ -4,6 +4,9 @@ import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
+import cz.vsb.fei.kp.wildworld.Sprite;
+import cz.vsb.fei.kp.wildworld.World;
+
 public abstract class Entity extends Sprite {
 	protected static Random random = new Random();
 	
@@ -40,10 +43,11 @@ public abstract class Entity extends Sprite {
 		return this.health > 0;
 	}
 	
-	public void DeathCheck(Entity atacker) {
+	public void DeathCheck(Entity atacker, World world) {
 		if(!isAlive()) {
 			killedBy=atacker.name;
 			System.out.println(name+" killed by " + killedBy);
+			world.replaceSprite(this, new Grave(this));
 		}
 	}
 	
@@ -56,8 +60,8 @@ public abstract class Entity extends Sprite {
 		}
 	}
 	
-	public void attack(Entity defender) {
-		moveCenterTo(new Point2D.Double(defender.getIntPosX()+50, defender.getIntPosY()), 5,1000);
+	public void attack(Entity defender, World world) {
+		moveCenterTo(new Point2D.Double(defender.getPositionOfCenet().x, defender.getPositionOfCenet().y), 5,1000);
 		System.out.println(String.format("%s do attack to the %s.", this.name, defender.name));
 		waitForAllActionAreDone();
 		int power = this.strenght - defender.deffence;
@@ -66,7 +70,7 @@ public abstract class Entity extends Sprite {
 		}
 		defender.health = defender.health - power;
 		System.out.println(String.format("%s do attack with power %d to the %s.", this.name, power, defender.name));
-		defender.DeathCheck(this);
+		defender.DeathCheck(this, world);
 	}
 
 	@Override

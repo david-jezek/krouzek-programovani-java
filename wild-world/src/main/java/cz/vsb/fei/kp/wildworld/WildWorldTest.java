@@ -5,8 +5,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
-import cz.minerik.Sprite;
-import cz.minerik.Sprite.Action;
+import cz.vsb.fei.kp.wildworld.Sprite.Action;
 
 /**
  * Hello world!

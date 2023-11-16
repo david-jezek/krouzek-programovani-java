@@ -2,6 +2,8 @@ package cz.minerik;
 
 import java.awt.geom.Point2D;
 
+import cz.vsb.fei.kp.wildworld.World;
+
 public class Healer extends Entity {
 	
 	public Healer(String name) {
@@ -13,8 +15,8 @@ public class Healer extends Entity {
 	}
 	
 	@Override
-	public void attack(Entity warrior) {
-		moveCenterTo(new Point2D.Double(warrior.getIntPosX()+50, warrior.getIntPosY()), 5,1000);
+	public void attack(Entity warrior, World world) {
+		moveCenterTo(new Point2D.Double(warrior.getPositionOfCenet().x, warrior.getPositionOfCenet().y), 5,1000);
 		System.out.println(String.format("%s do magic to the %s.", this.name, warrior.name));
 		waitForAllActionAreDone();
 		int power = this.strenght - warrior.deffence;
@@ -25,7 +27,7 @@ public class Healer extends Entity {
 		else {
 			System.out.println(String.format("Magic failed. %s do attack with power %d to the %s.", this.name, power, warrior.name));
 		}
-		warrior.DeathCheck(this);
+		warrior.DeathCheck(this, world);
 	}
 }
 
