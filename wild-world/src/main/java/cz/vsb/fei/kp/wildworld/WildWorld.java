@@ -1,5 +1,6 @@
 package cz.vsb.fei.kp.wildworld;
 
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -11,7 +12,7 @@ public class WildWorld
 {
     public static void main( String[] args )
     {
-        World w = new World();
+        World w = new World(new Dimension(1024, 1024));
         w.showWorld();
         Sprite s = new Sprite("/giphy.gif");
         s.setPosition(100, 100);
@@ -38,9 +39,16 @@ public class WildWorld
 
         Random randomGenerator = new Random();
 		ArrayList<Warrior> warriors = new ArrayList<>();
-		Archer a = new Archer();
-		a.setSize(200, 200);
+		
+		Archer a = new Archer("Steve");
+		a.setSize(50, 100);
 		warriors.add(a);
+		Archer b = new Archer ("Pack man");
+		b.setSize(25,50);
+		warriors.add(b);
+		Archer c = new Archer ("Kocour v botach");
+		c.setSize(125, 250);
+		warriors.add(c);
 		
 		warriors.add(new Warrior("Alex"));
 		warriors.add(new Warrior("John Wick"));
@@ -49,7 +57,7 @@ public class WildWorld
 		warriors.add(new Warrior("Prasatko Pepa"));
 		warriors.add(new Warrior("Bořek stavitel"));
 		warriors.add(new Warrior("Mario"));
-		warriors.add(new Warrior("Paddt"));
+		warriors.add(new Warrior("Pat"));
 		warriors.add(new Warrior("Mat"));
 		for (Warrior warrior : warriors) {
 			w.addSprite(warrior);
@@ -64,7 +72,7 @@ public class WildWorld
 				w2 = warriors.get(index2);
 			} while (w1.equals(w2));
 
-			w1.attackedBy(w2);
+			w1.attack(w2);
 		}
 
 		for (Warrior warrior : warriors) {

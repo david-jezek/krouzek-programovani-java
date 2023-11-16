@@ -1,17 +1,35 @@
 package cz.vsb.fei.kp.wildworld;
 
 import java.awt.Graphics2D;
+import java.util.Random;
 
 public class Archer extends Warrior {
-
-	@Override
-	public void draw(Graphics2D g2) {
-		super.draw(g2);
-		g2.drawString(getName(), getIntPosX(), getIntPosY());
-	}
-	private String name;
-	private int health;
-	private int defencePower;
-	private int attackPower;
 	
+	private int arrows = 15;
+	
+	public void attack(Archer defender, Archer attacker) {
+		if (attacker.getHealth() > 0 && arrows > 0) {
+			defender.attackedBy(this);
+		}
+	}
+	public Archer(String name) {
+		this(name, random.nextInt(500), random.nextInt(300), random.nextInt(200));
+	}
+	
+	public Archer(String name, int health, int defencePower, int attackPower) {
+		super("/Archer.jpg", name, health, defencePower, attackPower);
+		
+	}
+	
+	protected void attackedBy(Archer attacker) {
+		String message = String.format(
+				"Warrior %s attacked by %s with power %d."
+				, getName(), attacker.getName(), attacker.getAttackPower());
+		System.out.println(message);
+		
+		if(attacker.getAttackPower() - getDefencePower() > 0) {
+			int hp = attacker.getHealth();
+			hp = hp - (attacker.getAttackPower() - getDefencePower());
+		}
+	}
 }
