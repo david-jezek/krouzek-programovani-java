@@ -25,6 +25,17 @@ public class WorldPanel extends JComponent {
 		sprites.add(sprite);
 	}
 
+	public void removeSprite(Sprite sprite) {
+		sprites.add(sprite);
+	}
+
+	public void replaceSprite(Sprite oldSprite, Sprite newSprite) {
+		newSprite.setPosition(oldSprite.getIntPosX(), oldSprite.getIntPosY());
+		newSprite.setSize(oldSprite.getIntWidth(), oldSprite.getIntHeight());
+		sprites.remove(oldSprite);
+		sprites.add(newSprite);
+	}
+
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
