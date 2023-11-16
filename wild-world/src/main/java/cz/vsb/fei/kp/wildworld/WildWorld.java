@@ -3,6 +3,8 @@ package cz.vsb.fei.kp.wildworld;
 import java.util.ArrayList;
 import java.util.Random;
 
+import cz.minerik.Sprite;
+
 /**
  * Hello world!
  *

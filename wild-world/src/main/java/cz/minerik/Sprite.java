@@ -5,8 +5,12 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
 import java.net.URL;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -16,12 +20,9 @@ public class Sprite {
 	private Image image;
 	private Rectangle2D.Double rectangle2d = new Rectangle2D.Double();
 	private double direction;
-	private boolean autoRotate = false;
-	private boolean autoMove = false;
-	private double targetDirection;
-	private Point2D.Double targetPosition;
 	private double rotationSpeed;
 	private double speed;
+	private List<Action> actions = Collections.synchronizedList(new LinkedList<Sprite.Action>());
 
 	public Sprite(Image image) {
 		this(image, 0, 0);
@@ -61,8 +62,12 @@ public class Sprite {
 	}
 
 	public void simulate() {
-		rotate();
-		move();
+		synchronized (actions) {
+			for (Action action : actions) {
+				action.doAction();
+			}
+			actions.removeIf(Action::isDone);
+		}
 	}
 
 	public double getSpeed() {
@@ -109,69 +114,57 @@ public class Sprite {
 		this.rotationSpeed = rotationSpeed;
 	}
 
-	public void rotate() {
-		if (autoRotate && (Math.abs(direction - targetDirection) <= Math.abs(rotationSpeed))) {
-			direction = targetDirection;
-			autoRotate = false;
-			rotationSpeed = 0;
-		} else {
-			setDirection(direction + rotationSpeed);
+	public Action rotateTo(double direction, double rotationSpeed) {
+		this.rotationSpeed = rotationSpeed;
+		synchronized (actions) {
+			Action action = new RotateAction(directionIn360(direction), rotationSpeed);
+			actions.add(action);
+			return action;
 		}
 	}
 
-	public void rotateTo(double direction, double rotationSpeed) {
-		this.rotationSpeed = rotationSpeed;
-		targetDirection = directionIn360(direction);
-		autoRotate = true;
-	}
-
-	public void moveCenterTo(Point2D.Double point, double speed, double rotationSpeed) {
+	public Action moveCenterTo(Point2D.Double point, double speed, double rotationSpeed) {
 		this.rotationSpeed = rotationSpeed;
 		this.speed = speed;
-		this.targetPosition = point;
-		updateTargetDirection();
-		autoRotate = true;
-		autoMove = true;
-	}
-
-	private void updateTargetDirection() {
-		double cx = rectangle2d.getCenterX();
-		double cy = rectangle2d.getCenterY();
-		double dx = targetPosition.x - cx;
-		double dy = targetPosition.y - cy;
-		double rate = dy / dx;
-		double rad = Math.atan(rate);
-		double angle = Math.toDegrees(rad);
-		if (dx < 0) {
-			angle = 180 + angle;
-		}
-		targetDirection = directionIn360(angle);
-		if (Math.abs(targetDirection - direction) < 180 && direction < targetDirection) {
-			rotationSpeed = Math.abs(rotationSpeed);
-		} else {
-			rotationSpeed = -Math.abs(rotationSpeed);
+		synchronized (actions) {
+			Action action = new MoveAction(point, speed, rotationSpeed);
+			actions.add(action);
+			return action;
 		}
 	}
 
-	public void move() {
-		if (autoMove) {
-			Point2D.Double center = getPositionOfCenet();
-			double dx = center.x - targetPosition.x;
-			double dy = center.y - targetPosition.y;
-			double distance2 = dx * dx + dy * dy;
-			if (speed * speed > distance2) {
-				setPositionOfCenet(targetPosition);
-				autoMove = false;
-				autoRotate = false;
-				speed = 0;
-				rotationSpeed = 0;
-				return;
-			} else {
-				updateTargetDirection();
+	public Action pursuit(Sprite sprite, double speed, double rotationSpeed, double requiredDistance) {
+		this.rotationSpeed = rotationSpeed;
+		this.speed = speed;
+		synchronized (actions) {
+			Action action = new PursuitAction(sprite, speed, rotationSpeed, requiredDistance);
+			actions.add(action);
+			return action;
+		}
+	}
+
+	public Action scale(double targetScale, double scaleSpeed) {
+		synchronized (actions) {
+			Action action = new ScaleAction(targetScale, scaleSpeed);
+			actions.add(action);
+			return action;
+		}
+	}
+
+	public void waitForAllActionAreDone() {
+		Action a = null;
+		do {
+			synchronized (actions) {
+				if (!actions.isEmpty()) {
+					a = actions.get(0);
+				} else {
+					a = null;
+				}
 			}
-		}
-		rectangle2d.x += Math.cos(getDirectionInRadians()) * speed;
-		rectangle2d.y += Math.sin(getDirectionInRadians()) * speed;
+			if (a != null) {
+				a.waitForDone();
+			}
+		} while (a != null);
 	}
 
 	public int getIntPosX() {
@@ -203,7 +196,12 @@ public class Sprite {
 		return img;
 	}
 
-	public void setSize(float width, float heidht) {
+	public void setImage(String imageName) {
+		imageOriginal = loadImage(imageName);
+		resizeImage();
+	}
+
+	public void setSize(double width, double heidht) {
 		rectangle2d.width = width;
 		rectangle2d.height = heidht;
 		resizeImage();
@@ -239,4 +237,209 @@ public class Sprite {
 		return new Point2D.Double(rectangle2d.getCenterX(), rectangle2d.getCenterY());
 	}
 
+	public void move(double angleInRadians, double distance) {
+		rectangle2d.x += Math.cos(angleInRadians) * distance;
+		rectangle2d.y += Math.sin(angleInRadians) * distance;
+	}
+
+	public abstract class Action {
+		private boolean done = false;
+
+		public synchronized void waitForDone() {
+			while (!isDone() || Thread.currentThread().isInterrupted()) {
+				try {
+					wait();
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				}
+			}
+		}
+
+		public synchronized boolean isDone() {
+			return done;
+		}
+
+		public synchronized void finish() {
+			this.done = true;
+			notifyAll();
+		}
+
+		public boolean doAction() {
+			if (!isDone()) {
+				return doConcreteAction();
+			}
+			return true;
+		}
+
+		public abstract boolean doConcreteAction();
+
+	}
+
+	public class RotateAction extends Action {
+
+		private double targetDirection;
+		private double rotationSpeed;
+
+		public RotateAction(double targetDirection, double rotationSpeed) {
+			super();
+			this.targetDirection = targetDirection;
+			this.rotationSpeed = rotationSpeed;
+		}
+
+		@Override
+		public boolean doConcreteAction() {
+			if (Math.abs(direction - targetDirection) <= Math.abs(rotationSpeed)) {
+				direction = targetDirection;
+				rotationSpeed = 0;
+				finish();
+			} else {
+				setDirection(direction + rotationSpeed);
+			}
+			return isDone();
+		}
+	}
+
+	public class ScaleAction extends Action {
+
+		private double originalWidth;
+		private double originalHeight;
+		private double scaleSpeed;
+		private double actualScale;
+		private double targetScale;
+
+		public ScaleAction(double targetScale, double scaleSpeed) {
+			super();
+			originalWidth = rectangle2d.getWidth();
+			originalHeight = rectangle2d.getHeight();
+			this.targetScale = targetScale;
+			this.scaleSpeed = scaleSpeed;
+			actualScale = 1;
+		}
+
+		@Override
+		public boolean doConcreteAction() {
+			if (Math.abs(actualScale - targetScale) <= Math.abs(scaleSpeed)) {
+				actualScale= targetScale;
+				finish();
+			} else {
+				actualScale = actualScale+scaleSpeed;
+				setSize(originalWidth*actualScale, originalHeight*actualScale);
+			}
+			return isDone();
+		}
+	}
+
+	public class MoveAction extends Action {
+
+		private double targetDirection;
+		private Point2D.Double targetPosition;
+		private double rotationSpeed;
+		private double speed;
+
+		public MoveAction(Point2D.Double point, double speed, double rotationSpeed) {
+			this.rotationSpeed = rotationSpeed;
+			this.speed = speed;
+			this.targetPosition = point;
+			updateTargetDirection();
+		}
+
+		public Point2D.Double getTarget() {
+			return targetPosition;
+		}
+
+		public boolean isCloseEnought(double distancePoweredToTwo) {
+			return speed * speed > distancePoweredToTwo;
+		}
+
+		public void setTargetPosition(Point2D.Double target) {
+			setPositionOfCenet(target);
+		}
+
+		@Override
+		public boolean doConcreteAction() {
+			Point2D.Double center = getPositionOfCenet();
+			Point2D.Double target = getTarget();
+			double dx = center.x - target.x;
+			double dy = center.y - target.y;
+			double distance = dx * dx + dy * dy;
+			if (isCloseEnought(distance)) {
+				setTargetPosition(target);
+				finish();
+			} else {
+				move(getDirectionInRadians(), speed);
+				updateTargetDirection();
+				if (Math.abs(direction - targetDirection) <= Math.abs(rotationSpeed)) {
+					direction = targetDirection;
+					rotationSpeed = newRotationSpeedForGoodAngle();
+				} else {
+					setDirection(direction + rotationSpeed);
+				}
+			}
+			return isDone();
+		}
+
+		protected double newRotationSpeedForGoodAngle() {
+			return 0;
+		}
+
+		private void updateTargetDirection() {
+			double cx = rectangle2d.getCenterX();
+			double cy = rectangle2d.getCenterY();
+			Point2D.Double target = getTarget();
+			double dx = target.x - cx;
+			double dy = target.y - cy;
+			double rate = dy / dx;
+			double rad = Math.atan(rate);
+			double angle = Math.toDegrees(rad);
+			if (dx < 0) {
+				angle = 180 + angle;
+			}
+			targetDirection = directionIn360(angle);
+			if (Math.abs(targetDirection - direction) < 180 && direction < targetDirection) {
+				rotationSpeed = Math.abs(rotationSpeed);
+			} else {
+				rotationSpeed = -Math.abs(rotationSpeed);
+			}
+		}
+	}
+
+	public class PursuitAction extends MoveAction {
+
+		private Sprite target;
+		private double requiredDistance;
+
+		public PursuitAction(Sprite target, double speed, double rotationSpeed, double requiredDistance) {
+			super(target.getPositionOfCenet(), speed, rotationSpeed);
+			this.target = target;
+			this.requiredDistance = requiredDistance;
+		}
+
+		@Override
+		public Point2D.Double getTarget() {
+			if (target == null) {
+				return super.getTarget();
+			}
+			return target.getPositionOfCenet();
+		}
+
+		@Override
+		public boolean isCloseEnought(double distancePoweredToTwo) {
+			return speed * speed > distancePoweredToTwo - requiredDistance * requiredDistance;
+		}
+
+		@Override
+		public void setTargetPosition(Point2D.Double target) {
+			Point2D.Double center = getPositionOfCenet();
+			double dx = center.x - target.x;
+			double dy = center.y - target.y;
+			double distance = Math.sqrt(dx * dx + dy * dy) - requiredDistance;
+			move(getDirectionInRadians(), distance);
+		}
+
+		@Override
+		protected double newRotationSpeedForGoodAngle() {
+			return rotationSpeed;
+		}
+
+	}
 }

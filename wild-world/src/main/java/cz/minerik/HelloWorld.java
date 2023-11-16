@@ -18,7 +18,7 @@ public class HelloWorld {
         /*Sprite sprite = new Warrior("/giphy.gif");
         sprite.setPosition(100, 100);
         sprite.setSize(10,10);
-        sprite.moveCenterTo(new Point2D.Double(400, 400), 2, 2);	
+        sprite.moveCenterTo(new Point2D.Double(400, 400), 2, 2);
         world.addSprite(sprite);*/
 		
 		ArrayList<Entity> warriors = new ArrayList<>();
@@ -38,26 +38,17 @@ public class HelloWorld {
 			world.addSprite(warrior);
 		}
 		while(warriors.size()>1) {
-			TimeUnit.MILLISECONDS.sleep(500);
+			//TimeUnit.MILLISECONDS.sleep(500);
 			int a = random.nextInt(warriors.size());
 			int b = random.nextInt(warriors.size());
 			Entity w1 = warriors.get(a);
 			Entity w2 = warriors.get(b);
-			if(w1.isAlive()) {
-				if(w1!=w2) {
-					if(w2.isAlive()) {
-						w1.attack(w2);
-						if(!(w2.isAlive())) {
-							warriors.remove(w2);
-						}
-					}
-					else {
-						warriors.remove(w2);
-					}
+			if(w1!=w2) {
+				w1.attack(w2);
+				//w1.waitForAllActionAreDone();
+				if(!(w2.isAlive())) {
+					warriors.remove(w2);
 				}
-			}
-			else {
-				warriors.remove(w1);
 			}
 		}
 		for(Entity warrior : warriors) {

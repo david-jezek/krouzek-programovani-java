@@ -2,6 +2,8 @@ package cz.vsb.fei.kp.wildworld;
 
 import java.util.Random;
 
+import cz.minerik.Sprite;
+
 public class Warrior extends Sprite {
 	private static Random random = new Random();
 

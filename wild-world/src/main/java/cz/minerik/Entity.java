@@ -40,6 +40,13 @@ public abstract class Entity extends Sprite {
 		return this.health > 0;
 	}
 	
+	public void DeathCheck(Entity atacker) {
+		if(!isAlive()) {
+			killedBy=atacker.name;
+			System.out.println(name+" killed by " + killedBy);
+		}
+	}
+	
 	public void printStatus() {
 		if(this.isAlive()) {
 			System.out.println(String.format("Name: %s, Health: %d, IsAlive: %b", this.name, this.health, this.isAlive()));
@@ -49,20 +56,17 @@ public abstract class Entity extends Sprite {
 		}
 	}
 	
-	public void attack(Entity warrior) {
-		moveCenterTo(new Point2D.Double(warrior.getIntPosX()+50, warrior.getIntPosY()), 5,10);
-		int power = this.strenght - warrior.deffence;
+	public void attack(Entity defender) {
+		moveCenterTo(new Point2D.Double(defender.getIntPosX()+50, defender.getIntPosY()), 5,1000);
+		System.out.println(String.format("%s do attack to the %s.", this.name, defender.name));
+		waitForAllActionAreDone();
+		int power = this.strenght - defender.deffence;
 		if (power<0) {
 			power=0;
 		}
-		warrior.health = warrior.health - power;
-		System.out.println(String.format("%s do attack with power %d to the %s.", this.name, power, warrior.name));
-		if(!(warrior.isAlive())) {
-			warrior.killedBy=this.name;
-			System.out.println(warrior.name+" killed by " + warrior.killedBy);
-			warrior.setPosition(0, 0);
-			moveCenterTo(new Point2D.Double(0, 0), 0,0);
-		}
+		defender.health = defender.health - power;
+		System.out.println(String.format("%s do attack with power %d to the %s.", this.name, power, defender.name));
+		defender.DeathCheck(this);
 	}
 
 	@Override
