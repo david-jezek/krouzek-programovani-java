@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
-public class Warrior2 extends Sprite {
+public class Warrior extends Sprite {
 	private static Random random = new Random();
 
 	private String name;
@@ -14,15 +14,15 @@ public class Warrior2 extends Sprite {
 	private int defencePower;
 	private int attackPower;
 
-	public Warrior2() {
+	public Warrior() {
 		this("Uknown");
 	}
 
-	public Warrior2(String name) {
+	public Warrior(String name) {
 		this(name, random.nextInt(500), random.nextInt(200), random.nextInt(300));
 	}
 
-	public Warrior2(String name, int health, int defencePower, int attackPower) {
+	public Warrior(String name, int health, int defencePower, int attackPower) {
 		super((String) null);
 		this.name = name;
 		this.health = health;
@@ -46,13 +46,13 @@ public class Warrior2 extends Sprite {
 		return attackPower;
 	}
 
-	public void attack(Warrior2 defender) {
+	public void attack(Warrior defender) {
 		if (health > 0) {
 			defender.attackedBy(this);
 		}
 	}
 
-	protected void attackedBy(Warrior2 attacker) {
+	protected void attackedBy(Warrior attacker) {
 		String message = String.format("Warrionr %s attacked by %s with power %d.", getName(), attacker.getName(),
 				attackPower);
 		System.out.println(message);

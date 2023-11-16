@@ -35,25 +35,25 @@ public class WildWorld {
 		w.addSprite(s);
 
 		Random randomGenerator = new Random();
-		ArrayList<Warrior2> warriors = new ArrayList<>();
-		warriors.add(new Warrior2("Princ Krasoň", 1000, 300, 450));
-		warriors.add(new Warrior2("Alex"));
-		warriors.add(new Warrior2("John Wick"));
-		warriors.add(new Warrior2("Shrek"));
-		warriors.add(new Warrior2("Hello Kitty"));
-		warriors.add(new Warrior2("Prasatko Pepa"));
-		warriors.add(new Warrior2("Bořek stavitel"));
-		warriors.add(new Warrior2("Mario"));
-		warriors.add(new Warrior2("Pat"));
-		warriors.add(new Warrior2("Mat"));
-		for (Warrior2 warrior : warriors) {
+		ArrayList<Warrior> warriors = new ArrayList<>();
+		warriors.add(new Warrior("Princ Krasoň", 1000, 300, 450));
+		warriors.add(new Warrior("Alex"));
+		warriors.add(new Warrior("John Wick"));
+		warriors.add(new Warrior("Shrek"));
+		warriors.add(new Warrior("Hello Kitty"));
+		warriors.add(new Warrior("Prasatko Pepa"));
+		warriors.add(new Warrior("Bořek stavitel"));
+		warriors.add(new Warrior("Mario"));
+		warriors.add(new Warrior("Pat"));
+		warriors.add(new Warrior("Mat"));
+		for (Warrior warrior : warriors) {
 			w.addSprite(warrior);
 		}
 		w.randomizePositionsOfSprites();
 		for (int i = 0; i < 20; i++) {
 			int index1 = randomGenerator.nextInt(warriors.size());
-			Warrior2 w1 = warriors.get(index1);
-			Warrior2 w2;
+			Warrior w1 = warriors.get(index1);
+			Warrior w2;
 			do {
 				int index2 = randomGenerator.nextInt(warriors.size());
 				w2 = warriors.get(index2);
@@ -65,7 +65,7 @@ public class WildWorld {
 
 		}
 
-		for (Warrior2 warrior : warriors) {
+		for (Warrior warrior : warriors) {
 			warrior.printStatus();
 		}
 	}
