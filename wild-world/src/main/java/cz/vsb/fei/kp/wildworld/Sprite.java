@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.awt.geom.Rectangle2D;
 import java.net.URL;
 import java.util.Collections;
@@ -23,6 +22,7 @@ public class Sprite {
 	private double rotationSpeed;
 	private double speed;
 	private List<Action> actions = Collections.synchronizedList(new LinkedList<Sprite.Action>());
+	private World world;
 
 	public Sprite(Image image) {
 		this(image, 0, 0);
@@ -56,7 +56,7 @@ public class Sprite {
 			g2.setColor(Color.RED);
 			g2.drawRect(getIntPosX(), getIntPosY(), getIntWidth(), getIntHeight());
 			g2.drawLine(getIntPosX(), getIntPosY(), getIntPosX() + getIntWidth(), getIntPosY() + getIntHeight());
-			g2.drawLine(getIntPosX() + getIntHeight(), getIntPosY(), getIntPosX(), getIntPosY() + getIntHeight());
+			g2.drawLine(getIntPosX(), getIntPosY()+ getIntHeight(), getIntPosX()+getIntWidth(), getIntPosY());
 		}
 		g2.setTransform(old);
 	}
@@ -116,39 +116,38 @@ public class Sprite {
 
 	public Action rotateTo(double direction, double rotationSpeed) {
 		this.rotationSpeed = rotationSpeed;
+		Action action = new RotateAction(directionIn360(direction), rotationSpeed);
+		addAction(action);
+		return action;
+	}
+
+	protected void addAction(Action action) {
 		synchronized (actions) {
-			Action action = new RotateAction(directionIn360(direction), rotationSpeed);
 			actions.add(action);
-			return action;
+			action.start();
 		}
 	}
 
 	public Action moveCenterTo(Point2D.Double point, double speed, double rotationSpeed) {
 		this.rotationSpeed = rotationSpeed;
 		this.speed = speed;
-		synchronized (actions) {
-			Action action = new MoveAction(point, speed, rotationSpeed);
-			actions.add(action);
-			return action;
-		}
+		Action action = new MoveAction(point, speed, rotationSpeed);
+		addAction(action);
+		return action;
 	}
 
 	public Action pursuit(Sprite sprite, double speed, double rotationSpeed, double requiredDistance) {
 		this.rotationSpeed = rotationSpeed;
 		this.speed = speed;
-		synchronized (actions) {
-			Action action = new PursuitAction(sprite, speed, rotationSpeed, requiredDistance);
-			actions.add(action);
-			return action;
-		}
+		Action action = new PursuitAction(sprite, speed, rotationSpeed, requiredDistance);
+		addAction(action);
+		return action;
 	}
 
 	public Action scale(double targetScale, double scaleSpeed) {
-		synchronized (actions) {
-			Action action = new ScaleAction(targetScale, scaleSpeed);
-			actions.add(action);
-			return action;
-		}
+		Action action = new ScaleAction(targetScale, scaleSpeed);
+		addAction(action);
+		return action;
 	}
 
 	public void waitForAllActionAreDone() {
@@ -201,6 +200,11 @@ public class Sprite {
 		resizeImage();
 	}
 
+	public void setImage(Image image) {
+		imageOriginal = image;
+		resizeImage();
+	}
+
 	public void setSize(double width, double heidht) {
 		rectangle2d.width = width;
 		rectangle2d.height = heidht;
@@ -215,6 +219,8 @@ public class Sprite {
 	private void resizeImage() {
 		if (imageOriginal != null) {
 			image = imageOriginal.getScaledInstance(getIntWidth(), getIntHeight(), Image.SCALE_DEFAULT);
+		} else {
+			image = null;
 		}
 	}
 
@@ -259,6 +265,9 @@ public class Sprite {
 			return done;
 		}
 
+		public void start() {
+		}
+
 		public synchronized void finish() {
 			this.done = true;
 			notifyAll();
@@ -273,6 +282,38 @@ public class Sprite {
 
 		public abstract boolean doConcreteAction();
 
+	}
+
+	public World getWorld() {
+		return world;
+	}
+
+	public void setWorld(World world) {
+		this.world = world;
+	}
+
+	public double getDistanceForm(Sprite sprite) {
+		return getPositionOfCenet().distance(sprite.getPositionOfCenet());
+	}
+
+	public Sprite getNearestSprire() {
+		double minDistnce = java.lang.Double.MAX_VALUE;
+		Sprite nearest = null;
+		for (Sprite sprite : getWorld().getSprites()) {
+			if (this == sprite) {
+				continue;
+			}
+			double distance = getDistanceForm(sprite);
+			if (distance < minDistnce) {
+				minDistnce = distance;
+				nearest = sprite;
+			}
+		}
+		return nearest;
+	}
+
+	public void changeImage(String newImageName, int durationInMiliSeconds) {
+		addAction(new ChangeImage(newImageName, durationInMiliSeconds));
 	}
 
 	public class RotateAction extends Action {
@@ -319,11 +360,11 @@ public class Sprite {
 		@Override
 		public boolean doConcreteAction() {
 			if (Math.abs(actualScale - targetScale) <= Math.abs(scaleSpeed)) {
-				actualScale= targetScale;
+				actualScale = targetScale;
 				finish();
 			} else {
-				actualScale = actualScale+scaleSpeed;
-				setSize(originalWidth*actualScale, originalHeight*actualScale);
+				actualScale = actualScale + scaleSpeed;
+				setSize(originalWidth * actualScale, originalHeight * actualScale);
 			}
 			return isDone();
 		}
@@ -442,4 +483,35 @@ public class Sprite {
 		}
 
 	}
+
+	public class ChangeImage extends Action {
+
+		private Image originalImage;
+		private Image newImage;
+		private int duration;
+		private double startTiem;
+
+		public ChangeImage(String imageName, int duration) {
+			newImage = loadImage(imageName);
+			this.duration = duration;
+		}
+
+		@Override
+		public void start() {
+			originalImage = imageOriginal;
+			startTiem = System.currentTimeMillis();
+			setImage(newImage);
+		}
+
+		@Override
+		public boolean doConcreteAction() {
+			if (System.currentTimeMillis() - startTiem > duration) {
+				setImage(originalImage);
+				finish();
+			}
+			return isDone();
+		}
+
+	}
+
 }

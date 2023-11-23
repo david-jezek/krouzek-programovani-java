@@ -3,14 +3,12 @@ package cz.vsb.fei.kp.wildworld;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.geom.Dimension2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 public class WorldPanel extends JComponent {
 
@@ -23,6 +21,17 @@ public class WorldPanel extends JComponent {
 
 	public void addSprite(Sprite sprite) {
 		sprites.add(sprite);
+	}
+
+	public void removeSprite(Sprite sprite) {
+		sprites.add(sprite);
+	}
+
+	public void replaceSprite(Sprite oldSprite, Sprite newSprite) {
+		newSprite.setPosition(oldSprite.getIntPosX(), oldSprite.getIntPosY());
+		newSprite.setSize(oldSprite.getIntWidth(), oldSprite.getIntHeight());
+		sprites.remove(oldSprite);
+		sprites.add(newSprite);
 	}
 
 	@Override
@@ -62,6 +71,12 @@ public class WorldPanel extends JComponent {
 				sprite.setPosition(random.nextInt(size.width - sprite.getIntWidth()),
 						random.nextInt(size.height - sprite.getIntHeight()));
 			}
+		}
+	}
+
+	public List<Sprite> getSprites() {
+		synchronized (sprites) {
+			return new ArrayList<>(sprites);
 		}
 	}
 }
