@@ -9,6 +9,9 @@ public class Archer extends Warrior {
 	
 	public void attack(Archer defender, Archer attacker) {
 		if (attacker.getHealth() > 0 && arrows > 0) {
+			pursuit(defender, 2, 4, 300).waitForDone();
+			//Action a = pursuit(defender, 2, 4, 300);
+			//a.waitForDone();
 			defender.attackedBy(this);
 		}
 	}

@@ -63,6 +63,7 @@ public class WildWorld
 			w.addSprite(warrior);
 		}
 		w.randomizePositionsOfSprites();
+		w.replaceSprite(c, new Grave(c));
 		for (int i = 0; i < 20; i++) {
 			int index1 = randomGenerator.nextInt(warriors.size());
 			Warrior w1 = warriors.get(index1);
@@ -73,10 +74,15 @@ public class WildWorld
 			} while (w1.equals(w2));
 
 			w1.attack(w2);
+			if (w2.getHealth() >= 0) {
+				Grave grave = new Grave (w2);
+			}
 		}
 
 		for (Warrior warrior : warriors) {
 			warrior.printStatus();
 		}
+		
+
     }
 }

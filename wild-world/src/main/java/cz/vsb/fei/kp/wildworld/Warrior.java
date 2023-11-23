@@ -28,7 +28,6 @@ public class Warrior extends Sprite {
 		this.attackPower = attackPower;
 	}
 
-
 	public String getName() {
 		return name;
 	}
@@ -48,6 +47,7 @@ public class Warrior extends Sprite {
 	
 	public void attack(Warrior defender) {
 		if (health > 0) {
+			pursuit(defender, 2, 4, 7);
 			defender.attackedBy(this);
 		}
 	}
@@ -66,4 +66,5 @@ public class Warrior extends Sprite {
 	public void printStatus() {
 		System.out.println(String.format("%s has health %d", name, health));
 	}
+	
 }
