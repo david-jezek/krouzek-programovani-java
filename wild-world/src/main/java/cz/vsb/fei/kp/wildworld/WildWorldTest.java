@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import cz.vsb.fei.kp.wildworld.Sprite.Action;
 
@@ -13,7 +14,7 @@ import cz.vsb.fei.kp.wildworld.Sprite.Action;
  */
 public class WildWorldTest 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws InterruptedException
     {
         World w = new World(new Dimension(600,600));
         w.showWorld();
@@ -42,6 +43,11 @@ public class WildWorldTest
         
         Sprite hrob = new Sprite("/hrob.png");
         hrob.setSize(20,20);
+        
+        Sprite hrac = new Sprite("/hrac.png");
+        hrac.setSize(20, 20);
+        hrac.setPosition(250, 250);
+        hrac.setSpeed(45);
 		/*
 		 * s = new Sprite("ddd"); s.setPosition(200, 200); s.setSize(20,20);
 		 * w.addSprite(s); s = new Sprite("move"); s.setPositionOfCenet(220, 200);
@@ -71,12 +77,13 @@ public class WildWorldTest
     		warriors.add(new Knight("/R.png","Knight", "Krtecek", 4000, 200, 250));
     		warriors.add(new Knight("/R.png","Knight", "Kocour v botach", 9000, 200, 800));
     		warriors.add(new Knight("/R.png","Knight", "Blesk McQueen", 2500, 450, 300));
+    		warriors.add(new Player("/hrac.png","Player","Hráč",5000,500,500));
 
     		for (Warrior warrior : warriors) {
     			w.addSprite(warrior);
     		}
     		w.randomizePositionsOfSprites();
-    		for (int i = 0; i < 20; i++) {
+    		while (true) {
     			int index1 = randomGenerator.nextInt(warriors.size());
     			Warrior w1 = warriors.get(index1);
     			Warrior w2;
@@ -85,9 +92,20 @@ public class WildWorldTest
     				w2 = warriors.get(index2);
     			} while (w1.equals(w2));
     			w1.attack(w2);
+    			w2.setImage("/attack.gif");
+    			Thread.sleep(900);
+    			if (w2.getType() == "Archer") {
+    				w2.setImage("/lucesnik.png");
+    			}
+    			else {
+    				w2.setImage("/R.png");
+    			}
     			if(w2.getHealth()<1) {
     				w.replaceSprite(w2,new Grave(w2));
-    				
+    				warriors.remove(w2);
+    				if (warriors.size() <2){
+    					return;
+    				}
     			}
     		}
 

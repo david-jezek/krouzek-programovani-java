@@ -12,15 +12,16 @@ public abstract class Warrior extends Sprite {
 	private int health;
 	private int defencePower;
 	private int attackPower;
+
 	public Warrior() {
 		this(null, "Unknown", "Unknown");
 	}
 
-	public Warrior(String obrazek,String type, String name) {
-		this(obrazek,type, name, random.nextInt(500), random.nextInt(200), random.nextInt(300));
+	public Warrior(String obrazek, String type, String name) {
+		this(obrazek, type, name, random.nextInt(500), random.nextInt(200), random.nextInt(300));
 	}
 
-	public Warrior(String obrazek,String type, String name, int health, int defencePower, int attackPower) {
+	public Warrior(String obrazek, String type, String name, int health, int defencePower, int attackPower) {
 		super(obrazek);
 		this.type = type;
 		this.name = name;
@@ -48,7 +49,7 @@ public abstract class Warrior extends Sprite {
 	public String getType() {
 		return type;
 	}
-	
+
 	/*
 	 * public void Hrob(Warrior attacked) { if (attacked.getHealth()<1) {
 	 * this.waitForAllActionAreDone(); attacked.setImage("/hrob.png");
@@ -56,35 +57,44 @@ public abstract class Warrior extends Sprite {
 	 * 0, 0, 0); } }
 	 */
 	protected void attackedBy(Warrior attacker) {
-//		String message = String.format("%s is attacked by %s with power %d.", getName(), attacker.getName(),
-//				attackPower);
-//		System.out.println(message);
-			if (attacker.getAttackPower() > defencePower) {
-				health -= attacker.getAttackPower();
-				String message = String.format("%s %s attacks %s %s with %d power", attacker.getType(), attacker.getName(), getType(),
-						getName(), getAttackPower());
-				System.out.println(message);
+		boolean neuspech = false;
+		if (attacker.getAttackPower() > defencePower) {
+			health -= attacker.getAttackPower();
+			String message = String.format("%s %s attacks %s %s with %d power", attacker.getType(), attacker.getName(),
+					getType(), getName(), getAttackPower());
+			System.out.println(message);
+			if (neuspech != true) {
 				printStatus();
 			}
+		if (getType() == "Knight") {
+			if (random.nextDouble(200) < (getDefencePower() / ((random.nextInt(4)) + 1))) {
+				String failmessage = String.format("%s %s blocks %s %s's attack with their shield", getType(),
+						getName(), attacker.getType(), attacker.getName(), attacker.getAttackPower());
+				waitForAllActionAreDone();
+				neuspech = true;
+				System.out.println(failmessage);
+			}
 		}
+		}
+	}
 
 	public void printStatus() {
 		if (health < 0) {
-			System.out.println(String.format("%s %s has perished",getType(), getName()));
+			System.out.println(String.format("%s %s has perished", getType(), getName()));
 		} else {
 
-			System.out.println(String.format("%s %s has %d health left",getType(), getName(), health));
+			System.out.println(String.format("%s %s has %d health left", getType(), getName(), health));
 		}
 	}
-	
+
 	@Override
 	public void draw(Graphics2D g2) {
-	super.draw(g2);
-	String HP = String.format("%d", health);
-	g2.drawString(getName(), getIntPosX(), getIntPosY());
-	g2.drawString(HP, getIntPosX(), getIntPosY()+50);
-	g2.drawString("HP", getIntPosX()+32, getIntPosY()+50);
-	
+		super.draw(g2);
+		String HP = String.format("%d", health);
+		g2.drawString(getName(), getIntPosX(), getIntPosY());
+		g2.drawString(HP, getIntPosX(), getIntPosY() + 50);
+		g2.drawString("HP", getIntPosX() + 32, getIntPosY() + 50);
+		
 	}
 
 	protected abstract void attack(Warrior w2);

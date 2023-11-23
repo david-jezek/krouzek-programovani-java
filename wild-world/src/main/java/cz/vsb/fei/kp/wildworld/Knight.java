@@ -30,14 +30,9 @@ public class Knight extends Warrior {
 	public void attack(Warrior attacked) {
 		this.pursuit(attacked, 2.5, 5, 25);
 		waitForAllActionAreDone();
-		attacked.attackedBy(this);
-		if (random.nextDouble(200) < (getDefencePower() / ((random.nextInt(4)) + 1))) {
-			String failmessage = String.format("%s %s blocks %s %s's attack with their shield", attacked.getType(), attacked.getName(),
-					getType(), getName(), getAttackPower());
-			waitForAllActionAreDone();
-			System.out.println(failmessage);
+		attacked.attackedBy(this);	
+			}
 //		printStatus();
 //		Hrob(attacked);
-		}
 	}
-}
+

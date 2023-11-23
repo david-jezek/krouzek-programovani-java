@@ -46,6 +46,10 @@ public class Sprite {
 		}
 	}
 
+	public Sprite(String string, String type, String name, int health, int defencePower, int attackPower) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public void draw(Graphics2D g2) {
 		AffineTransform old = g2.getTransform();
 		g2.setTransform(AffineTransform.getRotateInstance(getDirectionInRadians(), rectangle2d.getCenterX(),
