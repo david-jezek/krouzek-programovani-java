@@ -28,8 +28,9 @@ public class WildWorldTest
 
         s = new Sprite("/giphy.gif");
         s.setPosition(100, 200);
-        s.setSize(50,50);
+        s.setSize(150,50);
         w.addSprite(s);
+        s.changeImage("aaa", 5000);
         s = new Sprite("/giphy.gif");
         s.setPosition(400, 200);
         s.setSize(50,50);
