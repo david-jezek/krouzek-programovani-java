@@ -3,6 +3,7 @@ package cz.vsb.fei.kp.wildworld;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
@@ -30,6 +31,15 @@ public class Warrior extends Sprite {
 		this.attackPower = attackPower;
 	}
 
+	
+	@Override
+	public void simulate() {
+		super.simulate();
+		if(getWorld().isKeyPressed(KeyEvent.VK_S)) {
+			setPosition(getIntPosX()+1, getIntPosY());
+		}
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -46,8 +56,44 @@ public class Warrior extends Sprite {
 		return attackPower;
 	}
 
+	public boolean isAlive() {
+//		if(health > 0) {
+//			return true;
+//		} else {
+//			return false;
+//		}
+		return health > 0;
+	}
+	
 	public void attack(Warrior defender) {
+		int arrowCount  = 10;
+		int oldAttackPower = attackPower;
+		boolean alloweBoost = true;
+		while (arrowCount > 0) {
+			if(random.nextInt(100) > 95 && alloweBoost) {
+				attackPower = attackPower * 2;
+				alloweBoost = false;
+			}
+			if(random.nextInt(100) < 90) {
+				defender.attack(this);
+			} else {
+				String message = String.format("Damn! %s missed  :-(.%nOnly %d arrows left.", getName(), arrowCount);
+				System.out.println(message);
+			}
+			attackPower  = oldAttackPower;
+			arrowCount--;
+			if(random.nextInt(100) > 80) {
+				arrowCount+=2;
+				arrowCount = arrowCount + 2;
+			}
+		}
+		
 		if (health > 0) {
+			Action a = pursuit(defender, 1, 2, 10);
+			a.waitForDone();
+			
+			pursuit(defender, 1, 2, 10).waitForDone();
+			
 			defender.attackedBy(this);
 		}
 	}
