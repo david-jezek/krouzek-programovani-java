@@ -8,18 +8,16 @@ public class Warrior extends Sprite {
 	private String name;
 	private int health;
 	private int defencePower;
-	private int attackPower;
-	
+	protected int attackPower;
+
 	public Warrior() {
 		this("Uknown");
 	}
 
 	public Warrior(String name) {
-		this(null, name, random.nextInt(500), 
-				random.nextInt(200),
-				random.nextInt(300));
+		this(null, name, random.nextInt(500), random.nextInt(200), random.nextInt(300));
 	}
-	
+
 	public Warrior(String imageName, String name, int health, int defencePower, int attackPower) {
 		super(imageName);
 		this.name = name;
@@ -28,9 +26,12 @@ public class Warrior extends Sprite {
 		this.attackPower = attackPower;
 	}
 
-
 	public String getName() {
 		return name;
+	}
+
+	protected void setHealth(int health) {
+		this.health = health;
 	}
 
 	public int getHealth() {
@@ -44,19 +45,29 @@ public class Warrior extends Sprite {
 	public int getAttackPower() {
 		return attackPower;
 	}
-	
-	public void attackedBy(Warrior attacker) {
-		String message = String.format(
-				"Warrionr %s attacked by %s with power %d."
-				, getName(), attacker.getName(), attackPower);
-		System.out.println(message);
-		
-		if(attacker.getAttackPower() - getDefencePower() > 0) {
-			health = health - (attacker.getAttackPower() - getDefencePower());
+
+	public void attack(Warrior defender) {
+		if (health > 0) {
+			defender.attackedBy(this);
 		}
 	}
 	
+	protected void attackedBy(Warrior attacker) {
+		String message = String.format("Warrior %s attacked by %s with power %d.", getName(), attacker.getName(),
+				attackPower);
+		System.out.println(message);
+
+		if (attacker.getAttackPower() - getDefencePower() > 0) {
+			health = health - (attacker.getAttackPower() - getDefencePower());
+		}
+	}
+
 	public void printStatus() {
-		System.out.println(String.format("%s has health %d", name, health));
+		if (health <= 0) {
+			System.out.println(String.format("%s is dead", name));
+		} else {
+			System.out.println(String.format("%s has health %d", name, health));
+		}
+		
 	}
 }

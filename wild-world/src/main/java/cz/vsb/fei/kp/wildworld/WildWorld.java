@@ -48,6 +48,9 @@ public class WildWorld
 		warriors.add(new Warrior("Mario"));
 		warriors.add(new Warrior("Pat"));
 		warriors.add(new Warrior("Mat"));
+		warriors.add(new Archer("Legolas", 700, 50, 250, 11));
+		warriors.add(new Archer("Skeleton", 300, 20, 100, 5));
+		warriors.add(new Archer("Nika"));
 		for (Warrior warrior : warriors) {
 			w.addSprite(warrior);
 		}
@@ -61,11 +64,12 @@ public class WildWorld
 				w2 = warriors.get(index2);
 			} while (w1.equals(w2));
 
-			w1.attackedBy(w2);
+			w1.attack(w2);
 		}
 
 		for (Warrior warrior : warriors) {
 			warrior.printStatus();
 		}
+	
     }
 }
