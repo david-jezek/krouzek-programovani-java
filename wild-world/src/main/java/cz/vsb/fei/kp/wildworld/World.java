@@ -2,9 +2,12 @@ package cz.vsb.fei.kp.wildworld;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class World extends JFrame {
@@ -13,6 +16,7 @@ public class World extends JFrame {
 
 	private WorldPanel drawingPanel;
 	private Dimension size;
+	private Set<Integer> pressedKeys = new HashSet<>();
 
 	public World() {
 		this(new Dimension(500, 300));
@@ -36,11 +40,30 @@ public class World extends JFrame {
 			drawingPanel = new WorldPanel();
 			drawingPanel.setMinimumSize(size);
 			drawingPanel.setPreferredSize(size);
+			drawingPanel.setFocusable(true);
+			drawingPanel.requestFocusInWindow();
+			drawingPanel.addKeyListener(new KeyAdapter() {
+				
+				@Override
+				public void keyReleased(KeyEvent e) {
+					pressedKeys.remove(e.getKeyCode());
+				}
+				
+				@Override
+				public void keyPressed(KeyEvent e) {
+					pressedKeys.add(e.getKeyCode());
+				}
+			});
 		}
 		return drawingPanel;
 	}
 
+	public boolean isKeyPressed(int keyCode) {
+		return pressedKeys.contains(keyCode);
+	}
+	
 	public void addSprite(Sprite sprite) {
+		sprite.setWorld(this);
 		getDrawingPanel().addSprite(sprite);
 	}
 
@@ -56,5 +79,8 @@ public class World extends JFrame {
 		drawingPanel.replaceSprite(oldSprite, newSprite);
 	}
 
+	public List<Sprite> getSprites() {
+		return drawingPanel.getSprites();
+	}
 	
 }
