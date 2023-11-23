@@ -19,12 +19,12 @@ public class Swordsman extends Warrior{
 	/*public void attack(Warrior defender) {
 		if(HP > 0) {
 			defender.hitBy(this);
+			
 		}
 	}*/
 
 	protected void hitBy(Warrior attacker) {
 		int DMG = attacker.getAP() - DEF;
-		
 		if(DMG <= 0) {
 			System.out.println(String.format("%s tried to hit %s but failed because he could not get through his armour!", attacker.getName(), name));
 			return;

@@ -1,5 +1,6 @@
 package cz.vsb.fei.kp.wildworld;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Random;
@@ -9,14 +10,12 @@ import java.util.concurrent.TimeUnit;
  * Hello world!
  *
  */
-public class WildWorld 
-{
+public class WildWorld {
 	private static Random r = new Random();
 	
 	
-    public static void main( String[] args )
-    {
-        World w = new World();
+    public static void main( String[] args ) {
+        World w = new World(new Dimension(600, 600));
         w.showWorld();
         /*Sprite s = new Sprite("/giphy.gif");
         s.setPosition(100, 100);
@@ -60,7 +59,8 @@ public class WildWorld
 		for (Warrior warrior : warriors) {
 			w.addSprite(warrior);
 		}
-		
+		Player plejr = new Player("/engineer.jpg", "hrac", 1000, 1000, 1000);
+		w.addSprite(plejr);
 		w.randomizePositionsOfSprites();
 		for (;true;) {
 			int index2;

@@ -89,4 +89,12 @@ public class Warrior extends Sprite {
 		g2.drawString(getName(), getIntPosX(), getIntPosY());
 		g2.drawString(String.format("%d HP", HP), getIntPosX(), getIntPosY() + super.getIntHeight() + 10);
 	}
+	
+	@Override
+	public void simulate() {
+		super.simulate();
+		if(getIntPosX() < 0 || getIntPosY() < 0 || getIntPosX() > 600 || getIntPosY() > 600) {
+			setPosition(250, 150);
+		}
+	}
 }
