@@ -19,9 +19,7 @@ public class Monster extends Entity {
 	
 	@Override
 	public void attack(Entity warrior, World world) {
-		moveCenterTo(new Point2D.Double(warrior.getPositionOfCenet().x, warrior.getPositionOfCenet().y), 5,1000);
-		System.out.println(String.format("%s do attack to the %s.", this.name, warrior.name));
-		waitForAllActionAreDone();
+		super.attack(warrior, world);
 		anger=(maxHealth-health)/100;
 		int power = this.strenght*anger - warrior.deffence;
 		if (power<0) {
@@ -29,7 +27,7 @@ public class Monster extends Entity {
 		}
 		warrior.health = warrior.health - power;
 		System.out.println(String.format("%s do attack with power %d to the %s.", this.name, power, warrior.name));
-		warrior.DeathCheck(this, world);
+		warrior.DeathCheck(this);
 	}
 	
 }

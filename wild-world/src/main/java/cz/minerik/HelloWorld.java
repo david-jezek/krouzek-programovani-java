@@ -24,6 +24,13 @@ public class HelloWorld {
         world.addSprite(sprite);*/
 		
 		ArrayList<Entity> warriors = new ArrayList<>();
+		for(int i = 0; i<2; i++) {
+			warriors.add(new Monster(String.format("%d", i*13)));
+			warriors.add(new Warrior(String.format("%d", i*7)));
+			warriors.add(new Archer(String.format("%d", i*3)));
+			warriors.add(new Healer(String.format("%d", i)));
+		}
+		
 		warriors.add(new Monster("Bořek Stavitel"));
 		warriors.add(new Warrior("Mat"));
 		warriors.add(new Healer("Pat"));
@@ -36,7 +43,7 @@ public class HelloWorld {
 		warriors.add(new Healer("Hello Kitty"));
 		for(Entity warrior : warriors) {
 			warrior.setSize(50, 50);
-			warrior.setPosition(random.nextFloat(100, 500), random.nextFloat(100, 500));
+			warrior.setPosition(random.nextFloat(0, 1280), random.nextFloat(0, 720));
 			world.addSprite(warrior);
 		}
 		while(warriors.size()>1) {
@@ -53,6 +60,12 @@ public class HelloWorld {
 				}
 			}
 		}
+		//for(int j = 0; j<5; j++) {
+			for(int i = 0; i<world.getSprites().size(); i++) {
+				world.getSprites().get(i).setPosition(65, 65*(i+1));
+				System.out.println(i);
+			}
+		//}
 		for(Entity warrior : warriors) {
 			warrior.printStatus();
 		}

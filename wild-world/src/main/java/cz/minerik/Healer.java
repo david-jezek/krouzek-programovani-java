@@ -16,9 +16,7 @@ public class Healer extends Entity {
 	
 	@Override
 	public void attack(Entity warrior, World world) {
-		moveCenterTo(new Point2D.Double(warrior.getPositionOfCenet().x, warrior.getPositionOfCenet().y), 5,1000);
-		System.out.println(String.format("%s do magic to the %s.", this.name, warrior.name));
-		waitForAllActionAreDone();
+		super.attack(warrior, world);
 		int power = this.strenght - warrior.deffence;
 		warrior.health = warrior.health + power;
 		if(!(power<0)) {
@@ -27,7 +25,7 @@ public class Healer extends Entity {
 		else {
 			System.out.println(String.format("Magic failed. %s do attack with power %d to the %s.", this.name, power, warrior.name));
 		}
-		warrior.DeathCheck(this, world);
+		warrior.DeathCheck(this);
 	}
 }
 

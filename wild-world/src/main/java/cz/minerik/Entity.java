@@ -43,11 +43,11 @@ public abstract class Entity extends Sprite {
 		return this.health > 0;
 	}
 	
-	public void DeathCheck(Entity atacker, World world) {
+	public void DeathCheck(Entity atacker) {
 		if(!isAlive()) {
 			killedBy=atacker.name;
 			System.out.println(name+" killed by " + killedBy);
-			world.replaceSprite(this, new Grave(this));
+			getWorld().replaceSprite(this, new Grave(this));
 		}
 	}
 	
@@ -61,16 +61,9 @@ public abstract class Entity extends Sprite {
 	}
 	
 	public void attack(Entity defender, World world) {
-		moveCenterTo(new Point2D.Double(defender.getPositionOfCenet().x, defender.getPositionOfCenet().y), 5,1000);
+		moveCenterTo(new Point2D.Double(defender.getPositionOfCenet().x+50, defender.getPositionOfCenet().y), 5,1000);
 		System.out.println(String.format("%s do attack to the %s.", this.name, defender.name));
 		waitForAllActionAreDone();
-		int power = this.strenght - defender.deffence;
-		if (power<0) {
-			power=0;
-		}
-		defender.health = defender.health - power;
-		System.out.println(String.format("%s do attack with power %d to the %s.", this.name, power, defender.name));
-		defender.DeathCheck(this, world);
 	}
 
 	@Override
