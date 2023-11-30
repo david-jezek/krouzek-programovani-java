@@ -16,7 +16,7 @@ public class WildWorld
         w.showWorld();
         Sprite s = new Sprite("/giphy.gif");
         s.setPosition(100, 100);
-        s.setSize(50,50);
+        s.setSize(100,100);
         s = new Sprite("/giphy.gif");
         s.setSpeed(1);
         s.setDirection(-45);
@@ -24,17 +24,17 @@ public class WildWorld
 
         s = new Sprite("/giphy.gif");
         s.setPosition(100, 200);
-        s.setSize(50,50);
+        s.setSize(60,60);
         w.addSprite(s);
         
         s = new Sprite("/giphy.gif");
         s.setPosition(400, 200);
-        s.setSize(50,50);
+        s.setSize(120,120);
         w.addSprite(s);
 
         s = new Sprite("ddd");
         s.setPosition(200, 100);
-        s.setSize(20,20);
+        s.setSize(80,80);
         w.addSprite(s);
 
         Random randomGenerator = new Random();
@@ -63,7 +63,6 @@ public class WildWorld
 			w.addSprite(warrior);
 		}
 		w.randomizePositionsOfSprites();
-		w.replaceSprite(c, new Grave(c));
 		for (int i = 0; i < 20; i++) {
 			int index1 = randomGenerator.nextInt(warriors.size());
 			Warrior w1 = warriors.get(index1);
@@ -75,7 +74,8 @@ public class WildWorld
 
 			w1.attack(w2);
 			if (w2.getHealth() >= 0) {
-				Grave grave = new Grave (w2);
+				w.replaceSprite(w2, new Grave(w2));
+				
 			}
 		}
 

@@ -3,6 +3,7 @@ package cz.vsb.fei.kp.wildworld;
 import java.util.Random;
 
 public class Warrior extends Sprite {
+	
 	protected static Random random = new Random();
 
 	private String name;
@@ -50,6 +51,11 @@ public class Warrior extends Sprite {
 			pursuit(defender, 2, 4, 7);
 			defender.attackedBy(this);
 		}
+	}
+	public void movingName(Warrior warrior) {
+		int x = warrior.getIntPosX();
+		int y = warrior.getIntPosY();
+		//pouyit if a menit x a y jmena ktere se musi jeste vzpsat a neyapomenout na nebo v ifu
 	}
 
 	protected void attackedBy(Warrior attacker) {
