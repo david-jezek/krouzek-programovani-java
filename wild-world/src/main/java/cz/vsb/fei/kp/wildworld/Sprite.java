@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 
 import javax.swing.ImageIcon;
 
@@ -223,7 +224,11 @@ public class Sprite {
 			image = null;
 		}
 	}
-
+	
+	public boolean doesCollide(Sprite other) {
+		return rectangle2d.intersects(other.rectangle2d);
+	}
+	
 	public void setPosition(double x, double y) {
 		this.rectangle2d.x = x;
 		this.rectangle2d.y = y;
@@ -296,11 +301,11 @@ public class Sprite {
 		return getPositionOfCenet().distance(sprite.getPositionOfCenet());
 	}
 
-	public Sprite getNearestSprire() {
+	public Sprite getNearestSprire(Function<Sprite, Boolean> filter) {
 		double minDistnce = java.lang.Double.MAX_VALUE;
 		Sprite nearest = null;
 		for (Sprite sprite : getWorld().getSprites()) {
-			if (this == sprite) {
+			if (this == sprite || !filter.apply(sprite)) {
 				continue;
 			}
 			double distance = getDistanceForm(sprite);

@@ -93,8 +93,16 @@ public class Warrior extends Sprite {
 	@Override
 	public void simulate() {
 		super.simulate();
-		if(getIntPosX() < 0 || getIntPosY() < 0 || getIntPosX() > 600 || getIntPosY() > 600) {
-			setPosition(250, 150);
+		if(getIntPosX() < 0 ) {
+			setPosition(600, getIntPosY());
+		} else if(getIntPosX() > 600) {
+			setPosition(0, getIntPosY());
+		}
+		
+		if(getIntPosY() < 0) {
+			setPosition(getIntPosX(), 600);
+		} else if (getIntPosY() > 600) {
+			setPosition(getIntPosX(), 0);
 		}
 	}
 }
