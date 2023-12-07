@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.function.Function;
 
 import javax.swing.JComponent;
 
@@ -77,6 +78,18 @@ public class WorldPanel extends JComponent {
 	public List<Sprite> getSprites() {
 		synchronized (sprites) {
 			return new ArrayList<>(sprites);
+		}
+	}
+	
+	public List<Sprite> getSprites(Function<Sprite, Boolean> filter) {
+		synchronized (sprites) {
+			ArrayList<Sprite> filtered = new ArrayList<Sprite>();
+			for(Sprite s : sprites) {
+				if(!filter.apply(s)) {
+					filtered.add(s);
+				}
+			}
+			return filtered;
 		}
 	}
 }

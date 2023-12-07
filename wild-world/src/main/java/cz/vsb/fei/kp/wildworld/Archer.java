@@ -1,11 +1,6 @@
 package cz.vsb.fei.kp.wildworld;
 
 public class Archer extends Warrior{
-	/*private String name;
-	private int AP;
-	private int HP;
-	private int DEF;
-	private int maxHP;*/
 	private int arrows;
 	
 	public Archer(String obraz, String name, int maxHP, int AP, int DEF, int arrows) {
@@ -13,13 +8,9 @@ public class Archer extends Warrior{
 		this.arrows = arrows;
 	}
 	
-	
-	
 	public int getArrows() {
 		return arrows;
 	}
-
-
 
 	public void setArrows(int arrows) {
 		this.arrows = arrows;

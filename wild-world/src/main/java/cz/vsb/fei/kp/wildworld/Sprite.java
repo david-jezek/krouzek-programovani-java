@@ -225,7 +225,7 @@ public class Sprite {
 		}
 	}
 	
-	public boolean doesCollide(Sprite other) {
+	public boolean collides(Sprite other) {
 		return rectangle2d.intersects(other.rectangle2d);
 	}
 	

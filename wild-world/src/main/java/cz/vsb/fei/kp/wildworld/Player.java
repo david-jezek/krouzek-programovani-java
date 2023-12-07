@@ -8,6 +8,7 @@ public class Player extends Warrior {
 	private long atkCooldown = 0;
 	public Player(String obraz, String name, int maxHP, int AP, int DEF) {
 		super(obraz, name, maxHP, AP, DEF);
+		
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -51,9 +52,13 @@ public class Player extends Warrior {
 		
 		Warrior near = (Warrior)getNearestSprire(sprite -> sprite instanceof Warrior);
 		
-		if(this.doesCollide(near) && System.currentTimeMillis() - atkCooldown > 2000) {
+		if(this.collides(near) && System.currentTimeMillis() - atkCooldown > 2000) {
 			near.hitBy(this);
 			atkCooldown = System.currentTimeMillis();
+		}
+		
+		if(getWorld().isKeyPressed(KeyEvent.VK_SPACE)) {
+			
 		}
 	}
 }

@@ -3,6 +3,8 @@ package cz.vsb.fei.kp.wildworld;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -17,30 +19,8 @@ public class WildWorld {
     public static void main( String[] args ) {
         World w = new World(new Dimension(600, 600));
         w.showWorld();
-        /*Sprite s = new Sprite("/giphy.gif");
-        s.setPosition(100, 100);
-        s.setSize(50,50);
-        s = new Sprite("/giphy.gif");
-        s.setSpeed(1);
-        s.setDirection(-45);
-        w.addSprite(s);
 
-        s = new Sprite("/giphy.gif");
-        s.setPosition(100, 200);
-        s.setSize(50,50);
-        w.addSprite(s);
-        
-        s = new Sprite("/giphy.gif");
-        s.setPosition(400, 200);
-        s.setSize(50,50);
-        w.addSprite(s);
-
-        s = new Sprite("ddd");
-        s.setPosition(200, 100);
-        s.setSize(20,20);
-        w.addSprite(s);
-		*/
-		
+		Queue<Warrior> rmvQueue = new LinkedList<Warrior>();
         Random randomGenerator = new Random();
 		ArrayList<Warrior> warriors = new ArrayList<>();
 		warriors.add(randSwordsman("Princ Krasoň")); 
@@ -80,14 +60,12 @@ public class WildWorld {
 				w1.doATKBuff();
 			}
 			
-			if(w1.isDead()) {
-				Grave grave = new Grave("/Grave.png", w1.getName());
-				w.replaceSprite(warriors.get(index1), grave);
-				warriors.remove(index1);
-			} else if (w2.isDead()) {
-				Grave grave = new Grave("/Grave.png", w1.getName());
-				w.replaceSprite(warriors.get(index2), grave);
-				warriors.remove(index2);
+			for (Warrior warrior : warriors) {
+				if(warrior.isDead()) {
+					Grave grave = new Grave("/Grave.png", warrior.getName());
+					w.replaceSprite(warrior, grave);
+					rmvQueue.add(warrior);
+				}
 			}
 			
 			if(warriors.size() < 2) {
@@ -101,6 +79,10 @@ public class WildWorld {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			for (int i = 0; i < rmvQueue.size();) {
+				warriors.remove(rmvQueue.poll());
+			}
 		}
     }
     
@@ -109,10 +91,9 @@ public class WildWorld {
 		if(yesno) {
 			Swordsman warrior = new Swordsman("/Knight.png", name, 1000, r.nextInt(200), r.nextInt(150));
 			return warrior;
-		} else {
-			Archer warrior = new Archer("/Archer.png", name, 1000, r.nextInt(200), r.nextInt(150), r.nextInt(50));
-			return warrior;
 		}
+		Archer warrior = new Archer("/Archer.png", name, 1000, r.nextInt(200), r.nextInt(150), r.nextInt(50));
+		return warrior;
 	}
 	
 	private static Archer randArcher(String name) {

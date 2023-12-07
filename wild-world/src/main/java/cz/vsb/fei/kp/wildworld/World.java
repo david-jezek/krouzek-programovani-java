@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import javax.swing.JFrame;
 
@@ -83,4 +84,7 @@ public class World extends JFrame {
 		return drawingPanel.getSprites();
 	}
 	
+	public List<Sprite> getSprites(Function<Sprite, Boolean> filter) {
+		return drawingPanel.getSprites(filter);
+	}
 }
