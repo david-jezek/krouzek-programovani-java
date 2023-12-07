@@ -24,7 +24,8 @@ public class HelloWorld {
         world.addSprite(sprite);*/
 		
 		ArrayList<Entity> warriors = new ArrayList<>();
-		warriors.add(new Warrior("Player"));
+		Warrior player = new Warrior("Player");
+		warriors.add(player);
 		
 		for(int i = 0; i<2; i++) {
 			warriors.add(new Monster(String.format("%d", i*13)));
@@ -49,14 +50,11 @@ public class HelloWorld {
 			world.addSprite(warrior);
 		}
 		while(warriors.size()>1) {
-			if (world.isKeyPressed(32)) {
-				
-			}
 			//TimeUnit.MILLISECONDS.sleep(500);
 			int a = random.nextInt(warriors.size());
 			int b = random.nextInt(warriors.size());
 			Entity w1 = warriors.get(a);
-			Entity w2 = warriors.get(b);
+			Entity w2 = (Entity)(w1.getNearestSprire(sprite -> sprite instanceof Entity)); //warriors.get(b);
 			if(w1!=w2) {
 				w1.attack(w2, world);
 				//w1.waitForAllActionAreDone();
