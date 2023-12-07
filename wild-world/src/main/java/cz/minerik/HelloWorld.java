@@ -24,6 +24,8 @@ public class HelloWorld {
         world.addSprite(sprite);*/
 		
 		ArrayList<Entity> warriors = new ArrayList<>();
+		warriors.add(new Warrior("Player"));
+		
 		for(int i = 0; i<2; i++) {
 			warriors.add(new Monster(String.format("%d", i*13)));
 			warriors.add(new Warrior(String.format("%d", i*7)));
@@ -47,6 +49,9 @@ public class HelloWorld {
 			world.addSprite(warrior);
 		}
 		while(warriors.size()>1) {
+			if (world.isKeyPressed(32)) {
+				
+			}
 			//TimeUnit.MILLISECONDS.sleep(500);
 			int a = random.nextInt(warriors.size());
 			int b = random.nextInt(warriors.size());
