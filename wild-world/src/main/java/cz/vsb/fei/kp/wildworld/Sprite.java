@@ -10,6 +10,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.swing.ImageIcon;
 
@@ -50,6 +51,10 @@ public class Sprite {
 		// TODO Auto-generated constructor stub
 	}
 
+	public boolean isIncolision(Sprite other) {
+		return rectangle2d.intersects(other.rectangle2d);
+	}
+	
 	public void draw(Graphics2D g2) {
 		AffineTransform old = g2.getTransform();
 		g2.setTransform(AffineTransform.getRotateInstance(getDirectionInRadians(), rectangle2d.getCenterX(),
@@ -300,11 +305,11 @@ public class Sprite {
 		return getPositionOfCenet().distance(sprite.getPositionOfCenet());
 	}
 
-	public Sprite getNearestSprire() {
+	public Sprite getNearestSprire(Predicate<Sprite> filter) {
 		double minDistnce = java.lang.Double.MAX_VALUE;
 		Sprite nearest = null;
 		for (Sprite sprite : getWorld().getSprites()) {
-			if (this == sprite) {
+			if (this == sprite || !filter.test(sprite)) {
 				continue;
 			}
 			double distance = getDistanceForm(sprite);
