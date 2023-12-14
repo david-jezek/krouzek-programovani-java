@@ -97,8 +97,10 @@ public class WildWorldTest
     			if (w2.getType() == "Archer") {
     				w2.setImage("/lucesnik.png");
     			}
-    			else {
+    			else if(w2.getType()=="Knight"){
     				w2.setImage("/R.png");
+    			} else {
+    				w2.setImage("/hrac.png");
     			}
     			if(w2.getHealth()<1) {
     				w.replaceSprite(w2,new Grave(w2));

@@ -26,6 +26,7 @@ public class Player extends Warrior {
 
 	@Override
 	public void simulate() {
+		Sprite s = getNearestSprire();
 		if (getWorld().isKeyPressed(KeyEvent.VK_SHIFT)) {
 			if (getWorld().isKeyPressed(KeyEvent.VK_W)) {
 				setPosition(getIntPosX(), getIntPosY() - 2);
