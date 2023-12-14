@@ -3,6 +3,8 @@ package cz.minerik;
 import java.util.ArrayList;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.geom.Point2D;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -10,21 +12,43 @@ import java.util.concurrent.TimeUnit;
 import cz.vsb.fei.kp.wildworld.World;
 
 public class HelloWorld {
-
+	
+	static Random random = new Random();
+	static World world = new World(new Dimension(1280,720));
+	static ArrayList<Entity> warriors = new ArrayList<>();
+	static Warrior player = new Warrior("Player");
+	
 	public static void main(String[] args) throws InterruptedException {
-		Random random = new Random();
 		
-		World world = new World(new Dimension(1280,720));
         world.showWorld();
+        world.getDrawingPanel().addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_SPACE) {
+					player.attack((Entity)(player.getNearestSprire(sprite -> sprite instanceof Entity)), world);
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
         
         /*Sprite sprite = new Warrior("/giphy.gif");
         sprite.setPosition(100, 100);
         sprite.setSize(10,10);
         sprite.moveCenterTo(new Point2D.Double(400, 400), 2, 2);
         world.addSprite(sprite);*/
-		
-		ArrayList<Entity> warriors = new ArrayList<>();
-		Warrior player = new Warrior("Player");
+
 		warriors.add(player);
 		
 		for(int i = 0; i<2; i++) {
@@ -49,28 +73,44 @@ public class HelloWorld {
 			warrior.setPosition(random.nextFloat(0, 1280), random.nextFloat(0, 720));
 			world.addSprite(warrior);
 		}
+		
+		fight2();
+		
+	}
+	
+	private static void fight() {
 		while(warriors.size()>1) {
 			//TimeUnit.MILLISECONDS.sleep(500);
 			int a = random.nextInt(warriors.size());
 			int b = random.nextInt(warriors.size());
 			Entity w1 = warriors.get(a);
 			Entity w2 = (Entity)(w1.getNearestSprire(sprite -> sprite instanceof Entity)); //warriors.get(b);
-			if(w1!=w2) {
+			if(player==w1) {
+				System.out.println("hrac byl vybran");
+				return;
+			}
+			else if(w1!=w2) {
 				w1.attack(w2, world);
 				//w1.waitForAllActionAreDone();
-				if(!(w2.isAlive())) {
-					warriors.remove(w2);
-				}
+			}
+			if(!(w2.isAlive())) {
+				warriors.remove(w2);
 			}
 		}
-		//for(int j = 0; j<5; j++) {
+	}
+	
+	static void fight2() {
+		fight();
+		if(warriors.size()<=1) {
+			//for(int j = 0; j<5; j++) {
 			for(int i = 0; i<world.getSprites().size(); i++) {
 				world.getSprites().get(i).setPosition(65, 65*(i+1));
 				System.out.println(i);
 			}
-		//}
-		for(Entity warrior : warriors) {
-			warrior.printStatus();
+			//}
+			for(Entity warrior : warriors) {
+				warrior.printStatus();
+			}
 		}
 	}
 }

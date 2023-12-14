@@ -35,7 +35,7 @@ public class World extends JFrame {
 		getDrawingPanel().simulate();
 	}
 
-	private WorldPanel getDrawingPanel() {
+	public WorldPanel getDrawingPanel() {
 		if (drawingPanel == null) {
 			drawingPanel = new WorldPanel();
 			drawingPanel.setMinimumSize(size);
