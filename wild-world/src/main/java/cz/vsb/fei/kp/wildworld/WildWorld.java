@@ -42,7 +42,7 @@ public class WildWorld
 		warriors.add(new Warrior("Alex"));
 		warriors.add(new Warrior("John Wick"));
 		warriors.add(new Warrior("Shrek"));
-		warriors.add(new Warrior("Hello Kitty")); 
+		warriors.add(new Warrior("Amongus")); 
 		warriors.add(new Warrior("Prasatko Pepa"));
 		warriors.add(new Warrior("Bořek stavitel"));
 		warriors.add(new Warrior("Mario"));

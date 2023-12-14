@@ -1,5 +1,9 @@
 package cz.vsb.fei.kp.wildworld;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 public class Warrior extends Sprite {
@@ -68,6 +72,33 @@ public class Warrior extends Sprite {
 		} else {
 			System.out.println(String.format("%s has health %d", name, health));
 		}
-		
 	}
+
+	@Override
+	public void draw(Graphics2D g2) {
+		// TODO Auto-generated method stub
+		super.draw(g2);
+		Font oldFont = g2.getFont();
+		Color oldColor = g2.getColor();
+		g2.setFont(g2.getFont().deriveFont(Font.BOLD));
+		g2.setColor(Color.black);
+		Rectangle2D rec = g2.getFont().getStringBounds(getName(), g2.getFontRenderContext());
+		int nameX = (int) (getPositionOfCenet().getX() - rec.getWidth() / 2);
+		g2.drawString(getName(), nameX, getIntPosY() - 2);
+		
+		String healthString = Integer.toString(getHealth());
+		if (getHealth() < 0) {
+			healthString = "dead";
+		}
+		rec = g2.getFont().getStringBounds(healthString, g2.getFontRenderContext());
+		nameX = (int) (getPositionOfCenet().getX() - rec.getWidth() / 2);
+		g2.drawString(healthString, nameX,
+				(int)(getIntPosY() + getIntHeight() + rec.getHeight() + 2));
+		
+		g2.setColor(oldColor);
+		g2.setFont(oldFont);
+	}
+	
+
 }
+
