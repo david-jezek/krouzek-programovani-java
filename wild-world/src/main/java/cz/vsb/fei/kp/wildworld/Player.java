@@ -10,7 +10,7 @@ public class Player extends Warrior {
 	private int health;
 	private int defencePower;
 	private int attackPower;
-	private long cooldown;
+	private long cooldown = 0;
 	private static Random random = new Random();
 
 	public Player() {
@@ -28,9 +28,9 @@ public class Player extends Warrior {
 	@Override
 	public void simulate() {
 		Sprite s = getNearestSprire(w -> w instanceof Warrior);
-		if(s.isIncolision(this) && System.currentTimeMillis() - atkCooldown > 2000) {
+		if(s.isIncolision(this) && System.currentTimeMillis() - cooldown > 2000) {
 			s.attackedBy(this);
-			atkCooldown = System.currentTimeMillis();
+			cooldown = System.currentTimeMillis();
 					}
 		if (getWorld().isKeyPressed(KeyEvent.VK_SHIFT)) {
 			if (getWorld().isKeyPressed(KeyEvent.VK_W)) {
