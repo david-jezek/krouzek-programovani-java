@@ -65,7 +65,7 @@ public class Player extends Warrior {
 		if(s.isIncolision(this) && System.currentTimeMillis() - cooldown > 2000) {
 			s.attackedBy(this);
 			cooldown = System.currentTimeMillis();
-					}
+		}
 	}
 
 	@Override

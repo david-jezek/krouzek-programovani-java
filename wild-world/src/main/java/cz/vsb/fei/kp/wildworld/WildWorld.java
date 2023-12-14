@@ -89,8 +89,9 @@ public class WildWorld
     			Warrior w2;
     			do {
     				int index2 = randomGenerator.nextInt(warriors.size());
+    				w1 = warriors.get(index1);
     				w2 = warriors.get(index2);
-    			} while (w1.equals(w2));
+    			} while (w1.equals(w2) || w1.getType().equals("Player"));
     			w1.attack(w2);
     			w2.setImage("/attack.gif");
     			Thread.sleep(900);
