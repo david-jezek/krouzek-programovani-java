@@ -5,7 +5,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 import java.util.function.Function;
 
@@ -17,7 +19,9 @@ public class WorldPanel extends JComponent {
 
 	private static Random random = new Random();
 	private List<Sprite> sprites = Collections.synchronizedList(new ArrayList<>());
-
+	public Queue<Sprite> rmvQueue = new LinkedList<Sprite>();
+	public Queue<Sprite> addQueue = new LinkedList<Sprite>();
+	
 	private boolean animatePanel = false;
 
 	public void addSprite(Sprite sprite) {
@@ -25,14 +29,22 @@ public class WorldPanel extends JComponent {
 	}
 
 	public void removeSprite(Sprite sprite) {
-		sprites.add(sprite);
+		sprites.remove(sprite);
 	}
-
+	
+	public void queueRemoval(Sprite s) {
+		rmvQueue.add(s);
+	}
+	
+	public void queueAddition(Sprite s) {
+		addQueue.add(s);
+	}
+	//FIXME doesnt work
 	public void replaceSprite(Sprite oldSprite, Sprite newSprite) {
 		newSprite.setPosition(oldSprite.getIntPosX(), oldSprite.getIntPosY());
 		newSprite.setSize(oldSprite.getIntWidth(), oldSprite.getIntHeight());
-		sprites.remove(oldSprite);
-		sprites.add(newSprite);
+		rmvQueue.add(oldSprite);
+		addQueue.add(newSprite);
 	}
 
 	@Override
@@ -62,6 +74,15 @@ public class WorldPanel extends JComponent {
 			}
 			animatePanel = false;
 		});
+		//FIXME doesnt work too
+		while(0 < rmvQueue.size()) {
+			removeSprite(rmvQueue.poll());
+			System.out.println(String.format("rmvQueue size is %d", rmvQueue.size()));
+		}
+		while(0 < addQueue.size()) {
+			addSprite(addQueue.poll());
+			System.out.println(String.format("addQueue size is %d", addQueue.size()));
+		}
 		thread.start();
 	}
 
@@ -81,11 +102,20 @@ public class WorldPanel extends JComponent {
 		}
 	}
 	
+	public List<Sprite> getRmvQueue() {
+		return new ArrayList<>(rmvQueue);
+	}
+	
+	public List<Sprite> getAddQueue() {
+		return new ArrayList<>(addQueue);
+	}
+	
+	
 	public List<Sprite> getSprites(Function<Sprite, Boolean> filter) {
 		synchronized (sprites) {
 			ArrayList<Sprite> filtered = new ArrayList<Sprite>();
 			for(Sprite s : sprites) {
-				if(!filter.apply(s)) {
+				if(filter.apply(s)) {
 					filtered.add(s);
 				}
 			}

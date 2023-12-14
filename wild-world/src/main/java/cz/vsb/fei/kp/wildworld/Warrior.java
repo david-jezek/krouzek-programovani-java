@@ -104,5 +104,9 @@ public class Warrior extends Sprite {
 		} else if (getIntPosY() > 600) {
 			setPosition(getIntPosX(), 0);
 		}
+		
+		if(isDead()) {
+			WildWorld.rmv(this);
+		}
 	}
 }

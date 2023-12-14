@@ -15,12 +15,12 @@ import java.util.concurrent.TimeUnit;
 public class WildWorld {
 	private static Random r = new Random();
 	
+	private static Queue<Warrior> rmvQueue = new LinkedList<Warrior>();
 	
     public static void main( String[] args ) {
         World w = new World(new Dimension(600, 600));
         w.showWorld();
 
-		Queue<Warrior> rmvQueue = new LinkedList<Warrior>();
         Random randomGenerator = new Random();
 		ArrayList<Warrior> warriors = new ArrayList<>();
 		warriors.add(randSwordsman("Princ Krasoň")); 
@@ -42,6 +42,10 @@ public class WildWorld {
 		Player plejr = new Player("/engineer.jpg", "hrac", 1000, 1000, 1000);
 		w.addSprite(plejr);
 		w.randomizePositionsOfSprites();
+		
+		Sword sword = new Sword("/Sword.png");
+		w.addSprite(sword);
+		
 		for (;true;) {
 			int index2;
 			int index1 = randomGenerator.nextInt(warriors.size());
@@ -51,14 +55,6 @@ public class WildWorld {
 				index2 = randomGenerator.nextInt(warriors.size());
 				w2 = warriors.get(index2);
 			} while (w1.equals(w2));
-
-			if(w2.getAP() < w1.getDEF() || w1.getAP() > w2.getDEF()) {
-				w1.attack(w2);
-				w2.attack(w1);
-			} else {
-				w2.doATKBuff();
-				w1.doATKBuff();
-			}
 			
 			for (Warrior warrior : warriors) {
 				if(warrior.isDead()) {
@@ -67,6 +63,16 @@ public class WildWorld {
 					rmvQueue.add(warrior);
 				}
 			}
+			
+			if(w2.getAP() < w1.getDEF() || w1.getAP() > w2.getDEF()) {
+				w1.attack(w2);
+				w2.attack(w1);
+			} else {
+				w2.doATKBuff();
+				w1.doATKBuff();
+			}
+			
+			
 			
 			if(warriors.size() < 2) {
 				System.out.println(String.format("%s has won.", warriors.get(0).getName()));
@@ -80,7 +86,7 @@ public class WildWorld {
 				e.printStackTrace();
 			}
 			
-			for (int i = 0; i < rmvQueue.size();) {
+			while(0 < rmvQueue.size()) {
 				warriors.remove(rmvQueue.poll());
 			}
 		}
@@ -104,5 +110,10 @@ public class WildWorld {
 	private static Swordsman randSwordsman(String name) {
 		Swordsman warrior = new Swordsman("/Knight.png", name, 1000, r.nextInt(200), r.nextInt(150));
 		return warrior;
+	}
+	
+	public static void rmv(Warrior remove) {
+		rmvQueue.add(remove);
+		remove.getWorld().replaceSprite(remove, new Grave("/Grave.png", remove.getName()));
 	}
 }
