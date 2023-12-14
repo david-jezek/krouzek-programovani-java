@@ -28,7 +28,10 @@ public class Player extends Warrior {
 	@Override
 	public void simulate() {
 		Sprite s = getNearestSprire(w -> w instanceof Warrior);
-		if(s.isIncolision(this) && )
+		if(s.isIncolision(this) && System.currentTimeMillis() - atkCooldown > 2000) {
+			s.attackedBy(this);
+			atkCooldown = System.currentTimeMillis();
+					}
 		if (getWorld().isKeyPressed(KeyEvent.VK_SHIFT)) {
 			if (getWorld().isKeyPressed(KeyEvent.VK_W)) {
 				setPosition(getIntPosX(), getIntPosY() - 2);
