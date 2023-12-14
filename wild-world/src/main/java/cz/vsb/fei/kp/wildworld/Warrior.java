@@ -61,7 +61,7 @@ public abstract class Warrior extends Sprite {
 		if (attacker.getAttackPower() > defencePower) {
 			health -= attacker.getAttackPower();
 			String message = String.format("%s %s attacks %s %s with %d power", attacker.getType(), attacker.getName(),
-					getType(), getName(), getAttackPower());
+					getType(), getName(), attacker.getAttackPower());
 			System.out.println(message);
 			if (neuspech != true) {
 				printStatus();

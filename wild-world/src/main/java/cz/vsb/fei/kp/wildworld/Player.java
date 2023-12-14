@@ -1,7 +1,6 @@
 package cz.vsb.fei.kp.wildworld;
 
 import java.awt.event.KeyEvent;
-import java.sql.Time;
 import java.util.Random;
 
 public class Player extends Warrior {
@@ -27,7 +26,7 @@ public class Player extends Warrior {
 
 	@Override
 	public void simulate() {
-		Sprite s = getNearestSprire(w -> w instanceof Warrior);
+		Warrior s = (Warrior)getNearestSprire(w -> w instanceof Warrior);
 		if(s.isIncolision(this) && System.currentTimeMillis() - cooldown > 2000) {
 			s.attackedBy(this);
 			cooldown = System.currentTimeMillis();
