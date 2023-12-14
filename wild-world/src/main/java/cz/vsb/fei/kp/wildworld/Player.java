@@ -61,14 +61,13 @@ public class Player extends Warrior {
 				cooldown = System.currentTimeMillis();
 			}
 		}
+		Warrior s = (Warrior)getNearestSprire(w -> w instanceof Warrior);
+		if(s.isIncolision(this) && System.currentTimeMillis() - cooldown > 2000) {
+			s.attackedBy(this);
+			cooldown = System.currentTimeMillis();
+					}
+	}
 
-	}
-	Warrior s = (Warrior)getNearestSprire(w -> w instanceof Warrior); {
-	if(s.isIncolision(this) && System.currentTimeMillis() - cooldown > 2000) {
-		s.attackedBy(this);
-		cooldown = System.currentTimeMillis();
-				}
-	}
 	@Override
 	protected void attack(Warrior w2) {
 		// TODO Auto-generated method stub
