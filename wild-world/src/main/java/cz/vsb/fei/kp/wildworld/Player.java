@@ -1,6 +1,7 @@
 package cz.vsb.fei.kp.wildworld;
 
 import java.awt.event.KeyEvent;
+import java.sql.Time;
 import java.util.Random;
 
 public class Player extends Warrior {
@@ -27,6 +28,7 @@ public class Player extends Warrior {
 	@Override
 	public void simulate() {
 		Sprite s = getNearestSprire(w -> w instanceof Warrior);
+		if(s.isIncolision(this) && )
 		if (getWorld().isKeyPressed(KeyEvent.VK_SHIFT)) {
 			if (getWorld().isKeyPressed(KeyEvent.VK_W)) {
 				setPosition(getIntPosX(), getIntPosY() - 2);
