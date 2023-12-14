@@ -26,11 +26,6 @@ public class Player extends Warrior {
 
 	@Override
 	public void simulate() {
-		Warrior s = (Warrior)getNearestSprire(w -> w instanceof Warrior);
-		if(s.isIncolision(this) && System.currentTimeMillis() - cooldown > 2000) {
-			s.attackedBy(this);
-			cooldown = System.currentTimeMillis();
-					}
 		if (getWorld().isKeyPressed(KeyEvent.VK_SHIFT)) {
 			if (getWorld().isKeyPressed(KeyEvent.VK_W)) {
 				setPosition(getIntPosX(), getIntPosY() - 2);
@@ -68,7 +63,12 @@ public class Player extends Warrior {
 		}
 
 	}
-
+	Warrior s = (Warrior)getNearestSprire(w -> w instanceof Warrior); {
+	if(s.isIncolision(this) && System.currentTimeMillis() - cooldown > 2000) {
+		s.attackedBy(this);
+		cooldown = System.currentTimeMillis();
+				}
+	}
 	@Override
 	protected void attack(Warrior w2) {
 		// TODO Auto-generated method stub
