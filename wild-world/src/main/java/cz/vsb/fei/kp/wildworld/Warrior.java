@@ -1,6 +1,7 @@
 package cz.vsb.fei.kp.wildworld;
 
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 import java.util.Random;
 import cz.vsb.fei.kp.wildworld.World;
 
@@ -51,7 +52,6 @@ public abstract class Warrior extends Sprite {
 	public String getType() {
 		return type;
 	}
-
 	/*
 	 * public void Hrob(Warrior attacked) { if (attacked.getHealth()<1) {
 	 * this.waitForAllActionAreDone(); attacked.setImage("/hrob.png");
@@ -71,7 +71,6 @@ public abstract class Warrior extends Sprite {
 			if (r1 < r2) {
 				String failmessage = String.format("%s %s blocks %s %s's attack with their shield", getType(),
 						getName(), attacker.getType(), attacker.getName(), attacker.getAttackPower());
-				waitForAllActionAreDone();
 				neuspech = true;
 				System.out.println(failmessage);
 			}

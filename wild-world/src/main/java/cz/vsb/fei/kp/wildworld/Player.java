@@ -7,6 +7,7 @@ import java.util.Random;
 import cz.vsb.fei.kp.wildworld.World;
 import cz.vsb.fei.kp.wildworld.Grave;
 
+
 public class Player extends Warrior {
 	private String type;
 	private String name;
@@ -65,13 +66,21 @@ public class Player extends Warrior {
 //				cooldown = System.currentTimeMillis();
 			}
 		}
-		Warrior w2 = (Warrior)getNearestSprire(w -> w instanceof Warrior);
+		Warrior w2 = (Warrior)getNearestSprire(s -> s instanceof Warrior);
 		if(w2.isIncolision(this) && System.currentTimeMillis() - cooldown > 2000) {
 			this.attack(w2);
+			w2.changeImage("/attack.gif", 2000);
+			w2.waitForAllActionAreDone();
+	/*
+	 * if (w2.getType() == "Archer") { w2.setImage("/lucesnik.png"); } else
+	 * if(w2.getType()=="Knight"){ w2.setImage("/R.png"); } else {
+	 * w2.setImage("/hrac.png"); }
+	 */
 			cooldown = System.currentTimeMillis();
 			if(w2.getHealth() < 1) {
 				World w = getWorld();
 				w.replaceSprite(w2,new Grave(w2));
+				
 			}
 		}
 	}

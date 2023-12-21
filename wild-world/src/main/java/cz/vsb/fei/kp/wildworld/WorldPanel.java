@@ -31,8 +31,8 @@ public class WorldPanel extends JComponent {
 	public void replaceSprite(Sprite oldSprite, Sprite newSprite) {
 		newSprite.setPosition(oldSprite.getIntPosX(), oldSprite.getIntPosY());
 		newSprite.setSize(oldSprite.getIntWidth(), oldSprite.getIntHeight());
-		sprites.remove(oldSprite);
-		sprites.add(newSprite);
+		removeSprite(oldSprite);
+		addSprite(newSprite);
 	}
 
 	@Override
@@ -52,6 +52,10 @@ public class WorldPanel extends JComponent {
 			while (animatePanel && !Thread.currentThread().isInterrupted()) {
 				synchronized (sprites) {
 					sprites.forEach(Sprite::simulate);
+					sprites.removeAll(spritesToRemove);
+					spritesToRemove.clear();
+					sprites.addAll(spritesToAdd);
+					spritesToAdd.clear();
 				}
 				repaint();
 				try {
@@ -67,8 +71,8 @@ public class WorldPanel extends JComponent {
 
 	public void randomizePositionsOfSprites() {
 		Dimension size = getSize();
-		synchronized (sprites) {
-			for (Sprite sprite : sprites) {
+		synchronized (spritesToAdd) {
+			for (Sprite sprite : spritesToAdd) {
 				sprite.setPosition(random.nextInt(size.width - sprite.getIntWidth()),
 						random.nextInt(size.height - sprite.getIntHeight()));
 			}

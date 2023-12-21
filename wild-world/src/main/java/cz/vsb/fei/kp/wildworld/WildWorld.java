@@ -85,24 +85,25 @@ public class WildWorld
     		w.randomizePositionsOfSprites();
     		while (true) {
     			int index1 = randomGenerator.nextInt(warriors.size());
-    			Warrior w1 = warriors.get(index1);
+    			Warrior w1;
+    			do { 
+    				w1= warriors.get(index1);
+    				
+    			} while(w1.getHealth() < 1);
     			Warrior w2;
     			do {
     				int index2 = randomGenerator.nextInt(warriors.size());
     				w1 = warriors.get(index1);
     				w2 = warriors.get(index2);
-    			} while (w1.equals(w2) || w1.getType().equals("Player"));
+    			} while (w1.equals(w2) || w1.getType().equals("Player") || w2.getHealth() < 1);
     			w1.attack(w2);
-    			w2.setImage("/attack.gif");
-    			Thread.sleep(900);
-    			if (w2.getType() == "Archer") {
-    				w2.setImage("/lucesnik.png");
-    			}
-    			else if(w2.getType()=="Knight"){
-    				w2.setImage("/R.png");
-    			} else {
-    				w2.setImage("/hrac.png");
-    			}
+    			w2.changeImage("/attack.gif", 2000);
+    			w2.waitForAllActionAreDone();	
+				/*
+				 * if (w2.getType() == "Archer") { w2.setImage("/lucesnik.png"); } else
+				 * if(w2.getType()=="Knight"){ w2.setImage("/R.png"); } else {
+				 * w2.setImage("/hrac.png"); }
+				 */
     			if(w2.getHealth()<1) {
     				w.replaceSprite(w2,new Grave(w2));
     				warriors.remove(w2);
