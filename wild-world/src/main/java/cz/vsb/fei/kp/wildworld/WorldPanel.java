@@ -16,15 +16,16 @@ public class WorldPanel extends JComponent {
 
 	private static Random random = new Random();
 	private List<Sprite> sprites = Collections.synchronizedList(new ArrayList<>());
-
+	private List<Sprite> spritesToRemove = Collections.synchronizedList(new ArrayList<>());
+	private List<Sprite> spritesToAdd = Collections.synchronizedList(new ArrayList<>());
 	private boolean animatePanel = false;
 
 	public void addSprite(Sprite sprite) {
-		sprites.add(sprite);
+		spritesToAdd.add(sprite);
 	}
 
 	public void removeSprite(Sprite sprite) {
-		sprites.add(sprite);
+		spritesToRemove.add(sprite);
 	}
 
 	public void replaceSprite(Sprite oldSprite, Sprite newSprite) {

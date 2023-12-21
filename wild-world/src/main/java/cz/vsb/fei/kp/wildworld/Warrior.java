@@ -2,6 +2,8 @@ package cz.vsb.fei.kp.wildworld;
 
 import java.awt.Graphics2D;
 import java.util.Random;
+import cz.vsb.fei.kp.wildworld.World;
+
 
 import javax.swing.Spring;
 
@@ -57,17 +59,16 @@ public abstract class Warrior extends Sprite {
 	 * 0, 0, 0); } }
 	 */
 	protected void attackedBy(Warrior attacker) {
+		String message = String.format("%s %s attacks %s %s with %d power", attacker.getType(), attacker.getName(),
+				getType(), getName(), attacker.getAttackPower());
+		System.out.println(message);
+		
 		boolean neuspech = false;
-		if (attacker.getAttackPower() > defencePower) {
-			health -= attacker.getAttackPower();
-			String message = String.format("%s %s attacks %s %s with %d power", attacker.getType(), attacker.getName(),
-					getType(), getName(), attacker.getAttackPower());
-			System.out.println(message);
-			if (neuspech != true) {
-				printStatus();
-			}
 		if (getType() == "Knight") {
-			if (random.nextDouble(200) < (getDefencePower() / ((random.nextInt(4)) + 1))) {
+			double r1 = random.nextDouble(200); 
+			double r2 = (getDefencePower() / ((random.nextInt(4)) + 1));
+			System.out.println(String.format("r1=%f r2=%f", r1, r2));
+			if (r1 < r2) {
 				String failmessage = String.format("%s %s blocks %s %s's attack with their shield", getType(),
 						getName(), attacker.getType(), attacker.getName(), attacker.getAttackPower());
 				waitForAllActionAreDone();
@@ -75,6 +76,11 @@ public abstract class Warrior extends Sprite {
 				System.out.println(failmessage);
 			}
 		}
+		if (attacker.getAttackPower() > defencePower) {
+			health -= attacker.getAttackPower();
+			if (neuspech != true) {
+				printStatus();
+			}
 		}
 	}
 

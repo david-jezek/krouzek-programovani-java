@@ -1,7 +1,11 @@
 package cz.vsb.fei.kp.wildworld;
 
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Random;
+import cz.vsb.fei.kp.wildworld.World;
+import cz.vsb.fei.kp.wildworld.Grave;
 
 public class Player extends Warrior {
 	private String type;
@@ -29,49 +33,52 @@ public class Player extends Warrior {
 		if (getWorld().isKeyPressed(KeyEvent.VK_SHIFT)) {
 			if (getWorld().isKeyPressed(KeyEvent.VK_W)) {
 				setPosition(getIntPosX(), getIntPosY() - 2);
-				cooldown = System.currentTimeMillis();
+//				cooldown = System.currentTimeMillis();
 			}
 			if (getWorld().isKeyPressed(KeyEvent.VK_A)) {
 				setPosition(getIntPosX() - 2, getIntPosY());
-				cooldown = System.currentTimeMillis();
+//				cooldown = System.currentTimeMillis();
 			}
 			if (getWorld().isKeyPressed(KeyEvent.VK_S)) {
 				setPosition(getIntPosX(), getIntPosY() + 2);
-				cooldown = System.currentTimeMillis();
+//				cooldown = System.currentTimeMillis();
 			}
 			if (getWorld().isKeyPressed(KeyEvent.VK_D)) {
 				setPosition(getIntPosX() + 2, getIntPosY());
-				cooldown = System.currentTimeMillis();
+//				cooldown = System.currentTimeMillis();
 			}
 		} else {
 			if (getWorld().isKeyPressed(KeyEvent.VK_W)) {
 				setPosition(getIntPosX(), getIntPosY() - 1);
-				cooldown = System.currentTimeMillis();
+//				cooldown = System.currentTimeMillis();
 			}
 			if (getWorld().isKeyPressed(KeyEvent.VK_A)) {
 				setPosition(getIntPosX() - 1, getIntPosY());
-				cooldown = System.currentTimeMillis();
+//				cooldown = System.currentTimeMillis();
 			}
 			if (getWorld().isKeyPressed(KeyEvent.VK_S)) {
 				setPosition(getIntPosX(), getIntPosY() + 1);
-				cooldown = System.currentTimeMillis();
+//				cooldown = System.currentTimeMillis();
 			}
 			if (getWorld().isKeyPressed(KeyEvent.VK_D)) {
 				setPosition(getIntPosX() + 1, getIntPosY());
-				cooldown = System.currentTimeMillis();
+//				cooldown = System.currentTimeMillis();
 			}
 		}
-		Warrior s = (Warrior)getNearestSprire(w -> w instanceof Warrior);
-		if(s.isIncolision(this) && System.currentTimeMillis() - cooldown > 2000) {
-			s.attackedBy(this);
+		Warrior w2 = (Warrior)getNearestSprire(w -> w instanceof Warrior);
+		if(w2.isIncolision(this) && System.currentTimeMillis() - cooldown > 2000) {
+			this.attack(w2);
 			cooldown = System.currentTimeMillis();
+			if(w2.getHealth() < 1) {
+				World w = getWorld();
+				w.replaceSprite(w2,new Grave(w2));
+			}
 		}
 	}
 
 	@Override
 	protected void attack(Warrior w2) {
-		// TODO Auto-generated method stub
-
+		w2.attackedBy(this);	
 	}
 
 }
