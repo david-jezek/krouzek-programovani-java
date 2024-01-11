@@ -67,12 +67,12 @@ public abstract class Warrior extends Sprite {
 		if (getType() == "Knight") {
 			double r1 = random.nextDouble(200); 
 			double r2 = (getDefencePower() / ((random.nextInt(4)) + 1));
-			System.out.println(String.format("r1=%f r2=%f", r1, r2));
 			if (r1 < r2) {
 				String failmessage = String.format("%s %s blocks %s %s's attack with their shield", getType(),
 						getName(), attacker.getType(), attacker.getName(), attacker.getAttackPower());
 				neuspech = true;
 				System.out.println(failmessage);
+				return;
 			}
 		}
 		if (attacker.getAttackPower() > defencePower) {
@@ -103,4 +103,14 @@ public abstract class Warrior extends Sprite {
 	}
 
 	protected abstract void attack(Warrior w2);
+
+	protected void setAttackPower(int attackPower) {
+		this.attackPower = attackPower;
+	}
+
+	public void setDefencePower(int defencePower) {
+		this.defencePower = defencePower;
+	}
+	
+	
 }

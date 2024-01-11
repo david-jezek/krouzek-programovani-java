@@ -48,7 +48,10 @@ public class WildWorld
         hrac.setSize(20, 20);
         hrac.setPosition(250, 250);
         hrac.setSpeed(45);
+        
+        
 		/*
+		 *
 		 * s = new Sprite("ddd"); s.setPosition(200, 200); s.setSize(20,20);
 		 * w.addSprite(s); s = new Sprite("move"); s.setPositionOfCenet(220, 200);
 		 * s.setSize(10,10); w.addSprite(s); s.moveCenterTo(new Point2D.Double(0, 0), 2,
@@ -83,19 +86,20 @@ public class WildWorld
     			w.addSprite(warrior);
     		}
     		w.randomizePositionsOfSprites();
+    		int index1;
     		while (true) {
-    			int index1 = randomGenerator.nextInt(warriors.size());
     			Warrior w1;
     			do { 
+        			index1 = randomGenerator.nextInt(warriors.size());
     				w1= warriors.get(index1);
     				
-    			} while(w1.getHealth() < 1);
+    			} while(w1.getHealth() < 1 ||  w1.getType().equals("Player"));
     			Warrior w2;
     			do {
     				int index2 = randomGenerator.nextInt(warriors.size());
     				w1 = warriors.get(index1);
     				w2 = warriors.get(index2);
-    			} while (w1.equals(w2) || w1.getType().equals("Player") || w2.getHealth() < 1);
+    			} while (w1.equals(w2) || w2.getHealth() < 1);
     			w1.attack(w2);
     			w2.changeImage("/attack.gif", 2000);
     			w2.waitForAllActionAreDone();	
@@ -105,6 +109,7 @@ public class WildWorld
 				 * w2.setImage("/hrac.png"); }
 				 */
     			if(w2.getHealth()<1) {
+       				w2.waitForAllActionAreDone();
     				w.replaceSprite(w2,new Grave(w2));
     				warriors.remove(w2);
     				if (warriors.size() <2){
@@ -115,4 +120,5 @@ public class WildWorld
 
     	
     }
+    
 }

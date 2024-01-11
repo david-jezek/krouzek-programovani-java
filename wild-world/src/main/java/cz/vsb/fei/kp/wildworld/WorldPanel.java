@@ -25,6 +25,7 @@ public class WorldPanel extends JComponent {
 	}
 
 	public void removeSprite(Sprite sprite) {
+		sprite.forceFinishAllActions();
 		spritesToRemove.add(sprite);
 	}
 

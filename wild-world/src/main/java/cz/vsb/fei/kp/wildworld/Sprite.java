@@ -79,6 +79,27 @@ public class Sprite {
 		}
 	}
 
+	public void forceFinishAllActions() {
+		synchronized (actions) {
+			for (Action action : actions) {
+				action.finish();
+			}
+			actions.clear();
+		}
+	}
+
+	public boolean isAllActionsDone() {
+		synchronized (actions) {
+			for (Action action : actions) {
+				if(!action.isDone()) {
+					return false;
+				}
+			}
+			return true;
+//			return actions.stream().allMatch(Action::isDone);
+		}
+	}
+
 	public double getSpeed() {
 		return speed;
 	}
