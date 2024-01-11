@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -15,14 +16,14 @@ import java.util.concurrent.TimeUnit;
 public class WildWorld {
 	private static Random r = new Random();
 	
-	private static Queue<Warrior> rmvQueue = new LinkedList<Warrior>();
+	private static List<Warrior> rmvQueue = new LinkedList<Warrior>();
 	
     public static void main( String[] args ) {
         World w = new World(new Dimension(600, 600));
         w.showWorld();
 
         Random randomGenerator = new Random();
-		ArrayList<Warrior> warriors = new ArrayList<>();
+		List<Warrior> warriors = new ArrayList<>();
 		warriors.add(randSwordsman("Princ Krasoň")); 
 		warriors.add(randArcher("Alex Jones"));
 		warriors.add(randWarrior("FIZIStyle"));
@@ -39,14 +40,13 @@ public class WildWorld {
 		for (Warrior warrior : warriors) {
 			w.addSprite(warrior);
 		}
-		Player plejr = new Player("/engineer.jpg", "hrac", 1000, 1000, 1000);
+		Player plejr = new Player("/engineer.jpg", "hrac", 1000, 1000, 1000, new Sword("/Sword.png"));
+		
 		w.addSprite(plejr);
+		w.addSprite(plejr.getSword());
 		w.randomizePositionsOfSprites();
 		
-		Sword sword = new Sword("/Sword.png");
-		w.addSprite(sword);
-		
-		for (;true;) {
+		while (true) {
 			int index2;
 			int index1 = randomGenerator.nextInt(warriors.size());
 			Warrior w1 = warriors.get(index1);
@@ -86,9 +86,8 @@ public class WildWorld {
 				e.printStackTrace();
 			}
 			
-			while(0 < rmvQueue.size()) {
-				warriors.remove(rmvQueue.poll());
-			}
+			warriors.removeAll(rmvQueue);
+			rmvQueue.clear();
 		}
     }
     

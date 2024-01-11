@@ -19,8 +19,8 @@ public class WorldPanel extends JComponent {
 
 	private static Random random = new Random();
 	private List<Sprite> sprites = Collections.synchronizedList(new ArrayList<>());
-	public Queue<Sprite> rmvQueue = new LinkedList<Sprite>();
-	public Queue<Sprite> addQueue = new LinkedList<Sprite>();
+	public List<Sprite> rmvQueue = new LinkedList<Sprite>();
+	public List<Sprite> addQueue = new LinkedList<Sprite>();
 	
 	private boolean animatePanel = false;
 
@@ -45,6 +45,8 @@ public class WorldPanel extends JComponent {
 		newSprite.setSize(oldSprite.getIntWidth(), oldSprite.getIntHeight());
 		rmvQueue.add(oldSprite);
 		addQueue.add(newSprite);
+		System.out.println(rmvQueue.size());
+		System.out.println(addQueue.size());
 	}
 
 	@Override
@@ -64,6 +66,10 @@ public class WorldPanel extends JComponent {
 			while (animatePanel && !Thread.currentThread().isInterrupted()) {
 				synchronized (sprites) {
 					sprites.forEach(Sprite::simulate);
+					sprites.removeAll(rmvQueue);
+					rmvQueue.clear();
+					sprites.addAll(addQueue);
+					addQueue.clear();
 				}
 				repaint();
 				try {
@@ -71,18 +77,10 @@ public class WorldPanel extends JComponent {
 				} catch (InterruptedException ex) {
 					Thread.currentThread().interrupt();
 				}
+				//FIXME doesnt work too
 			}
 			animatePanel = false;
 		});
-		//FIXME doesnt work too
-		while(0 < rmvQueue.size()) {
-			removeSprite(rmvQueue.poll());
-			System.out.println(String.format("rmvQueue size is %d", rmvQueue.size()));
-		}
-		while(0 < addQueue.size()) {
-			addSprite(addQueue.poll());
-			System.out.println(String.format("addQueue size is %d", addQueue.size()));
-		}
 		thread.start();
 	}
 

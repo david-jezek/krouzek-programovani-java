@@ -6,10 +6,21 @@ import java.util.List;
 public class Player extends Warrior {
 	private long mvCooldown = 0;
 	private long atkCooldown = 0;
-	public Player(String obraz, String name, int maxHP, int AP, int DEF) {
+	private Sword sword;
+	public Player(String obraz, String name, int maxHP, int AP, int DEF, Sword sword) {
 		super(obraz, name, maxHP, AP, DEF);
-		
+		this.sword = sword;
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Sword getSword() {
+		return sword;
+	}
+	
+	@Override
+	public void setPosition(double x, double y) {
+		super.setPosition(x, y);
+		sword.setPosition( x + getIntWidth() + 5, y - 20);
 	}
 	
 	@Override
@@ -52,13 +63,8 @@ public class Player extends Warrior {
 		
 		Warrior near = (Warrior)getNearestSprire(sprite -> sprite instanceof Warrior);
 		
-		if(this.collides(near) && System.currentTimeMillis() - atkCooldown > 2000) {
-			near.hitBy(this);
-			atkCooldown = System.currentTimeMillis();
-		}
-		
 		if(getWorld().isKeyPressed(KeyEvent.VK_SPACE)) {
-			
+			sword.Attack('R');
 		}
 	}
 }

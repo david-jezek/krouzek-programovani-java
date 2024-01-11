@@ -110,6 +110,10 @@ public class Sprite {
 	public double getRotationSpeed() {
 		return rotationSpeed;
 	}
+	
+	public boolean isNotDoingAnything() {
+		return actions.isEmpty();
+	}
 
 	public void setRotationSpeed(double rotationSpeed) {
 		this.rotationSpeed = rotationSpeed;
