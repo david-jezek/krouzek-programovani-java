@@ -8,6 +8,7 @@ public class Sword extends Sprite {
 
 	public long cooldown = 0;
 	private boolean isAttacking = false;
+	private List<Warrior> hit = new LinkedList<Warrior>();
 	
 	public Sword(String image) {
 		super(image);
@@ -15,8 +16,7 @@ public class Sword extends Sprite {
 	}
 
 	
-	public List<Sprite> Attack(char direction) {
-		List<Sprite> hit = new LinkedList<Sprite>();
+	public List<Warrior> Attack(char direction) {
 		
 		/*if(!isAttacking) {
 			isAttacking = true;
@@ -29,10 +29,22 @@ public class Sword extends Sprite {
 			}
 			isAttacking = false;
 		}*/
-		Action attack = new AttackAction(getDirection(), 'L');
+		
+		Action attack = new AttackAction(getDirection(), direction);
 		
 		addAction(attack);
 		
+		
+		/*while(!isNotDoingAnything()) {
+			Warrior nearest = (Warrior)this.getNearestSprire(s -> s instanceof Warrior);
+			
+			if(this.collides(nearest) && !hit.contains(nearest)) {
+				nearest.hitBy((Player)this.getWorld().getSprites(p -> p instanceof Player).get(0));
+				hit.add(nearest);
+			}
+		}*/
+		
+		//waitForAllActionAreDone();
 		
 		return hit;
 	}
@@ -41,7 +53,7 @@ public class Sword extends Sprite {
 	
 	public class AttackAction extends Action {
 		
-		private double finDir, speed = 20, prevDir;
+		private double finDir, speed = 10, prevDir;
 		private boolean hasSwung = false, right;
 		
 		public AttackAction(double prevDir, char dir) {
@@ -63,15 +75,17 @@ public class Sword extends Sprite {
 			/*if(hasSwung && getDirection() != prevDir) {
 				if(right) {
 				*/	
-			if(Math.abs(getDirection() - finDir) <= 1) {
+			if(Math.abs(getDirection() - finDir) <= speed && !hasSwung) {
 				setDirection(finDir);
+				hasSwung = true;
+				speed /= 4;
+			} else if (Math.abs(getDirection() - prevDir) <= speed && hasSwung) {
+				setDirection(prevDir);
 				finish();
-			} else if (right){
-				setDirection(getDirection() + 1);
-				System.out.println("ATTACKING");
-			} else {
-				setDirection(getDirection() - 1);
-				System.out.println("ATTACKING");			
+			} else if ((right && !hasSwung) || (!right && hasSwung)){
+				setDirection(getDirection() + speed);
+			} else if ((!right && !hasSwung) || (right && hasSwung)) {
+				setDirection(getDirection() - speed);
 			}
 				/*}
 				
@@ -83,6 +97,14 @@ public class Sword extends Sprite {
 				setDirection(getDirection());
 			}
 			*/
+			
+			Warrior nearest = (Warrior)getNearestSprire(s -> s instanceof Warrior);
+			
+			if(collides(nearest) && !hit.contains(nearest) && !hasSwung) {
+				nearest.hitBy((Player)getWorld().getSprites(p -> p instanceof Player).get(0));
+				hit.add(nearest);
+			}
+			
 			return isDone();
 		}
 	
