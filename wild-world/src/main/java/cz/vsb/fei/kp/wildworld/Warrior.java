@@ -1,5 +1,6 @@
 package cz.vsb.fei.kp.wildworld;
 
+import java.awt.Graphics2D;
 import java.util.Random;
 
 public class Warrior extends Sprite {
@@ -10,6 +11,7 @@ public class Warrior extends Sprite {
 	private int health;
 	private int defencePower;
 	private int attackPower;
+	
 	
 	public Warrior() {
 		this("Unknown");
@@ -49,13 +51,9 @@ public class Warrior extends Sprite {
 	public void attack(Warrior defender) {
 		if (health > 0) {
 			pursuit(defender, 2, 4, 7);
+			waitForAllActionAreDone();
 			defender.attackedBy(this);
 		}
-	}
-	public void movingName(Warrior warrior) {
-		int x = warrior.getIntPosX();
-		int y = warrior.getIntPosY();
-		//pouyit if a menit x a y jmena ktere se musi jeste vzpsat a neyapomenout na nebo v ifu
 	}
 
 	protected void attackedBy(Warrior attacker) {
@@ -71,6 +69,14 @@ public class Warrior extends Sprite {
 	
 	public void printStatus() {
 		System.out.println(String.format("%s has health %d", name, health));
+	}
+
+	@Override
+	public void draw(Graphics2D g2) {
+		super.draw(g2);
+		String healthstr = Integer.toString(health);
+		g2.drawString(name, getIntPosX(), getIntPosY());
+		g2.drawString(healthstr, getIntPosX(), (getIntPosY()+getIntHeight() + 12));
 	}
 	
 }

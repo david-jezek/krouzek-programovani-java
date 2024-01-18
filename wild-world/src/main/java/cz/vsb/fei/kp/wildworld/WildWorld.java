@@ -1,6 +1,8 @@
 package cz.vsb.fei.kp.wildworld;
 
 import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -73,10 +75,13 @@ public class WildWorld
 			} while (w1.equals(w2));
 
 			w1.attack(w2);
-			if (w2.getHealth() >= 0) {
+			if (w2.getHealth() <= 0) {
 				w.replaceSprite(w2, new Grave(w2));
-				
+			} else {
+				w2.moveCenterTo(new Point2D.Double(40, 50), 20, 20);
+				w2.waitForAllActionAreDone();
 			}
+			
 		}
 
 		for (Warrior warrior : warriors) {
