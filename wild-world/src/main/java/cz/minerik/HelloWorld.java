@@ -42,6 +42,7 @@ public class HelloWorld {
 				
 			}
 		});
+         
         
         /*Sprite sprite = new Warrior("/giphy.gif");
         sprite.setPosition(100, 100);
