@@ -26,6 +26,7 @@ public class WildWorldTest
         Action a = s.rotateTo(-45, -0.5);
 //        a.waitForDone();
 
+        
         s = new Sprite("/giphy.gif");
         s.setPosition(100, 200);
         s.setSize(150,50);
