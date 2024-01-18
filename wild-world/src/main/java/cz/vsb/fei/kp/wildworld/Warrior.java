@@ -59,12 +59,13 @@ public abstract class Warrior extends Sprite {
 	 * 0, 0, 0); } }
 	 */
 	protected void attackedBy(Warrior attacker) {
+		this.changeImage("/attack.gif", 900);
 		String message = String.format("%s %s attacks %s %s with %d power", attacker.getType(), attacker.getName(),
 				getType(), getName(), attacker.getAttackPower());
 		System.out.println(message);
 		
 		boolean neuspech = false;
-		if (getType() == "Knight") {
+		if (getType()!= "Archer" && getType() != "Player") {
 			double r1 = random.nextDouble(200); 
 			double r2 = (getDefencePower() / ((random.nextInt(4)) + 1));
 			if (r1 < r2) {

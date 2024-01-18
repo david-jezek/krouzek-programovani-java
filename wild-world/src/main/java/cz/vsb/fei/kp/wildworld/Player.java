@@ -9,11 +9,11 @@ import java.util.Random;
 import cz.vsb.fei.kp.wildworld.World;
 import cz.vsb.fei.kp.wildworld.Grave;
 
-
 public class Player extends Warrior {
 	private long cooldown = 0;
 	private static Random random = new Random();
 	private Sprite weapon;
+	private Sprite fire;
 	private Warrior lastAttacked = null;
 
 	public Player() {
@@ -27,16 +27,18 @@ public class Player extends Warrior {
 	public Player(String obrazek, String type, String name, int health, int defencePower, int attackPower) {
 		super("/hrac.png", type, name, health, defencePower, attackPower);
 		weapon = new Sprite("/weapon.png");
-        weapon.setSize(10,21);
-	}
+		weapon.setSize(10, 21);
+		fire = new Sprite("/clearfire.gif");
+		fire.setSize(50,50);
+}
 
 	@Override
 	public void simulate() {
 		super.simulate();
-		if(lastAttacked != null && lastAttacked.isAllActionsDone()) {
-			if(lastAttacked.getHealth() < 1) {
+		if (lastAttacked != null && lastAttacked.isAllActionsDone()) {
+			if (lastAttacked.getHealth() < 1) {
 				World w = getWorld();
-				w.replaceSprite(lastAttacked,new Grave(lastAttacked));
+				w.replaceSprite(lastAttacked, new Grave(lastAttacked));
 			}
 			lastAttacked = null;
 		}
@@ -75,45 +77,45 @@ public class Player extends Warrior {
 //				cooldown = System.currentTimeMillis();
 			}
 		}
-		if(System.currentTimeMillis() - cooldown > 2000 && lastAttacked == null) {
+		if (System.currentTimeMillis() - cooldown > 2000 && lastAttacked == null) {
 			cooldown = System.currentTimeMillis();
-			Warrior w2 = (Warrior)getNearestSprire(s -> s instanceof Warrior);
+			Warrior w2 = (Warrior) getNearestSprire(s -> s instanceof Warrior);
 			boolean weaponCollision = weapon.isIncolision(w2);
 			boolean playerCollision = this.isIncolision(w2);
-			
-			if(playerCollision &&  !weaponCollision) {
+
+			if (playerCollision && !weaponCollision) {
+				fire.changeImage("/fire.gif", 1000);
 				this.attack(w2);
-				w2.changeImage("/attack.gif", 2000);
+//				w2.changeImage("/attack.gif", 900);
 				lastAttacked = w2;
-				/*
-				 * if (w2.getType() == "Archer") { w2.setImage("/lucesnik.png"); } else
-				 * if(w2.getType()=="Knight"){ w2.setImage("/R.png"); } else {
-				 * w2.setImage("/hrac.png"); }
-				 */
-			}
-			else if (weaponCollision) {
+			} else if (weaponCollision) {
 				int oldAtt = getAttackPower();
 				int oldDef = w2.getDefencePower();
-				w2.setDefencePower(0);
-				setAttackPower( getAttackPower()*3);
+				w2.setDefencePower(getDefencePower() / 2);
+				setAttackPower(getAttackPower() * 3);
 				this.attack(w2);
 				setAttackPower(oldAtt);
 				w2.setDefencePower(oldDef);
-				w2.changeImage("/attack.gif", 2000);
 				lastAttacked = w2;
 			}
 		}
 	}
-
+	
 	@Override
 	protected void attack(Warrior w2) {
-		w2.attackedBy(this);	
+		w2.attackedBy(this);
 	}
 
 	@Override
 	public void setPosition(double x, double y) {
 		super.setPosition(x, y);
-		weapon.setPosition(x+20, y-5);
+		weapon.setPosition(x + 20, y - 5);
+		fire.setPosition(x-15, y-12.3);
+		if (this.getHealth() < 1) {
+			this.setAttackPower(0);
+			weapon.setPosition(this.getIntPosX()+5, this.getIntPosY()+12);
+			weapon.setDirection(270);
+		}
 	}
 
 	@Override
@@ -131,9 +133,8 @@ public class Player extends Warrior {
 	@Override
 	public void setWorld(World world) {
 		super.setWorld(world);
+		getWorld().addSprite(fire);
 		getWorld().addSprite(weapon);
 	}
-
-	
 
 }

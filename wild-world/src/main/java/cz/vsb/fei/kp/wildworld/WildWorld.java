@@ -5,7 +5,6 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-
 import cz.vsb.fei.kp.wildworld.Sprite.Action;
 
 /**
@@ -75,11 +74,11 @@ public class WildWorld
     		warriors.add(new Archer("/lucesnik.png","Archer", "Mat", 200, 125, 800));
     		warriors.add(new Knight("/R.png","Knight", "Princ krasoň", 3000, 300, 500));
     		warriors.add(new Archer("/lucesnik.png","Archer", "Nerd emoji", 5000, 150, 200));
-    		warriors.add(new Knight("/R.png","Knight", "Shrek", 1, 200, 9999));
     		warriors.add(new Archer("/lucesnik.png","Archer", "Matej", 100, 100, 100));
     		warriors.add(new Knight("/R.png","Knight", "Krtecek", 4000, 200, 250));
     		warriors.add(new Knight("/R.png","Knight", "Kocour v botach", 9000, 200, 800));
     		warriors.add(new Knight("/R.png","Knight", "Blesk McQueen", 2500, 450, 300));
+    		warriors.add(new Knight("/R.png","Knight", "Shrek", 1, 200, 9999));
     		warriors.add(new Player("/hrac.png","Player","Hráč",5000,500,500));
 
     		for (Warrior warrior : warriors) {
@@ -101,13 +100,7 @@ public class WildWorld
     				w2 = warriors.get(index2);
     			} while (w1.equals(w2) || w2.getHealth() < 1);
     			w1.attack(w2);
-    			w2.changeImage("/attack.gif", 2000);
     			w2.waitForAllActionAreDone();	
-				/*
-				 * if (w2.getType() == "Archer") { w2.setImage("/lucesnik.png"); } else
-				 * if(w2.getType()=="Knight"){ w2.setImage("/R.png"); } else {
-				 * w2.setImage("/hrac.png"); }
-				 */
     			if(w2.getHealth()<1) {
        				w2.waitForAllActionAreDone();
     				w.replaceSprite(w2,new Grave(w2));
