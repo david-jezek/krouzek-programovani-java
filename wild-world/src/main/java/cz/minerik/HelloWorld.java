@@ -16,7 +16,10 @@ public class HelloWorld {
 	static Random random = new Random();
 	static World world = new World(new Dimension(1280,720));
 	static ArrayList<Entity> warriors = new ArrayList<>();
-	static Warrior player = new Warrior("Player");
+	static player player = new player("/windows.jpg", "Player", 10000, 7500, 5000);
+	
+	static boolean playerAttacking = false;
+	static boolean playerDone = false;
 	
 	public static void main(String[] args) throws InterruptedException {
 		
@@ -31,8 +34,11 @@ public class HelloWorld {
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(e.getKeyCode()==KeyEvent.VK_SPACE) {
-					player.attack((Entity)(player.getNearestSprire(sprite -> sprite instanceof Entity)), world);
+				if(playerAttacking) {
+					if(e.getKeyCode()==KeyEvent.VK_SPACE) {
+						player.attack((Entity)(player.getNearestSprire(sprite -> sprite instanceof Entity)), world);
+						playerDone = true;
+					}
 				}
 			}
 			
@@ -88,7 +94,13 @@ public class HelloWorld {
 			Entity w2 = (Entity)(w1.getNearestSprire(sprite -> sprite instanceof Entity)); //warriors.get(b);
 			if(player==w1) {
 				System.out.println("hrac byl vybran");
-				return;
+				playerAttacking = true;
+				while(!playerDone) {
+					System.out.println("Cekam");
+				}
+				w1.waitForAllActionAreDone();
+				playerAttacking = false;
+				playerDone = false;
 			}
 			else if(w1!=w2) {
 				w1.attack(w2, world);
