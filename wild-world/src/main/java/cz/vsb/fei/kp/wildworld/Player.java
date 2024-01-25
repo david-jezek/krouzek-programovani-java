@@ -29,32 +29,28 @@ public class Player extends Warrior {
 		boolean s = false, w = false, d = false, a = false;
 		int hor = 0, ver = 0;
 		super.simulate();
-		boolean active = !sword.isNotDoingAnything();
-/*		if(getWorld().isKeyPressed(KeyEvent.VK_SHIFT)) {
-			dash = true;
-		} else {
-			dash = false;
-		}*/
+
 		if(getWorld().isKeyPressed(KeyEvent.VK_S)) {
 			setPosition(getIntPosX(), getIntPosY()+2);
 			lastMoved = 'S';
-			sword.setPosition(getIntPosX(), getIntPosY() + getIntHeight());
-		}
-		if(getWorld().isKeyPressed(KeyEvent.VK_A)) {
-			setPosition(getIntPosX()-2, getIntPosY());
-			lastMoved = 'A';
-			sword.setPosition(getIntPosX() - getIntWidth() - 5, getIntPosY() - getIntHeight());
+			s = true;
 		}
 		if(getWorld().isKeyPressed(KeyEvent.VK_W)) {
 			setPosition(getIntPosX(), getIntPosY()-2);
 			lastMoved = 'W';
-			sword.setPosition(getIntPosX(), getIntPosY() - getIntHeight() * 2);
+			w = true;
+		}
+		if(getWorld().isKeyPressed(KeyEvent.VK_A)) {
+			setPosition(getIntPosX()-2, getIntPosY());
+			lastMoved = 'A';
+			a = true;
 		}
 		if(getWorld().isKeyPressed(KeyEvent.VK_D)) {
 			setPosition(getIntPosX()+2, getIntPosY());
 			lastMoved = 'D';
-			sword.setPosition(getIntPosX() + getIntWidth() + 5, getIntPosY() - getIntHeight());
+			d = true;
 		}
+		
 		if(getWorld().isKeyPressed(KeyEvent.VK_SHIFT) && System.currentTimeMillis() - mvCooldown > 2000) {
 			if(a) hor-=50;
 			if(d) hor+=50;
@@ -64,24 +60,35 @@ public class Player extends Warrior {
 			setPosition(getIntPosX()+hor, getIntPosY()+ver);
 			mvCooldown = System.currentTimeMillis();
 		}
+		if(sword.isNotDoingAnything() && lastMoved == 'S')
+			sword.setDirection(180);
+		else if (sword.isNotDoingAnything())
+			sword.setDirection(0);
+		
+		if(lastMoved == 'A')
+			sword.setPosition(getIntPosX() - getIntWidth() - 5, getIntPosY() - getIntHeight());
+		else if(lastMoved == 'D')
+			sword.setPosition(getIntPosX() + getIntWidth() + 5, getIntPosY() - getIntHeight());
+		else if(lastMoved == 'S')
+			sword.setPosition(getIntPosX(), getIntPosY() + getIntHeight());
+		else if(lastMoved == 'W')
+			sword.setPosition(getIntPosX(), getIntPosY() - getIntHeight() * 2);
 		
 		Warrior near = (Warrior)getNearestSprire(sprite -> sprite instanceof Warrior);
 		
-		
 		if(getWorld().isKeyPressed(KeyEvent.VK_SPACE) && System.currentTimeMillis() - atkCooldown > 2000 && near != null) {
 			//TODO make attacking directional
-			if(lastMoved == 'A' && near.getIntPosX() <= sword.getIntPosX() + sword.getIntWidth() && near.getIntPosX() >= sword.getIntPosX() - sword.getIntWidth() && near.getIntPosY() <= sword.getIntPosY() && near.getIntPosY() >= sword.getIntPosY() + sword.getIntHeight() * 3/4) {
+			if(lastMoved == 'A' && near.getIntPosX() <= sword.getIntPosX() + sword.getIntWidth() && near.getIntPosX() >= sword.getIntPosX() - sword.getIntWidth() && near.getIntPosY() <= sword.getIntPosY() + sword.getIntHeight() && near.getIntPosY() + near.getIntHeight() >= sword.getIntPosY())
 				sword.Attack('L');
-			} /*else if(lastMoved == 'S' && near.getIntPosX()) {
+			else if(lastMoved == 'S' && near.getIntPosX() >= sword.getIntPosX() - sword.getIntWidth() && near.getIntPosX() <= sword.getIntPosX() + sword.getIntWidth() && near.getIntPosY() >= sword.getIntPosY() && near.getIntPosY() <= sword.getIntPosY() + sword.getIntHeight())
 				sword.Attack('R');
-			} commented so github doesn't complain ab errors*/
+			else if(lastMoved == 'D' && near.getIntPosX() >= sword.getIntPosX() && near.getIntPosX() <= sword.getIntPosX() + sword.getIntHeight() && near.getIntPosY() >= sword.getIntPosY() && near.getIntPosY() <= sword.getIntPosY() + sword.getIntHeight())
+				sword.Attack('R');
+			else if(lastMoved == 'W' && near.getIntPosX() <= sword.getIntPosX() + sword.getIntWidth() && near.getIntPosX() >= sword.getIntPosX() - sword.getIntHeight() && near.getIntPosY() >= sword.getIntPosY() && near.getIntPosY() <= sword.getIntPosY() + sword.getIntHeight())
+				sword.Attack('L');
 			
-			else if(near.getIntPosX() <= sword.getIntPosX() + sword.getIntWidth() * 2 && near.getIntPosX() >= sword.getIntPosX() && near.getIntPosY() >= sword.getIntPosY() && near.getIntPosY() <= sword.getIntPosX()) {
-				sword.Attack('R');
-				atkCooldown = System.currentTimeMillis();
-			}
+			atkCooldown = System.currentTimeMillis();
 		}
-		
 		
 	}
 }

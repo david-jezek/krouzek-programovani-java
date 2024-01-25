@@ -16,37 +16,17 @@ public class Sword extends Sprite {
 	}
 
 	
-	public List<Warrior> Attack(char direction) {
-		
-		/*if(!isAttacking) {
-			isAttacking = true;
-			Warrior nearest = (Warrior) getNearestSprire(t -> t instanceof Warrior);
-			
-			if(this.collides(nearest) && System.currentTimeMillis() - cooldown > 2000) {
-				nearest.hitBy((Player) getWorld().getSprites(s -> s instanceof Player).get(0));
-				cooldown = System.currentTimeMillis();
-				
-			}
-			isAttacking = false;
-		}*/
-		
+	public void Attack(char direction) {
 		Action attack = new AttackAction(getDirection(), direction);
-		
 		addAction(attack);
-		
-		
-		/*while(!isNotDoingAnything()) {
-			Warrior nearest = (Warrior)this.getNearestSprire(s -> s instanceof Warrior);
-			
-			if(this.collides(nearest) && !hit.contains(nearest)) {
-				nearest.hitBy((Player)this.getWorld().getSprites(p -> p instanceof Player).get(0));
-				hit.add(nearest);
-			}
-		}*/
-		
-		//waitForAllActionAreDone();
-		
+	}
+	
+	public List<Warrior> getHitEnemies() {
 		return hit;
+	}
+	
+	private void resetHitEnemies() {
+		hit.clear();
 	}
 	
 	//pamatovat si puvodni rotaci, rotovat 90° a pak si pamatovat jestli se cepel vraci nebo ne
@@ -72,9 +52,6 @@ public class Sword extends Sprite {
 		@Override
 		public boolean doConcreteAction() {
 			
-			/*if(hasSwung && getDirection() != prevDir) {
-				if(right) {
-				*/	
 			if(Math.abs(getDirection() - finDir) <= speed && !hasSwung) {
 				setDirection(finDir);
 				hasSwung = true;
@@ -87,16 +64,6 @@ public class Sword extends Sprite {
 			} else if ((!right && !hasSwung) || (right && hasSwung)) {
 				setDirection(getDirection() - speed);
 			}
-				/*}
-				
-			} else if(getDirection() == finDir) {
-				setDirection(finDir);
-				hasSwung = true;
-			} else {
-				
-				setDirection(getDirection());
-			}
-			*/
 			
 			Warrior nearest = (Warrior)getNearestSprire(s -> s instanceof Warrior);
 			

@@ -42,9 +42,11 @@ public class WildWorld {
 		}
 		Player plejr = new Player("/engineer.jpg", "hrac", 1000, 1000, 1000, new Sword("/Sword.png"));
 		
+		warriors.add(plejr);
+		
 		w.addSprite(plejr);
-		w.addSprite(plejr.getSword());
 		w.randomizePositionsOfSprites();
+		w.addSprite(plejr.getSword());
 		
 		while (true) {
 			int index2;
@@ -54,22 +56,25 @@ public class WildWorld {
 			do {
 				index2 = randomGenerator.nextInt(warriors.size());
 				w2 = warriors.get(index2);
-			} while (w1.equals(w2));
+			} while (w1.equals(w2) || w2.equals(plejr));
 			
 			for (Warrior warrior : warriors) {
 				if(warrior.isDead()) {
 					Grave grave = new Grave("/Grave.png", warrior.getName());
 					w.replaceSprite(warrior, grave);
 					rmvQueue.add(warrior);
+				} else {
+					//TODO add retreat whenever hit and not dead
 				}
 			}
 			
-			if(w2.getAP() < w1.getDEF() || w1.getAP() > w2.getDEF()) {
-				w1.attack(w2);
+			if(w2.getAP() > w1.getDEF()) {
 				w2.attack(w1);
+				if(!(w1 instanceof Player)) {
+					w1.attack(w2);
+				}
 			} else {
 				w2.doATKBuff();
-				w1.doATKBuff();
 			}
 			
 			
