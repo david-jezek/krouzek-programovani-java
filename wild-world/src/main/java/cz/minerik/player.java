@@ -1,5 +1,6 @@
 package cz.minerik;
 
+import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.util.Random;
 
@@ -9,12 +10,16 @@ public class player extends Entity {
 	
 	static Weapon weapon = new Weapon();
 	
+	private static int speed = 3;
+	
+	public static boolean playerAttacking = false;
+	
 	public player(String name) {
 		this("/giphy.gif", name, 1000, 750, 500);
 	}
 	
 	public player(String image, String name, int maxHealth, int strenght, int deffence) {
-		super("/giphy.gif", name, maxHealth, strenght, deffence);
+		super(image, name, maxHealth, strenght, deffence);
 	}
 	
 	@Override
@@ -24,6 +29,7 @@ public class player extends Entity {
 	}
 
 	public void attack(Entity defender, World world) {
+		weapon.swing(100, 1);
 		//moveCenterTo(new Point2D.Double(defender.getPositionOfCenet().x+50, defender.getPositionOfCenet().y), 5,1000);
 		setPosition(defender.getPositionOfCenet().x+50, defender.getPositionOfCenet().y);
 		System.out.println(String.format("%s do attack to the %s.", this.name, defender.name));
@@ -37,9 +43,28 @@ public class player extends Entity {
 	}
 	
 	@Override
+	public void simulate() {
+		super.simulate();
+		if(playerAttacking) {
+			if (getWorld().isKeyPressed(KeyEvent.VK_W)) {
+				setPosition(getIntPosX(), getIntPosY() - speed);
+			}
+			if (getWorld().isKeyPressed(KeyEvent.VK_A)) {
+				setPosition(getIntPosX() - speed, getIntPosY());
+			}
+			if (getWorld().isKeyPressed(KeyEvent.VK_S)) {
+				setPosition(getIntPosX(), getIntPosY() + speed);
+			}
+			if (getWorld().isKeyPressed(KeyEvent.VK_D)) {
+				setPosition(getIntPosX() + speed, getIntPosY());
+			}
+		}
+	}
+	
+	@Override
 	public void setPosition(double x, double y) {
 		super.setPosition(x, y);
-		weapon.setPosition(x+20, y-10);
+		weapon.setPosition(x+30, y-10);
 	}
 	
 }

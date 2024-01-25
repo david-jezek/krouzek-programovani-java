@@ -16,9 +16,9 @@ public class HelloWorld {
 	static Random random = new Random();
 	static World world = new World(new Dimension(1280,720));
 	static ArrayList<Entity> warriors = new ArrayList<>();
-	static player player = new player("/windows.jpg", "Player", 10000, 7500, 5000);
+	static player player = new player("/samurai.png", "Player", 10000, 7500, 5000);
 	
-	static boolean playerAttacking = false;
+	
 	static boolean playerDone = false;
 	
 	public static void main(String[] args) throws InterruptedException {
@@ -34,10 +34,14 @@ public class HelloWorld {
 			
 			@Override
 			public void keyReleased(KeyEvent e) {
-				if(playerAttacking) {
+				if(player.playerAttacking) {
 					if(e.getKeyCode()==KeyEvent.VK_SPACE) {
-						player.attack((Entity)(player.getNearestSprire(sprite -> sprite instanceof Entity)), world);
-						playerDone = true;
+						Entity playerNear = (Entity)(player.getNearestSprire(sprite -> sprite instanceof Entity));
+						if (player.getDistanceForm(playerNear)<100) {
+							player.attack(playerNear, world);
+							warriors.remove(playerNear);
+							playerDone = true;
+						}
 					}
 				}
 			}
@@ -55,7 +59,7 @@ public class HelloWorld {
         sprite.setSize(10,10);
         sprite.moveCenterTo(new Point2D.Double(400, 400), 2, 2);
         world.addSprite(sprite);*/
-
+        
 		warriors.add(player);
 		
 		for(int i = 0; i<2; i++) {
@@ -94,19 +98,19 @@ public class HelloWorld {
 			Entity w2 = (Entity)(w1.getNearestSprire(sprite -> sprite instanceof Entity)); //warriors.get(b);
 			if(player==w1) {
 				System.out.println("hrac byl vybran");
-				playerAttacking = true;
+				player.playerAttacking = true;
 				while(!playerDone) {
 					System.out.println("Cekam");
 				}
-				w1.waitForAllActionAreDone();
-				playerAttacking = false;
+				//w1.waitForAllActionAreDone();
+				player.playerAttacking = false;
 				playerDone = false;
 			}
 			else if(w1!=w2) {
 				w1.attack(w2, world);
 				//w1.waitForAllActionAreDone();
 			}
-			if(!(w2.isAlive())) {
+			if(!w2.isAlive()) {
 				warriors.remove(w2);
 			}
 		}

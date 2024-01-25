@@ -40,7 +40,7 @@ public abstract class Entity extends Sprite {
 	}
 	
 	public Boolean isAlive() {
-		return this.health > 0;
+		return this.health >= 0;
 	}
 	
 	public void DeathCheck(Entity atacker) {

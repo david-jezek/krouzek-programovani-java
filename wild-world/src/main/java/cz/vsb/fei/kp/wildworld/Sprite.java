@@ -154,6 +154,12 @@ public class Sprite {
 		addAction(action);
 		return action;
 	}
+	
+	public Action swing(double targetScale, double scaleSpeed) {
+		Action action = new ScaleAction(targetScale, scaleSpeed);
+		addAction(action);
+		return action;
+	}
 
 	public void waitForAllActionAreDone() {
 		Action a = null;
@@ -341,6 +347,25 @@ public class Sprite {
 			} else {
 				setDirection(direction + rotationSpeed);
 			}
+			return isDone();
+		}
+	}
+	
+	public class SwingAction extends Action {
+
+		private double swingSize;
+		private double rotationSpeed;
+
+		public SwingAction(double swingSize, double rotationSpeed) {
+			super();
+			this.swingSize = swingSize;
+			this.rotationSpeed = rotationSpeed;
+		}
+
+		@Override
+		public boolean doConcreteAction() {
+			rotateTo(getDirection()+swingSize, rotationSpeed);
+			rotateTo(getDirection()-swingSize, rotationSpeed);
 			return isDone();
 		}
 	}
