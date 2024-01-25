@@ -12,7 +12,7 @@ import cz.vsb.fei.kp.wildworld.Grave;
 public class Player extends Warrior {
 	private long cooldown = 0;
 	private static Random random = new Random();
-	private Sprite weapon;
+	private Weapon weapon;
 	private Sprite fire;
 	private Warrior lastAttacked = null;
 
@@ -26,7 +26,7 @@ public class Player extends Warrior {
 
 	public Player(String obrazek, String type, String name, int health, int defencePower, int attackPower) {
 		super("/hrac.png", type, name, health, defencePower, attackPower);
-		weapon = new Sprite("/weapon.png");
+		weapon = new Weapon();
 		weapon.setSize(10, 21);
 		fire = new Sprite("/clearfire.gif");
 		fire.setSize(50,50);
@@ -80,6 +80,9 @@ public class Player extends Warrior {
 		if (System.currentTimeMillis() - cooldown > 2000 && lastAttacked == null) {
 			cooldown = System.currentTimeMillis();
 			Warrior w2 = (Warrior) getNearestSprire(s -> s instanceof Warrior);
+			if(w2 == null){
+				return;
+			}
 			boolean weaponCollision = weapon.isIncolision(w2);
 			boolean playerCollision = this.isIncolision(w2);
 
@@ -89,6 +92,7 @@ public class Player extends Warrior {
 //				w2.changeImage("/attack.gif", 900);
 				lastAttacked = w2;
 			} else if (weaponCollision) {
+				weapon.swing(weapon.getDirection(),weapon.getDirection()+90 );
 				int oldAtt = getAttackPower();
 				int oldDef = w2.getDefencePower();
 				w2.setDefencePower(getDefencePower() / 2);
