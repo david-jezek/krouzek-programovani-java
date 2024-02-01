@@ -19,7 +19,7 @@ public class Sprite {
 	private Image imageOriginal;
 	private Image image;
 	private Rectangle2D.Double rectangle2d = new Rectangle2D.Double();
-	private double direction;
+	protected double direction;
 	private double rotationSpeed;
 	private double speed;
 	private List<Action> actions = Collections.synchronizedList(new LinkedList<Sprite.Action>());
@@ -155,11 +155,6 @@ public class Sprite {
 		return action;
 	}
 	
-	public Action swing(double targetScale, double scaleSpeed) {
-		Action action = new ScaleAction(targetScale, scaleSpeed);
-		addAction(action);
-		return action;
-	}
 
 	public void waitForAllActionAreDone() {
 		Action a = null;

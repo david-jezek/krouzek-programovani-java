@@ -37,9 +37,12 @@ public class HelloWorld {
 				if(player.playerAttacking) {
 					if(e.getKeyCode()==KeyEvent.VK_SPACE) {
 						Entity playerNear = (Entity)(player.getNearestSprire(sprite -> sprite instanceof Entity));
-						if (player.getDistanceForm(playerNear)<100) {
+						if (playerNear!=null && player.getDistanceForm(playerNear)<100) {
 							player.attack(playerNear, world);
 							warriors.remove(playerNear);
+							playerDone = true;
+						}
+						else {
 							playerDone = true;
 						}
 					}

@@ -8,11 +8,11 @@ import cz.vsb.fei.kp.wildworld.World;
 
 public class player extends Entity {
 	
-	static Weapon weapon = new Weapon();
+	private Weapon weapon = new Weapon();
 	
-	private static int speed = 3;
+	private int speed = 3;
 	
-	public static boolean playerAttacking = false;
+	public boolean playerAttacking = false;
 	
 	public player(String name) {
 		this("/giphy.gif", name, 1000, 750, 500);
@@ -29,9 +29,9 @@ public class player extends Entity {
 	}
 
 	public void attack(Entity defender, World world) {
-		weapon.swing(100, 1);
+		weapon.swing(150, 10);
 		//moveCenterTo(new Point2D.Double(defender.getPositionOfCenet().x+50, defender.getPositionOfCenet().y), 5,1000);
-		setPosition(defender.getPositionOfCenet().x+50, defender.getPositionOfCenet().y);
+		setPosition(defender.getPositionOfCenet().x-100, defender.getPositionOfCenet().y);
 		System.out.println(String.format("%s do attack to the %s.", this.name, defender.name));
 		int power = this.strenght - defender.deffence;
 		if (power<0) {
