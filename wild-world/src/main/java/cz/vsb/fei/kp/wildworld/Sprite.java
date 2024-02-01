@@ -212,7 +212,7 @@ public class Sprite {
 		return (int) rectangle2d.getHeight();
 	}
 
-	private static Image loadImage(String imageName) {
+	protected static Image loadImage(String imageName) {
 		Image img = null;
 		if (imageName == null) {
 			return null;
@@ -231,6 +231,9 @@ public class Sprite {
 	}
 
 	public void setImage(Image image) {
+		if (image == imageOriginal) {
+			return;
+		}
 		imageOriginal = image;
 		resizeImage();
 	}

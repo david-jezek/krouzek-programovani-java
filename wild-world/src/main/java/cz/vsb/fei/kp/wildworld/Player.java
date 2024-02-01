@@ -1,5 +1,6 @@
 package cz.vsb.fei.kp.wildworld;
 
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
@@ -13,8 +14,11 @@ public class Player extends Warrior {
 	private long cooldown = 0;
 	private static Random random = new Random();
 	private Weapon weapon;
+	private Image imageD;
+	private Image image;
 	private Sprite fire;
 	private Warrior lastAttacked = null;
+	private double playerDirection = 0;
 
 	public Player() {
 		this("/hrac.png", "Unknown", "Unknown");
@@ -29,8 +33,10 @@ public class Player extends Warrior {
 		weapon = new Weapon();
 		weapon.setSize(10, 21);
 		fire = new Sprite("/clearfire.gif");
-		fire.setSize(50,50);
-}
+		fire.setSize(50, 50);
+		image = loadImage("/weapon.png");
+		imageD = loadImage("/weapon13.png");
+	}
 
 	@Override
 	public void simulate() {
@@ -45,42 +51,34 @@ public class Player extends Warrior {
 		if (getWorld().isKeyPressed(KeyEvent.VK_SHIFT)) {
 			if (getWorld().isKeyPressed(KeyEvent.VK_W)) {
 				setPosition(getIntPosX(), getIntPosY() - 2);
-//				cooldown = System.currentTimeMillis();
 			}
 			if (getWorld().isKeyPressed(KeyEvent.VK_A)) {
 				setPosition(getIntPosX() - 2, getIntPosY());
-//				cooldown = System.currentTimeMillis();
 			}
 			if (getWorld().isKeyPressed(KeyEvent.VK_S)) {
 				setPosition(getIntPosX(), getIntPosY() + 2);
-//				cooldown = System.currentTimeMillis();
 			}
 			if (getWorld().isKeyPressed(KeyEvent.VK_D)) {
 				setPosition(getIntPosX() + 2, getIntPosY());
-//				cooldown = System.currentTimeMillis();
 			}
 		} else {
 			if (getWorld().isKeyPressed(KeyEvent.VK_W)) {
 				setPosition(getIntPosX(), getIntPosY() - 1);
-//				cooldown = System.currentTimeMillis();
 			}
 			if (getWorld().isKeyPressed(KeyEvent.VK_A)) {
 				setPosition(getIntPosX() - 1, getIntPosY());
-//				cooldown = System.currentTimeMillis();
 			}
 			if (getWorld().isKeyPressed(KeyEvent.VK_S)) {
 				setPosition(getIntPosX(), getIntPosY() + 1);
-//				cooldown = System.currentTimeMillis();
 			}
 			if (getWorld().isKeyPressed(KeyEvent.VK_D)) {
 				setPosition(getIntPosX() + 1, getIntPosY());
-//				cooldown = System.currentTimeMillis();
 			}
 		}
 		if (System.currentTimeMillis() - cooldown > 2000 && lastAttacked == null) {
 			cooldown = System.currentTimeMillis();
 			Warrior w2 = (Warrior) getNearestSprire(s -> s instanceof Warrior);
-			if(w2 == null){
+			if (w2 == null) {
 				return;
 			}
 			boolean weaponCollision = weapon.isIncolision(w2);
@@ -92,7 +90,7 @@ public class Player extends Warrior {
 //				w2.changeImage("/attack.gif", 900);
 				lastAttacked = w2;
 			} else if (weaponCollision) {
-				weapon.swing(weapon.getDirection(),weapon.getDirection()+90 );
+				weapon.swing(weapon.getDirection(), weapon.getDirection() + 90);
 				int oldAtt = getAttackPower();
 				int oldDef = w2.getDefencePower();
 				w2.setDefencePower(getDefencePower() / 2);
@@ -104,7 +102,7 @@ public class Player extends Warrior {
 			}
 		}
 	}
-	
+
 	@Override
 	protected void attack(Warrior w2) {
 		w2.attackedBy(this);
@@ -113,12 +111,49 @@ public class Player extends Warrior {
 	@Override
 	public void setPosition(double x, double y) {
 		super.setPosition(x, y);
-		weapon.setPosition(x + 20, y - 5);
-		fire.setPosition(x-15, y-12.3);
+		playerDirection = weapon.checkDirection();
+		weapon.setDirection(playerDirection);
+		if (playerDirection == 315) {
+			weapon.setImage(image);
+			weapon.setPosition(this.getIntPosX() + 20, this.getIntPosY() - 20);
+		}
+		else if (playerDirection == 270) {
+			weapon.setImage(imageD);
+			weapon.setPosition(this.getIntPosX() + 7, this.getIntPosY() - 20);
+		}
+		else if (playerDirection == 225) {
+			weapon.setImage(imageD);
+			weapon.setPosition(this.getIntPosX() - 15, this.getIntPosY() -15);
+		}
+		else if (playerDirection == 180) {
+			weapon.setImage(imageD);
+			weapon.setPosition(this.getIntPosX() - 10, this.getIntPosY() - 5);
+		}
+		else if (playerDirection == 135) {
+			weapon.setImage(imageD);
+			weapon.setPosition(this.getIntPosX() -15, this.getIntPosY() + 15);
+		}
+		else if (playerDirection == 90) {
+			weapon.setImage(image);
+			weapon.setPosition(this.getIntPosX() + 5, this.getIntPosY() + 20);
+		}
+		else if (playerDirection == 45) {
+			weapon.setPosition(this.getIntPosX() +15, this.getIntPosY() + 15);
+		}
+		else if (playerDirection == 0) {
+			weapon.setImage(image);
+			weapon.setPosition(this.getIntPosX() + 20, this.getIntPosY() - 5);
+		}
+
+		else {
+			weapon.setImage(image);
+			weapon.setPosition(this.getIntPosX() + 20, this.getIntPosY() - 5);
+		}
+		fire.setPosition(x - 15, y - 12.3);
 		if (this.getHealth() < 1) {
 			this.setAttackPower(0);
-			weapon.setPosition(this.getIntPosX()+5, this.getIntPosY()+12);
-			weapon.setDirection(270);
+			World w = getWorld();
+			w.removeSprite(weapon);
 		}
 	}
 

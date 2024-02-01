@@ -60,24 +60,22 @@ public class WildWorld {
 		 */
 		Random randomGenerator = new Random();
 		ArrayList<Warrior> warriors = new ArrayList<>();
-		/*
-		 * warriors.add(new Knight("/R.png", "Knight", "Alex", 650, 800, 600));
-		 * warriors.add(new Archer("/lucesnik.png", "Archer", "John Wick", 850, 175,
-		 * 1000)); warriors.add(new Archer("/lucesnik.png", "Archer", "Hello Kitty",
-		 * 300, 175, 2500)); warriors.add(new Knight("/R.png", "Knight",
-		 * "Prasatko Pepa", 450, 600, 750)); warriors.add(new Knight("/R.png", "Knight",
-		 * "Bořek stavitel", 100, 900, 700)); warriors.add(new Knight("/R.png",
-		 * "Knight", "Mario", 550, 350, 650)); warriors.add(new Knight("/R.png",
-		 * "Knight", "Pat", 600, 400, 200)); warriors.add(new Archer("/lucesnik.png",
-		 * "Archer", "Mat", 200, 125, 800)); warriors.add(new Knight("/R.png", "Knight",
-		 * "Princ krasoň", 3000, 300, 500)); warriors.add(new Archer("/lucesnik.png",
-		 * "Archer", "Nerd emoji", 5000, 150, 200)); warriors.add(new
-		 * Archer("/lucesnik.png", "Archer", "Matej", 100, 100, 100)); warriors.add(new
-		 * Knight("/R.png", "Knight", "Krtecek", 4000, 200, 250));
-		 */
-//		warriors.add(new Knight("/R.png", "Knight", "Kocour v botach", 9000, 200, 800));
+
+		warriors.add(new Knight("/R.png", "Knight", "Alex", 650, 800, 600));
+		warriors.add(new Archer("/lucesnik.png", "Archer", "John Wick", 850, 175, 1000));
+		warriors.add(new Archer("/lucesnik.png", "Archer", "Hello Kitty", 300, 175, 2500));
+		warriors.add(new Knight("/R.png", "Knight", "Prasatko Pepa", 450, 600, 750));
+		warriors.add(new Knight("/R.png", "Knight", "Bořek stavitel", 100, 900, 700));
+		warriors.add(new Knight("/R.png", "Knight", "Mario", 550, 350, 650));
+		warriors.add(new Knight("/R.png", "Knight", "Pat", 600, 400, 200));
+		warriors.add(new Archer("/lucesnik.png", "Archer", "Mat", 200, 125, 800));
+		warriors.add(new Knight("/R.png", "Knight", "Princ krasoň", 3000, 300, 500));
+		warriors.add(new Archer("/lucesnik.png", "Archer", "Nerd emoji", 5000, 150, 200));
+		warriors.add(new Archer("/lucesnik.png", "Archer", "Matej", 100, 100, 100));
+		warriors.add(new Knight("/R.png", "Knight", "Krtecek", 4000, 200, 250));
+		warriors.add(new Knight("/R.png", "Knight", "Kocour v botach", 9000, 200, 800));
 		warriors.add(new Knight("/R.png", "Knight", "Blesk McQueen", 2500, 450, 300));
-//		warriors.add(new Knight("/R.png", "Knight", "Shrek", 1, 200, 9999));
+		warriors.add(new Knight("/R.png", "Knight", "Shrek", 1, 200, 9999));
 		warriors.add(new Player("/hrac.png", "Player", "Hráč", 5000, 500, 500));
 
 		for (Warrior warrior : warriors) {
@@ -106,7 +104,7 @@ public class WildWorld {
 				warriors.remove(w2);
 			}
 			if (warriors.size() < 2) {
-				System.out.printf("%s %s is victorious",warriors.get(0).getType(),warriors.get(0).getName() );
+				System.out.printf("%s %s is victorious", warriors.get(0).getType(), warriors.get(0).getName());
 				return;
 			}
 		}
