@@ -138,6 +138,7 @@ public class Player extends Warrior {
 			weapon.setPosition(this.getIntPosX() + 5, this.getIntPosY() + 20);
 		}
 		else if (playerDirection == 45) {
+			weapon.setImage(image);
 			weapon.setPosition(this.getIntPosX() +15, this.getIntPosY() + 15);
 		}
 		else if (playerDirection == 0) {
