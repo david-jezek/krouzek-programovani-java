@@ -17,7 +17,7 @@ public class Sword extends Sprite {
 
 	
 	public void Attack(char direction) {
-		Action attack = new AttackAction(getDirection(), direction);
+		Action attack = new AttackAction(getDirection(), direction, getIntPosX(), getIntPosY());
 		addAction(attack);
 	}
 	
@@ -29,14 +29,23 @@ public class Sword extends Sprite {
 		hit.clear();
 	}
 	
+	@Override
+	public void simulate() {
+		super.simulate();
+		if (isNotDoingAnything())
+			resetHitEnemies();
+	}
+	
 	//pamatovat si puvodni rotaci, rotovat 90° a pak si pamatovat jestli se cepel vraci nebo ne
 	
 	public class AttackAction extends Action {
 		
 		private double finDir, speed = 10, prevDir;
 		private boolean hasSwung = false, right;
+		int prevX, prevY;
+		double currX = (double)prevX;
 		
-		public AttackAction(double prevDir, char dir) {
+		public AttackAction(double prevDir, char dir, int prevX, int prevY) {
 			super();
 			if(dir == 'L') {
 				finDir = prevDir - 90 + 365;

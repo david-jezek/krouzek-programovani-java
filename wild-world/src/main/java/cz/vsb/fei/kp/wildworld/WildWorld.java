@@ -50,12 +50,15 @@ public class WildWorld {
 		
 		while (true) {
 			int index2;
-			int index1 = randomGenerator.nextInt(warriors.size());
-			Warrior w1 = warriors.get(index1);
+			int index1;
+			Warrior w1;
 			Warrior w2;
 			do {
 				index2 = randomGenerator.nextInt(warriors.size());
 				w2 = warriors.get(index2);
+				
+				index1 = randomGenerator.nextInt(warriors.size());
+				w1 = warriors.get(index1);
 			} while (w1.equals(w2) || w2.equals(plejr));
 			
 			for (Warrior warrior : warriors) {
@@ -63,6 +66,9 @@ public class WildWorld {
 					Grave grave = new Grave("/Grave.png", warrior.getName());
 					w.replaceSprite(warrior, grave);
 					rmvQueue.add(warrior);
+					if (warrior instanceof Player) {
+						((Player) warrior).getSword().changeImage(null, index1);;
+					}
 				} else {
 					//TODO add retreat whenever hit and not dead
 				}
@@ -70,7 +76,7 @@ public class WildWorld {
 			
 			if(w2.getAP() > w1.getDEF()) {
 				w2.attack(w1);
-				if(!(w1 instanceof Player)) {
+				if (w2 instanceof Swordsman) {
 					w1.attack(w2);
 				}
 			} else {
