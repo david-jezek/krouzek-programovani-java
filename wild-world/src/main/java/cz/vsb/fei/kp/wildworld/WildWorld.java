@@ -69,6 +69,8 @@ public class WildWorld
 			int index1 = randomGenerator.nextInt(warriors.size());
 			Warrior w1 = warriors.get(index1);
 			Warrior w2;
+			Random random = new Random();
+
 			do {
 				int index2 = randomGenerator.nextInt(warriors.size());
 				w2 = warriors.get(index2);
@@ -78,7 +80,7 @@ public class WildWorld
 			if (w2.getHealth() <= 0) {
 				w.replaceSprite(w2, new Grave(w2));
 			} else {
-				w2.moveCenterTo(new Point2D.Double(40, 50), 20, 20);
+				w2.moveCenterTo(new Point2D.Double(random.nextInt(1,1000),random.nextInt(1,1000)), 20, 20);
 				w2.waitForAllActionAreDone();
 			}
 			

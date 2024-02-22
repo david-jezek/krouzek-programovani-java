@@ -12,9 +12,9 @@ public class Grave extends Sprite {
 		super ("/Grave.jpg");
 		String warr = warrior.getName();
 		System.out.println(warr + " has died in battle.");
-		text = String.format(warr + " shall fight unwinnable battles forever from now on.", warr);
+		text = String.format(warr + " may rest in hell.", warr);
 		super.setPosition(warrior.getIntPosX(), warrior.getIntPosY());
-		super.setSize(200,150);
+		warrior.setSize(70,70);
 	}
 	
 

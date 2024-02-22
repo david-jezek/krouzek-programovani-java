@@ -1,11 +1,11 @@
 package cz.vsb.fei.kp.wildworld;
 
 import java.awt.Graphics2D;
+import java.awt.geom.Point2D;
 import java.util.Random;
 
 public class Archer extends Warrior {
-	
-	private int arrows = 15;
+	private int arrows = random.nextInt(3,20);
 	
 	public void attack(Archer defender, Archer attacker) {
 		if (attacker.getHealth() > 0 && arrows > 0) {
