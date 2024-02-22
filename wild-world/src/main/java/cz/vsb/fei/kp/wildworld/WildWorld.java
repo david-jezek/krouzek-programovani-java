@@ -10,6 +10,7 @@ import java.util.Random;
  * Hello world!
  *
  */
+
 public class WildWorld 
 {
     public static void main( String[] args )
