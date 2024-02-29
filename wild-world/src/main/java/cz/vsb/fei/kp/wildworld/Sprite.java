@@ -1,5 +1,9 @@
 package cz.vsb.fei.kp.wildworld;
 
+
+
+
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -52,18 +56,17 @@ public class Sprite {
 	}
 	
 	public void draw(Graphics2D g2) {
-		AffineTransform old = g2.getTransform();
-		g2.setTransform(AffineTransform.getRotateInstance(getDirectionInRadians(), rectangle2d.getCenterX(),
-				rectangle2d.getCenterY()));
+//		AffineTransform old = g2.getTransform();
+//		g2.setTransform(AffineTransform.getRotateInstance(getDirectionInRadians(), rectangle2d.getCenterX(),			rectangle2d.getCenterY()));
 		if (image != null) {
 			g2.drawImage(image, (int) rectangle2d.getX(), (int) rectangle2d.getY(), null);
-		} else {
+		}// else {
 			g2.setColor(Color.RED);
 			g2.drawRect(getIntPosX(), getIntPosY(), getIntWidth(), getIntHeight());
 			g2.drawLine(getIntPosX(), getIntPosY(), getIntPosX() + getIntWidth(), getIntPosY() + getIntHeight());
 			g2.drawLine(getIntPosX(), getIntPosY()+ getIntHeight(), getIntPosX()+getIntWidth(), getIntPosY());
-		}
-		g2.setTransform(old);
+		//}
+//			g2.setTransform(old);
 	}
 
 	public void simulate() {
@@ -76,6 +79,7 @@ public class Sprite {
 	}
 
 	public double getSpeed() {
+
 		return speed;
 	}
 
@@ -84,6 +88,7 @@ public class Sprite {
 	}
 
 	public double getDirection() {
+		
 		return direction;
 	}
 
@@ -112,6 +117,7 @@ public class Sprite {
 	}
 
 	public double getRotationSpeed() {
+		
 		return rotationSpeed;
 	}
 

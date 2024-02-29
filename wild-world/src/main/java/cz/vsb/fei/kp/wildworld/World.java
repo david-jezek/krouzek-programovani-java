@@ -19,7 +19,7 @@ public class World extends JFrame {
 	private Set<Integer> pressedKeys = new HashSet<>();
 
 	public World() {
-		this(new Dimension(500, 300));
+		this(new Dimension(1000, 600));
 	}
 
 	public World(Dimension size) {

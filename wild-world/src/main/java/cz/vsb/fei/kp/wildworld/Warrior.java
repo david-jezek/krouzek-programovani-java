@@ -1,5 +1,7 @@
 package cz.vsb.fei.kp.wildworld;
 
+
+import java.awt.Graphics2D;
 import java.util.Random;
 
 public class Warrior extends Sprite {
@@ -21,12 +23,14 @@ public class Warrior extends Sprite {
 	}
 	
 	public Warrior(String name, int health, int defencePower, int attackPower) {
-		super((String)null);
+		super("/megaKnight.png");
+		setSize(100, 100);
 		this.name = name;
 		this.health = health;
 		this.defencePower = defencePower;
 		this.attackPower = attackPower;
 	}
+	
 
 
 	public String getName() {
@@ -44,15 +48,24 @@ public class Warrior extends Sprite {
 	public int getAttackPower() {
 		return attackPower;
 	}
+	@Override
+	public void draw(Graphics2D g2) {
+		
+		g2.drawString(name, (int) (getPositionOfCenet().getX() - getIntPosX()), getIntPosY());
+		super.draw(g2);
+	}
 
 	public void attackedBy(Warrior attacker) {
 		String message = String.format(
-				"Warrionr %s attacked by %s with power %d."
+				"Warrior %s attacked by %s with power %d."
 				, getName(), attacker.getName(), attackPower);
 		System.out.println(message);
 		
 		if(attacker.getAttackPower() - getDefencePower() > 0) {
 			health = health - (attacker.getAttackPower() - getDefencePower());
+			
+			
+			
 		}
 	}
 	

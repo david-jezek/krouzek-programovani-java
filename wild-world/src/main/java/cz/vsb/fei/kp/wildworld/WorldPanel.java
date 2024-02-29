@@ -29,7 +29,7 @@ public class WorldPanel extends JComponent {
 
 	public void replaceSprite(Sprite oldSprite, Sprite newSprite) {
 		newSprite.setPosition(oldSprite.getIntPosX(), oldSprite.getIntPosY());
-		newSprite.setSize(oldSprite.getIntWidth(), oldSprite.getIntHeight());
+//		newSprite.setSize(oldSprite.getIntWidth(), oldSprite.getIntHeight());
 		sprites.remove(oldSprite);
 		sprites.add(newSprite);
 	}
@@ -68,7 +68,7 @@ public class WorldPanel extends JComponent {
 		Dimension size = getSize();
 		synchronized (sprites) {
 			for (Sprite sprite : sprites) {
-				sprite.setPosition(random.nextInt(size.width - sprite.getIntWidth()),
+			sprite.setPosition(random.nextInt(size.width - sprite.getIntWidth()),
 						random.nextInt(size.height - sprite.getIntHeight()));
 			}
 		}
