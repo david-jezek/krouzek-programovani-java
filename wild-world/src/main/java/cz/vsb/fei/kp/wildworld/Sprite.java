@@ -14,7 +14,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 public class Sprite {
-
+	
 	private Image imageOriginal;
 	private Image image;
 	private Rectangle2D.Double rectangle2d = new Rectangle2D.Double();

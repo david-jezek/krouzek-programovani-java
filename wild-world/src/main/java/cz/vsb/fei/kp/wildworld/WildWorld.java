@@ -53,6 +53,9 @@ public class WildWorld
 		c.setSize(125, 250);
 		warriors.add(c);
 		
+		Player player = new Player();
+		player.setSize(80, 80);
+		
 		warriors.add(new Warrior("Alex"));
 		warriors.add(new Warrior("John Wick"));
 		warriors.add(new Warrior("Shrek"));
