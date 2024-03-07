@@ -6,7 +6,10 @@ import java.awt.event.KeyEvent;
 public class Player extends Warrior{
 	
 	private int health;
-	private String name;
+	private String name = "ja";
+	public Player player;
+	
+	
 
 	@Override
 	public void simulate() {
@@ -14,12 +17,33 @@ public class Player extends Warrior{
 		if(getWorld().isKeyPressed(KeyEvent.VK_LEFT)) {
 			setPosition(getIntPosX()-1, getIntPosY());
 		}
+		
+		if(getWorld().isKeyPressed(KeyEvent.VK_RIGHT)) {
+				setPosition(getIntPosX()+1, getIntPosY());
+		}
+		
+		if(getWorld().isKeyPressed(KeyEvent.VK_UP)) {
+			setPosition(getIntPosX(), getIntPosY()-1);
+		}
+		
+		if(getWorld().isKeyPressed(KeyEvent.VK_DOWN)) {
+			setPosition(getIntPosX(), getIntPosY()+1);
+		}
+		
 		if(getWorld().isKeyPressed(KeyEvent.VK_SPACE)) {
-			Sprite nrst = getNearestSprire();
+			Sprite nrst = getNearestSprite();
+			if(nrst instanceof Warrior w) {
+				if (w.getHealth() <= 0) {
+				player.attack(w);
+				
+				}
+			
+			}
 			
 		}
 		
 	}
+	
 
 	@Override
 	public void draw(Graphics2D g2) {

@@ -296,7 +296,7 @@ public class Sprite {
 		return getPositionOfCenet().distance(sprite.getPositionOfCenet());
 	}
 
-	public Sprite getNearestSprire() {
+	public Sprite getNearestSprite() {
 		double minDistnce = java.lang.Double.MAX_VALUE;
 		Sprite nearest = null;
 		for (Sprite sprite : getWorld().getSprites()) {

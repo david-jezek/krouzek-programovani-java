@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 /**
@@ -55,6 +56,10 @@ public class WildWorld
 		
 		Player player = new Player();
 		player.setSize(80, 80);
+		w.addSprite(player);
+		
+		
+		
 		
 		warriors.add(new Warrior("Alex"));
 		warriors.add(new Warrior("John Wick"));

@@ -70,6 +70,7 @@ public class Warrior extends Sprite {
 	public void printStatus() {
 		System.out.println(String.format("%s has health %d", name, health));
 	}
+	
 
 	@Override
 	public void draw(Graphics2D g2) {
